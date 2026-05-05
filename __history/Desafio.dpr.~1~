@@ -1,0 +1,14 @@
+program Desafio;
+
+uses
+  Vcl.Forms,
+  uTelaHeranca in 'uTelaHeranca.pas' {frmTelaHeranca};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TfrmTelaHeranca, frmTelaHeranca);
+  Application.Run;
+end.

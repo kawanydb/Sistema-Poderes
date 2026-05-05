@@ -1,0 +1,16 @@
+program Desafio;
+
+uses
+  Vcl.Forms,
+  uTelaHeranca in 'heranca\uTelaHeranca.pas' {frmTelaHeranca},
+  uDTMConexao in 'datamodule\uDTMConexao.pas' {dtmdl1: TDataModule};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TfrmTelaHeranca, frmTelaHeranca);
+  Application.CreateForm(Tdtmdl1, dtmdl1);
+  Application.Run;
+end.
