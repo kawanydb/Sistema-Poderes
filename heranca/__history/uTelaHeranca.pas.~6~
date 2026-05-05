@@ -39,25 +39,22 @@ type
     procedure FormCreate(Sender: TObject);
     procedure grdListagemKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormShow(Sender: TObject);
-    procedure grdListagemDblClick(Sender: TObject);
   protected
       EstadoDoCadastro:TEstadoDoCadastro;
   private
-  SelectOriginal:String;
     procedure ControlarBotoes(btnNovo, btnAlterar, btnCancelar, btnGravar, btnApagar: TBitBtn; Navegador: TDBNavigator;
       Flag: Boolean);
     procedure ControlarIndiceTab(pgcListagem: TPageControl; Indice: Integer);
     function RetornarCampoTraduzido(Campo: String): String;
     procedure LimparEdits;
+    function Apagar: Boolean;
     procedure DesabilitarEditPK;
     procedure ExibirLabelIndice(Campo: string; aLabel: TLabel);
     function ExisteCampoObrigatorio: Boolean;
-    procedure BloqueiaCTRL_DEL_DBGrid(var Key: Word; Shift: TShiftState);
-
+    function Gravar(EstadoDoCadastro: TEstadoDoCadastro): Boolean;
+    { Private declarations }
   public
-    IndiceAtual:string;
-    function Apagar:Boolean; virtual;
-    function Gravar(EstadoDoCadastro:TEstadoDoCadastro):Boolean; virtual;
+    { Public declarations }
   end;
 
 var
@@ -101,7 +98,7 @@ end;
 
 procedure TfrmTelaHeranca.btnFecharClick(Sender: TObject);
 begin
-//  FormClose(Self, TCloseAction(nil^));
+  FormClose(Self, TCloseAction(nil^));
   Close;
 end;
 
@@ -208,11 +205,6 @@ begin
         ShowMessage('Alterado');
 end;
 
-procedure TfrmTelaHeranca.grdListagemDblClick(Sender: TObject);
-begin
-  btnAlterar.Click;
-end;
-
 procedure TfrmTelaHeranca.grdListagemKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
   if Key = VK_ESCAPE then
@@ -220,15 +212,6 @@ begin
     Key := 0; // evita conflito
     Close;
   end;
-  BloqueiaCTRL_DEL_DBGrid(Key,Shift);
-
-end;
-
-procedure TfrmTelaHeranca.BloqueiaCTRL_DEL_DBGrid(var Key: Word; Shift: TShiftState);
-begin
-  //Bloqueia o CTRL + DEL
-  if(Shift = [ssCtrl]) and (Key = 46) then
-    Key:=0;
 end;
 
 function TfrmTelaHeranca.ExisteCampoObrigatorio: Boolean;

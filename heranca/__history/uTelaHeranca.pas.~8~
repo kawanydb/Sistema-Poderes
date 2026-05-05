@@ -49,15 +49,18 @@ type
     procedure ControlarIndiceTab(pgcListagem: TPageControl; Indice: Integer);
     function RetornarCampoTraduzido(Campo: String): String;
     procedure LimparEdits;
+    function Apagar: Boolean;
     procedure DesabilitarEditPK;
     procedure ExibirLabelIndice(Campo: string; aLabel: TLabel);
     function ExisteCampoObrigatorio: Boolean;
+    function Gravar(EstadoDoCadastro: TEstadoDoCadastro): Boolean;
     procedure BloqueiaCTRL_DEL_DBGrid(var Key: Word; Shift: TShiftState);
+    procedure AlinharColunas(aGrid: TDBGrid);
+    procedure CarregarGrid;
+    procedure SalvarGrid;
 
   public
     IndiceAtual:string;
-    function Apagar:Boolean; virtual;
-    function Gravar(EstadoDoCadastro:TEstadoDoCadastro):Boolean; virtual;
   end;
 
 var

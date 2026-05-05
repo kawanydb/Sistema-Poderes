@@ -20,14 +20,12 @@ object frmTelaHeranca: TfrmTelaHeranca
     Left = 0
     Top = 0
     Width = 681
-    Height = 398
+    Height = 439
     ActivePage = tsManutencao
     Align = alClient
     TabOrder = 0
-    ExplicitHeight = 439
     object ts1: TTabSheet
       Caption = 'Listagem'
-      ExplicitHeight = 411
       object pnlListagemTopo: TPanel
         Left = 0
         Top = 0
@@ -85,96 +83,89 @@ object frmTelaHeranca: TfrmTelaHeranca
         OnDblClick = grdListagemDblClick
         OnKeyDown = grdListagemKeyDown
       end
+      object pnlRodape: TPanel
+        Left = 0
+        Top = 370
+        Width = 673
+        Height = 41
+        Align = alBottom
+        TabOrder = 2
+        object btnNovo: TBitBtn
+          Left = 12
+          Top = 11
+          Width = 72
+          Height = 22
+          Caption = '&NOVO'
+          TabOrder = 0
+          OnClick = btnNovoClick
+        end
+        object btnAlterar: TBitBtn
+          Left = 92
+          Top = 11
+          Width = 72
+          Height = 22
+          Caption = '&ALTERAR'
+          TabOrder = 1
+          OnClick = btnAlterarClick
+        end
+        object btnCancelar: TBitBtn
+          Left = 175
+          Top = 11
+          Width = 72
+          Height = 22
+          Caption = '&CANCELAR'
+          TabOrder = 2
+          OnClick = btnCancelarClick
+        end
+        object btnGravar: TBitBtn
+          Left = 261
+          Top = 11
+          Width = 72
+          Height = 22
+          Caption = '&GRAVAR'
+          TabOrder = 3
+          OnClick = btnGravarClick
+        end
+        object btnApagar: TBitBtn
+          Left = 345
+          Top = 11
+          Width = 72
+          Height = 22
+          Caption = '&APAGAR'
+          TabOrder = 4
+          OnClick = btnApagarClick
+        end
+        object btnFechar: TBitBtn
+          Left = 592
+          Top = 11
+          Width = 72
+          Height = 22
+          Caption = '&FECHAR'
+          TabOrder = 5
+          OnClick = btnFecharClick
+        end
+        object btnNavigator: TDBNavigator
+          Left = 428
+          Top = 13
+          Width = 112
+          Height = 18
+          Cursor = crHandPoint
+          DataSource = dtsListagem
+          VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast]
+          TabOrder = 6
+        end
+      end
     end
     object tsManutencao: TTabSheet
       Caption = 'Manuten'#231#227'o'
       ImageIndex = 1
-      ExplicitLeft = 8
-      ExplicitTop = 28
-      ExplicitHeight = 411
       object pnlCampos: TPanel
         Left = 0
         Top = 0
         Width = 673
-        Height = 370
-        Align = alClient
+        Height = 369
         TabOrder = 0
-        ExplicitHeight = 409
       end
-    end
-  end
-  object pnlRodape: TPanel
-    Left = 0
-    Top = 398
-    Width = 681
-    Height = 41
-    Align = alBottom
-    TabOrder = 1
-    ExplicitTop = 370
-    ExplicitWidth = 673
-    object btnNovo: TBitBtn
-      Left = 12
-      Top = 11
-      Width = 72
-      Height = 22
-      Caption = '&NOVO'
-      TabOrder = 0
-      OnClick = btnNovoClick
-    end
-    object btnAlterar: TBitBtn
-      Left = 92
-      Top = 11
-      Width = 72
-      Height = 22
-      Caption = '&ALTERAR'
-      TabOrder = 1
-      OnClick = btnAlterarClick
-    end
-    object btnCancelar: TBitBtn
-      Left = 175
-      Top = 11
-      Width = 72
-      Height = 22
-      Caption = '&CANCELAR'
-      TabOrder = 2
-      OnClick = btnCancelarClick
-    end
-    object btnGravar: TBitBtn
-      Left = 261
-      Top = 11
-      Width = 72
-      Height = 22
-      Caption = '&GRAVAR'
-      TabOrder = 3
-      OnClick = btnGravarClick
-    end
-    object btnApagar: TBitBtn
-      Left = 345
-      Top = 11
-      Width = 72
-      Height = 22
-      Caption = '&APAGAR'
-      TabOrder = 4
-      OnClick = btnApagarClick
-    end
-    object btnFechar: TBitBtn
-      Left = 592
-      Top = 11
-      Width = 72
-      Height = 22
-      Caption = '&FECHAR'
-      TabOrder = 5
-      OnClick = btnFecharClick
-    end
-    object btnNavigator: TDBNavigator
-      Left = 428
-      Top = 13
-      Width = 112
-      Height = 18
-      Cursor = crHandPoint
-      DataSource = dtsListagem
-      VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast]
-      TabOrder = 6
     end
   end
   object QryListagem: TFDQuery

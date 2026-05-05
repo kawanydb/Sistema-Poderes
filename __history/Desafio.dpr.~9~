@@ -1,18 +1,20 @@
-program Desafio;
+﻿program Desafio;
 
 uses
   Vcl.Forms,
   uTelaHeranca in 'heranca\uTelaHeranca.pas' {frmTelaHeranca},
   uDTMConexao in 'datamodule\uDTMConexao.pas' {dtmConexao: TDataModule},
-  uCadPoderes in 'uCadPoderes.pas' {frmTelaHeranca1};
+  uEnum in 'heranca\uEnum.pas',
+  uPrincipal in 'uPrincipal.pas' {dtmPrincipal};
 
 {$R *.res}
 
 begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
-  Application.CreateForm(TfrmTelaHeranca, frmTelaHeranca);
+
   Application.CreateForm(TdtmConexao, dtmConexao);
-  Application.CreateForm(TfrmTelaHeranca1, frmTelaHeranca1);
+  Application.CreateForm(TfrmTelaHeranca, frmTelaHeranca);
+  Application.CreateForm(TdtmPrincipal, dtmPrincipal);
   Application.Run;
 end.

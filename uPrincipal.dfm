@@ -1,0 +1,60 @@
+object dtmPrincipal: TdtmPrincipal
+  Left = 0
+  Top = 0
+  Caption = 'Menu principal'
+  ClientHeight = 201
+  ClientWidth = 331
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  Menu = mainPrincipal
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object pnl1: TPanel
+    Left = 0
+    Top = 0
+    Width = 331
+    Height = 41
+    Align = alTop
+    TabOrder = 0
+    ExplicitLeft = 120
+    ExplicitTop = 136
+    ExplicitWidth = 185
+    object lbl1: TLabel
+      Left = 120
+      Top = 14
+      Width = 80
+      Height = 13
+      Alignment = taCenter
+      Caption = 'TELA PRINCIPAL'
+    end
+  end
+  object pnl2: TPanel
+    Left = 0
+    Top = 160
+    Width = 331
+    Height = 41
+    Align = alBottom
+    TabOrder = 1
+    ExplicitLeft = 112
+    ExplicitTop = 104
+    ExplicitWidth = 185
+  end
+  object mainPrincipal: TMainMenu
+    Left = 280
+    Top = 48
+    object CADASTRO1: TMenuItem
+      Caption = 'CADASTRO'
+      object PODERES1: TMenuItem
+        Caption = 'PODERES'
+      end
+      object CATEGORIAS1: TMenuItem
+        Caption = 'CATEGORIAS'
+      end
+    end
+  end
+end

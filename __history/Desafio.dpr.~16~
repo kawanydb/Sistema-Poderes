@@ -18,9 +18,8 @@ begin
   Application.MainFormOnTaskbar := True;
 
   Application.CreateForm(TdtmConexao, dtmConexao);
-
-  Application.CreateForm(TfrmCadastroPoderes, frmCadastroPoderes);
   Application.CreateForm(TdtmPrincipal, dtmPrincipal);
+  Application.CreateForm(TfrmCadastroPoderes, frmCadastroPoderes);
   Application.CreateForm(TfrmTelaHeranca, frmTelaHeranca);
   Application.CreateForm(TfrmCadCategoria, frmCadCategoria);
   Application.Run;

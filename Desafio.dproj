@@ -107,10 +107,23 @@
         </DCCReference>
         <DCCReference Include="datamodule\uDTMConexao.pas">
             <Form>dtmConexao</Form>
-            <FormType>dfm</FormType>
             <DesignClass>TDataModule</DesignClass>
         </DCCReference>
         <DCCReference Include="heranca\uEnum.pas"/>
+        <DCCReference Include="uPrincipal.pas">
+            <Form>dtmPrincipal</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="cadastro\uCadPoderes.pas">
+            <Form>frmCadastroPoderes</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="classes\cCadPoderes.pas"/>
+        <DCCReference Include="cadastro\uCadCategoria.pas">
+            <Form>frmCadCategoria</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="classes\cCadCategoria.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

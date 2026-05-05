@@ -1,0 +1,254 @@
+inherited frmCadastroPoderes: TfrmCadastroPoderes
+  Caption = 'Cadastro de Poderes'
+  ClientHeight = 425
+  ClientWidth = 587
+  OnClose = FormClose
+  ExplicitWidth = 593
+  ExplicitHeight = 454
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited pgcListagem: TPageControl
+    Width = 587
+    Height = 384
+    ExplicitWidth = 587
+    ExplicitHeight = 384
+    inherited ts1: TTabSheet
+      ExplicitLeft = 4
+      ExplicitTop = 24
+      ExplicitWidth = 579
+      ExplicitHeight = 356
+      inherited pnlListagemTopo: TPanel
+        Width = 579
+        ExplicitWidth = 579
+      end
+      inherited grdListagem: TDBGrid
+        Width = 579
+        Height = 296
+        DataSource = dtsListagem
+        Columns = <
+          item
+            Expanded = False
+            FieldName = 'ID'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'Nome'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'Descri'#231#227'o'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'categoria'
+            Width = 64
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'N'#237'vel de Poder'
+            Visible = True
+          end>
+      end
+    end
+    inherited tsManutencao: TTabSheet
+      ExplicitWidth = 579
+      ExplicitHeight = 356
+      inherited pnlCampos: TPanel
+        Width = 579
+        Height = 356
+        ExplicitWidth = 579
+        ExplicitHeight = 356
+        object lbl15: TLabel
+          Left = 13
+          Top = 11
+          Width = 207
+          Height = 21
+          Caption = 'Dados Cadastro de Poderes'
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clBlack
+          Font.Height = -16
+          Font.Name = 'Segoe UI'
+          Font.Style = [fsBold, fsUnderline]
+          ParentFont = False
+        end
+        object lbl5: TLabel
+          Left = 256
+          Top = 151
+          Width = 69
+          Height = 13
+          Caption = 'N'#237'vel de Poder'
+        end
+        object lbl6: TLabel
+          Left = 13
+          Top = 151
+          Width = 47
+          Height = 13
+          Caption = 'Categoria'
+        end
+        object lbl16: TLabel
+          Left = 13
+          Top = 216
+          Width = 147
+          Height = 21
+          Caption = 'Descri'#231#227'o do Poder'
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clBlack
+          Font.Height = -16
+          Font.Name = 'Segoe UI'
+          Font.Style = [fsBold, fsUnderline]
+          ParentFont = False
+        end
+        object edtPoderId: TLabeledEdit
+          Tag = 1
+          Left = 13
+          Top = 64
+          Width = 544
+          Height = 21
+          EditLabel.Width = 33
+          EditLabel.Height = 13
+          EditLabel.Caption = 'C'#243'digo'
+          MaxLength = 10
+          NumbersOnly = True
+          TabOrder = 0
+        end
+        object edtNomePoder: TLabeledEdit
+          Tag = 2
+          Left = 13
+          Top = 113
+          Width = 544
+          Height = 21
+          EditLabel.Width = 73
+          EditLabel.Height = 13
+          EditLabel.Caption = 'Nome do Poder'
+          MaxLength = 30
+          TabOrder = 1
+        end
+        object edtDescricao: TMemo
+          Left = 13
+          Top = 259
+          Width = 544
+          Height = 86
+          Lines.Strings = (
+            'edtDescricao')
+          MaxLength = 255
+          TabOrder = 2
+        end
+        object dblkCategoria: TDBLookupComboBox
+          Left = 13
+          Top = 170
+          Width = 220
+          Height = 21
+          DataSource = dtsListagem
+          KeyField = 'categoriaId'
+          ListField = 'descricao'
+          TabOrder = 3
+        end
+        object dblkNivelPoder: TDBLookupComboBox
+          Left = 257
+          Top = 170
+          Width = 219
+          Height = 21
+          KeyField = 'id'
+          ListField = 'nivel'
+          ListSource = dtsNivelPoder
+          TabOrder = 4
+        end
+      end
+    end
+  end
+  inherited pnlRodape: TPanel
+    Top = 384
+    Width = 587
+    ExplicitTop = 384
+    ExplicitWidth = 587
+    inherited btnNavigator: TDBNavigator
+      Hints.Strings = ()
+    end
+  end
+  inherited QryListagem: TFDQuery
+    SQL.Strings = (
+      'SELECT '
+      '  p.id,'
+      '  p.nome,'
+      '  p.descricao,'
+      '  p.categoria_id,'
+      '  p.nivel_poder_id,'
+      '  c.nome AS categoria,'
+      '  n.nivel AS nivel'
+      'FROM poderes p'
+      'INNER JOIN categorias c ON c.id = p.categoria_id'
+      'INNER JOIN nivel_poder n ON n.id = p.nivel_poder_id')
+    Top = 32
+    object fdtncfldQryListagemid: TFDAutoIncField
+      FieldName = 'id'
+      Origin = 'id'
+      ProviderFlags = [pfInWhere, pfInKey]
+      ReadOnly = True
+    end
+    object nQryListagemnome: TStringField
+      FieldName = 'nome'
+      Origin = 'nome'
+      Required = True
+      Size = 100
+    end
+    object nQryListagemdescricao: TStringField
+      FieldName = 'descricao'
+      Origin = 'descricao'
+      Size = 500
+    end
+    object intgrfldQryListagemcategoria_id: TIntegerField
+      FieldName = 'categoria_id'
+      Origin = 'categoria_id'
+      Required = True
+    end
+    object intgrfldQryListagemnivel_poder_id: TIntegerField
+      FieldName = 'nivel_poder_id'
+      Origin = 'nivel_poder_id'
+      Required = True
+    end
+    object nQryListagemcategoria: TStringField
+      FieldName = 'categoria'
+      Origin = 'categoria'
+      Required = True
+      Size = 50
+    end
+    object nQryListagemnivel: TStringField
+      FieldName = 'nivel'
+      Origin = 'nivel'
+      Required = True
+    end
+  end
+  inherited dtsListagem: TDataSource
+    Left = 460
+    Top = 32
+  end
+  object QryNivelPoder: TFDQuery
+    Connection = dtmConexao.conexaoDB
+    SQL.Strings = (
+      'SELECT id,'
+      '       nivel'
+      ' FROM nivel_poder')
+    Left = 252
+    Top = 32
+    object fdtncfldQryNivelPoderid: TFDAutoIncField
+      FieldName = 'id'
+      Origin = 'id'
+      ProviderFlags = [pfInWhere, pfInKey]
+      ReadOnly = True
+    end
+    object nQryNivelPodernivel: TStringField
+      FieldName = 'nivel'
+      Origin = 'nivel'
+      Required = True
+    end
+  end
+  object dtsNivelPoder: TDataSource
+    DataSet = QryNivelPoder
+    Left = 324
+    Top = 32
+  end
+end

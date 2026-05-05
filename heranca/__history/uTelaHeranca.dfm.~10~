@@ -21,7 +21,7 @@ object frmTelaHeranca: TfrmTelaHeranca
     Top = 0
     Width = 681
     Height = 398
-    ActivePage = tsManutencao
+    ActivePage = ts1
     Align = alClient
     TabOrder = 0
     ExplicitHeight = 439
