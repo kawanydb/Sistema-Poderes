@@ -1,14 +1,25 @@
 inherited frmCadCategoria: TfrmCadCategoria
   Caption = 'Cadastro de Categoria'
+  Position = poScreenCenter
+  OnClose = FormClose
   PixelsPerInch = 96
   TextHeight = 13
   inherited pgcListagem: TPageControl
-    ActivePage = ts1
     inherited ts1: TTabSheet
-      ExplicitLeft = 4
-      ExplicitTop = 24
-      ExplicitWidth = 673
-      ExplicitHeight = 370
+      inherited grdListagem: TDBGrid
+        DataSource = dtsListagem
+        Columns = <
+          item
+            Expanded = False
+            FieldName = 'id'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'nome'
+            Visible = True
+          end>
+      end
     end
     inherited tsManutencao: TTabSheet
       inherited pnlCampos: TPanel
@@ -63,11 +74,24 @@ inherited frmCadCategoria: TfrmCadCategoria
       'SELECT id,'
       '       nome'
       ' FROM categorias')
-    Left = 420
-    Top = 24
+    Left = 412
+    Top = 32
+    object fdtncfldQryListagemid: TFDAutoIncField
+      DisplayLabel = 'C'#243'digo'
+      FieldName = 'id'
+      Origin = 'id'
+      ProviderFlags = [pfInWhere, pfInKey]
+      ReadOnly = True
+    end
+    object nQryListagemnome: TStringField
+      DisplayLabel = 'Nome'
+      FieldName = 'nome'
+      Origin = 'nome'
+      Required = True
+      Size = 50
+    end
   end
   inherited dtsListagem: TDataSource
-    Left = 476
-    Top = 40
+    Top = 24
   end
 end

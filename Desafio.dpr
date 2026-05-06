@@ -9,7 +9,10 @@ uses
   uCadPoderes in 'cadastro\uCadPoderes.pas' {frmCadastroPoderes},
   cCadPoderes in 'classes\cCadPoderes.pas',
   uCadCategoria in 'cadastro\uCadCategoria.pas' {frmCadCategoria},
-  cCadCategoria in 'classes\cCadCategoria.pas';
+  cCadCategoria in 'classes\cCadCategoria.pas',
+  cFuncao in 'classes\cFuncao.pas',
+  uCadNivelPoder in 'cadastro\uCadNivelPoder.pas' {frmCadNivelPoder},
+  cCadNivelPoder in 'classes\cCadNivelPoder.pas';
 
 {$R *.res}
 
@@ -18,10 +21,10 @@ begin
   Application.MainFormOnTaskbar := True;
 
   Application.CreateForm(TdtmConexao, dtmConexao);
-
-  Application.CreateForm(TfrmCadastroPoderes, frmCadastroPoderes);
   Application.CreateForm(TdtmPrincipal, dtmPrincipal);
   Application.CreateForm(TfrmTelaHeranca, frmTelaHeranca);
+  Application.CreateForm(TfrmCadastroPoderes, frmCadastroPoderes);
   Application.CreateForm(TfrmCadCategoria, frmCadCategoria);
+  Application.CreateForm(TfrmCadNivelPoder, frmCadNivelPoder);
   Application.Run;
 end.

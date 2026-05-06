@@ -1,0 +1,71 @@
+unit uPrincipal;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Menus,uEnum,cFuncao,uCadPoderes,
+  cCadPoderes,uCadCategoria,cCadCategoria,uDTMConexao, Vcl.Buttons,uCadNivelPoder;
+
+type
+  TdtmPrincipal = class(TForm)
+    pnl1: TPanel;
+    pnl2: TPanel;
+    lbl1: TLabel;
+    pnl3: TPanel;
+    lbl8: TLabel;
+    lbl3: TLabel;
+    lbl4: TLabel;
+    lbl6: TLabel;
+    btnCadCategorias: TSpeedButton;
+    btnCadPoderes: TSpeedButton;
+    btnNivelPoder: TSpeedButton;
+    lbl7: TLabel;
+    btnImportarCSV: TSpeedButton;
+    btnExportarCSV1: TSpeedButton;
+    dlgOpen1: TOpenDialog;
+    procedure btnCadPoderesClick(Sender: TObject);
+    procedure btnCadCategoriasClick(Sender: TObject);
+    procedure btnNivelPoderClick(Sender: TObject);
+    procedure btnImportarCSVClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  dtmPrincipal: TdtmPrincipal;
+
+implementation
+
+{$R *.dfm}
+
+procedure TdtmPrincipal.btnCadCategoriasClick(Sender: TObject);
+begin
+  TFuncao.CriarForm(TfrmCadCategoria, dtmConexao.conexaoDB);
+end;
+
+procedure TdtmPrincipal.btnCadPoderesClick(Sender: TObject);
+begin
+  TFuncao.CriarForm(TfrmCadastroPoderes, dtmConexao.conexaoDB);
+end;
+
+procedure TdtmPrincipal.btnImportarCSVClick(Sender: TObject);
+begin
+  if OpenDialog1.Execute then
+    ImportarCSV(OpenDialog1.FileName);
+end;
+
+procedure TdtmPrincipal.btnNivelPoderClick(Sender: TObject);
+begin
+  TFuncao.CriarForm(TfrmCadNivelPoder, dtmConexao.conexaoDB);
+end;
+
+//procedure TdtmPrincipal.FECHAR1Click(Sender: TObject);
+//begin
+//  Application.Terminate;
+//end;
+
+
+end.

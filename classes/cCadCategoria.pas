@@ -80,6 +80,7 @@ begin
 end;
 {$ENDREGION}
 
+{$REGION 'CRUD'}
 function TCategoria.Apagar: Boolean;
 var Qry:TFDQuery;
 begin
@@ -99,7 +100,6 @@ begin
                 'WHERE id =:id');
     Qry.ParamByName('id').AsInteger := F_categoriaId;
     try
-      conexaoDB.StartTransaction;
       Qry.ExecSQL;
       conexaoDB.Commit;
     except
@@ -177,11 +177,11 @@ begin
      Qry.SQL.Clear;
      Qry.SQL.Add('SELECT id, nome ' +
             'FROM categorias ' +
-            'WHERE id = :nome');
+            'WHERE id = :id');
      Qry.ParamByName('id').Value:=id;
      try
       Qry.Open;
-      Self.F_categoriaId := Qry.FieldByName('categoriaId').AsInteger;
+      Self.F_categoriaId := Qry.FieldByName('id').AsInteger;
       Self.F_nome        := Qry.FieldByName('nome').AsString;
      except
       Result := False;

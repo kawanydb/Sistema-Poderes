@@ -40,6 +40,8 @@ type
     procedure grdListagemKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormShow(Sender: TObject);
     procedure grdListagemDblClick(Sender: TObject);
+    procedure mskPesquisarKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure btnPesquisarClick(Sender: TObject);
   protected
       EstadoDoCadastro:TEstadoDoCadastro;
   private
@@ -101,7 +103,6 @@ end;
 
 procedure TfrmTelaHeranca.btnFecharClick(Sender: TObject);
 begin
-//  FormClose(Self, TCloseAction(nil^));
   Close;
 end;
 
@@ -134,6 +135,119 @@ begin
    btnApagar, btnNavigator, false);
    EstadoDoCadastro:=ecInserir;
    LimparEdits;
+end;
+
+procedure TfrmTelaHeranca.btnPesquisarClick(Sender: TObject);
+var
+  I, J: Integer;
+  NomeCampo, CondicaoSQL, SQLSemOrder, OrderByClause, Valor, Condicao: string;
+  PosOrder, PosFrom, PosAs, PosPonto: Integer;
+  ValorInt: Integer;
+  Campo: TField;
+  Mapa, Partes: TStringList;
+  SelectPart, Linha, Token, Alias, CampoReal: string;
+begin
+  Valor := Trim(mskPesquisar.Text);
+  if Valor = '' then
+  begin
+    QryListagem.Close;
+    QryListagem.SQL.Text := SelectOriginal;
+    QryListagem.Open;
+    Exit;
+  end;
+
+  // Separa ORDER BY
+  PosOrder := Pos('ORDER BY', UpperCase(SelectOriginal));
+  if PosOrder > 0 then
+  begin
+    SQLSemOrder   := Copy(SelectOriginal, 1, PosOrder - 1);
+    OrderByClause := Copy(SelectOriginal, PosOrder, Length(SelectOriginal));
+  end
+  else
+  begin
+    SQLSemOrder   := SelectOriginal;
+    OrderByClause := '';
+  end;
+
+  // Monta mapa: Alias ? CampoReal
+  Mapa := TStringList.Create;
+  Partes := TStringList.Create;
+  try
+    PosFrom := Pos('FROM', UpperCase(SelectOriginal));
+    SelectPart := Trim(Copy(SelectOriginal,
+      Pos('SELECT', UpperCase(SelectOriginal)) + 6,
+      PosFrom - Pos('SELECT', UpperCase(SelectOriginal)) - 6));
+
+    Partes.Text := StringReplace(SelectPart, ',', #13#10, [rfReplaceAll]);
+    for Linha in Partes do
+    begin
+      Token := Trim(Linha);
+      if Token = '' then Continue;
+
+      PosAs := Pos(' AS ', UpperCase(Token));
+      if PosAs > 0 then
+      begin
+        CampoReal := Trim(Copy(Token, 1, PosAs - 1));
+        Alias     := Trim(Copy(Token, PosAs + 4, Length(Token)));
+      end
+      else
+      begin
+        CampoReal := Token;
+        PosPonto  := Pos('.', Token);
+        if PosPonto > 0 then
+          Alias := Copy(Token, PosPonto + 1, Length(Token))
+        else
+          Alias := Token;
+      end;
+
+      Mapa.Add(Alias + '=' + CampoReal); // ex: "id=p.id", "categoria=c.nome"
+    end;
+
+    // Monta WHERE
+    CondicaoSQL := '';
+    for I := 0 to QryListagem.FieldCount - 1 do
+    begin
+      Campo := QryListagem.Fields[I];
+
+      // Busca o CampoReal pelo Alias exato
+      NomeCampo := '';
+      for J := 0 to Mapa.Count - 1 do
+        if UpperCase(Mapa.Names[J]) = UpperCase(Campo.FieldName) then
+        begin
+          NomeCampo := Mapa.ValueFromIndex[J];
+          Break;
+        end;
+
+      if NomeCampo = '' then Continue;
+
+      Condicao := '';
+      case Campo.DataType of
+        ftString, ftWideString:
+          Condicao := 'UPPER(' + NomeCampo + ') LIKE ' +
+                      QuotedStr('%' + UpperCase(Valor) + '%');
+        ftInteger, ftSmallint, ftAutoInc:
+          if TryStrToInt(Valor, ValorInt) then
+            if UpperCase(Campo.FieldName) = 'ID' then  // só pesquisa no ID
+              Condicao := NomeCampo + ' = ' + Valor;
+      end;
+
+      if Condicao <> '' then
+      begin
+        if CondicaoSQL <> '' then
+          CondicaoSQL := CondicaoSQL + ' OR ';
+        CondicaoSQL := CondicaoSQL + Condicao;
+      end;
+    end;
+  finally
+    Partes.Free;
+    Mapa.Free;
+  end;
+
+  if CondicaoSQL = '' then Exit;
+
+  QryListagem.Close;
+  QryListagem.SQL.Text := SQLSemOrder + ' WHERE ' + CondicaoSQL + ' ' + OrderByClause;
+  QryListagem.Open;
 end;
 
 procedure TfrmTelaHeranca.ControlarBotoes(btnNovo, btnAlterar, btnCancelar,
@@ -183,6 +297,16 @@ begin
         TMemo(Components[i]).Text:= ''
       else if (Components[i]is TDBLookupComboBox) then
         TDBLookupComboBox(Components[i]).keyValue:= Null;
+  end;
+end;
+
+
+procedure TfrmTelaHeranca.mskPesquisarKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  if Key = VK_RETURN then
+  begin
+    btnPesquisar.Click;
+    Key := 0;
   end;
 end;
 

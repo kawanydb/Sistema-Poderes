@@ -1,0 +1,508 @@
+unit uTelaHeranca;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Vcl.Buttons, Vcl.Grids, Vcl.DBGrids, Vcl.StdCtrls, Vcl.Mask, Vcl.ExtCtrls,
+  Vcl.ComCtrls, uDTMConexao, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
+  Vcl.DBCtrls, RxCurrEdit, uEnum;
+
+type
+  TfrmTelaHeranca = class(TForm)
+    pgcListagem: TPageControl;
+    ts1: TTabSheet;
+    tsManutencao: TTabSheet;
+    pnlListagemTopo: TPanel;
+    btnPesquisar: TButton;
+    mskPesquisar: TMaskEdit;
+    grdListagem: TDBGrid;
+    pnlCampos: TPanel;
+    pnlRodape: TPanel;
+    btnNovo: TBitBtn;
+    btnAlterar: TBitBtn;
+    btnCancelar: TBitBtn;
+    btnGravar: TBitBtn;
+    btnApagar: TBitBtn;
+    btnFechar: TBitBtn;
+    QryListagem: TFDQuery;
+    dtsListagem: TDataSource;
+    btnNavigator: TDBNavigator;
+    lbl1: TLabel;
+    procedure btnNovoClick(Sender: TObject);
+    procedure btnAlterarClick(Sender: TObject);
+    procedure btnApagarClick(Sender: TObject);
+    procedure btnCancelarClick(Sender: TObject);
+    procedure btnGravarClick(Sender: TObject);
+    procedure btnFecharClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure grdListagemKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure FormShow(Sender: TObject);
+    procedure grdListagemDblClick(Sender: TObject);
+    procedure mskPesquisarKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure btnPesquisarClick(Sender: TObject);
+  protected
+      EstadoDoCadastro:TEstadoDoCadastro;
+  private
+  SelectOriginal:String;
+    procedure ControlarBotoes(btnNovo, btnAlterar, btnCancelar, btnGravar, btnApagar: TBitBtn; Navegador: TDBNavigator;
+      Flag: Boolean);
+    procedure ControlarIndiceTab(pgcListagem: TPageControl; Indice: Integer);
+    function RetornarCampoTraduzido(Campo: String): String;
+    procedure LimparEdits;
+    procedure DesabilitarEditPK;
+    procedure ExibirLabelIndice(Campo: string; aLabel: TLabel);
+    function ExisteCampoObrigatorio: Boolean;
+    procedure BloqueiaCTRL_DEL_DBGrid(var Key: Word; Shift: TShiftState);
+    function BuscarCampoReal(Lista: TStringList; const FieldName: string): string;
+    procedure ExtrairCamposReaisDoSQL(const SQL: string; Lista: TStringList);
+
+  public
+    IndiceAtual:string;
+    function Apagar:Boolean; virtual;
+    function Gravar(EstadoDoCadastro:TEstadoDoCadastro):Boolean; virtual;
+  end;
+
+var
+  frmTelaHeranca: TfrmTelaHeranca;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmTelaHeranca.btnAlterarClick(Sender: TObject);
+begin
+  ControlarBotoes(btnNovo, btnAlterar, btnCancelar, btnGravar,
+   btnApagar, btnNavigator, false);
+   EstadoDoCadastro:=ecAlterar;
+end;
+
+procedure TfrmTelaHeranca.btnApagarClick(Sender: TObject);
+begin
+  if (Apagar) then
+  begin
+       ControlarBotoes(btnNovo, btnAlterar, btnCancelar, btnGravar,
+                      btnApagar, btnNavigator, true);
+       ControlarIndiceTab(pgcListagem, 0);
+       LimparEdits;
+       QryListagem.Refresh;
+  end
+  else
+  begin
+        MessageDlg('Erro na exclusão', mtError, [mbok],0);
+  end;
+end;
+
+procedure TfrmTelaHeranca.btnCancelarClick(Sender: TObject);
+begin
+  ControlarBotoes(btnNovo, btnAlterar, btnCancelar, btnGravar,
+   btnApagar, btnNavigator, true);
+   ControlarIndiceTab(pgcListagem, 0);
+   EstadoDoCadastro:=ecNenhum;
+   LimparEdits;
+end;
+
+procedure TfrmTelaHeranca.btnFecharClick(Sender: TObject);
+begin
+//  FormClose(Self, TCloseAction(nil^));
+  Close;
+end;
+
+procedure TfrmTelaHeranca.btnGravarClick(Sender: TObject);
+begin
+  if (ExisteCampoObrigatorio) then
+      Abort;
+   Try
+     if Gravar(EstadoDoCadastro) then begin
+       QryListagem.Close;
+       QryListagem.Open;
+
+       ControlarBotoes(btnNovo, btnAlterar, btnCancelar, btnGravar,
+                      btnApagar, btnNavigator, true);
+       ControlarIndiceTab(pgcListagem, 0);
+       EstadoDoCadastro:=ecNenhum;
+       LimparEdits;
+       QryListagem.Refresh;
+     end
+     else begin
+        MessageDlg('Erro na gravação', mtError, [mbok],0);
+     end;
+   finally
+   end;
+end;
+
+procedure TfrmTelaHeranca.btnNovoClick(Sender: TObject);
+begin
+   ControlarBotoes(btnNovo, btnAlterar, btnCancelar, btnGravar,
+   btnApagar, btnNavigator, false);
+   EstadoDoCadastro:=ecInserir;
+   LimparEdits;
+end;
+
+procedure TfrmTelaHeranca.btnPesquisarClick(Sender: TObject);
+var
+  I: Integer;
+  NomeCampo, CondicaoSQL, SQLSemOrder, OrderByClause, Valor, Condicao: string;
+  PosOrder: Integer;
+  ValorInt: Integer;
+  Campo: TField;
+  CamposReais: TStringList;
+begin
+  Valor := Trim(mskPesquisar.Text);
+  if Valor = '' then
+  begin
+    QryListagem.Close;
+    QryListagem.SQL.Text := SelectOriginal;
+    QryListagem.Open;
+    Exit;
+  end;
+
+  // Separa ORDER BY
+  PosOrder := Pos('ORDER BY', UpperCase(SelectOriginal));
+  if PosOrder > 0 then
+  begin
+    SQLSemOrder := Copy(SelectOriginal, 1, PosOrder - 1);
+    OrderByClause := Copy(SelectOriginal, PosOrder, Length(SelectOriginal));
+  end
+  else
+  begin
+    SQLSemOrder := SelectOriginal;
+    OrderByClause := '';
+  end;
+
+  // Monta lista de campos reais do SELECT (ex: "p.id", "p.nome", "c.nome")
+  // ignorando aliases (campos com AS)
+  CamposReais := TStringList.Create;
+  try
+    ExtrairCamposReaisDoSQL(SelectOriginal, CamposReais);
+
+    CondicaoSQL := '';
+    for I := 0 to QryListagem.FieldCount - 1 do
+    begin
+      Campo := QryListagem.Fields[I];
+
+      // Busca o campo real correspondente pelo FieldName
+      NomeCampo := BuscarCampoReal(CamposReais, Campo.FieldName);
+
+      // Se não achou campo real ? é alias ? ignora
+      if NomeCampo = '' then
+        Continue;
+
+      Condicao := '';
+      case Campo.DataType of
+        ftString, ftWideString:
+          Condicao := 'UPPER(' + NomeCampo + ') LIKE ' +
+                      QuotedStr('%' + UpperCase(Valor) + '%');
+
+        ftInteger, ftSmallint, ftAutoInc:
+          if TryStrToInt(Valor, ValorInt) then
+            Condicao := NomeCampo + ' = ' + Valor;
+      end;
+
+      if Condicao <> '' then
+      begin
+        if CondicaoSQL <> '' then
+          CondicaoSQL := CondicaoSQL + ' OR ';
+        CondicaoSQL := CondicaoSQL + Condicao;
+      end;
+    end;
+  finally
+    CamposReais.Free;
+  end;
+
+  if CondicaoSQL = '' then Exit;
+
+  QryListagem.Close;
+  QryListagem.SQL.Text := SQLSemOrder + ' WHERE ' + CondicaoSQL + ' ' + OrderByClause;
+  QryListagem.Open;
+end;
+
+// Extrai campos reais do SELECT, ignorando aliases (AS xxx)
+// Ex: "p.id, p.nome, c.nome AS categoria" ? ["p.id", "p.nome", "c.nome"]
+procedure TfrmTelaHeranca.ExtrairCamposReaisDoSQL(const SQL: string; Lista: TStringList);
+var
+  SelectPart, FromPart, Linha, Token: string;
+  Partes: TStringList;
+  PosFrom, PosAs: Integer;
+begin
+  Lista.Clear;
+  PosFrom := Pos('FROM', UpperCase(SQL));
+  if PosFrom = 0 then Exit;
+
+  // Pega só a parte entre SELECT e FROM
+  SelectPart := Trim(Copy(SQL, Pos('SELECT', UpperCase(SQL)) + 6, PosFrom - Pos('SELECT', UpperCase(SQL)) - 6));
+
+  Partes := TStringList.Create;
+  try
+    Partes.Text := StringReplace(SelectPart, ',', #13#10, [rfReplaceAll]);
+    for Linha in Partes do
+    begin
+      Token := Trim(Linha);
+      if Token = '' then Continue;
+
+      // Se tem AS, pega só o que vem antes
+      PosAs := Pos(' AS ', UpperCase(Token));
+      if PosAs > 0 then
+        Token := Trim(Copy(Token, 1, PosAs - 1));
+
+      Lista.Add(Token); // ex: "p.id", "p.nome", "c.nome"
+    end;
+  finally
+    Partes.Free;
+  end;
+end;
+
+// Busca o campo real pelo nome após o ponto
+// Ex: FieldName="nome" ? acha "p.nome" ? retorna "p.nome"
+// Se não achar ? retorna '' (é alias)
+function TfrmTelaHeranca.BuscarCampoReal(Lista: TStringList; const FieldName: string): string;
+var
+  Item, NomeAposPonto: string;
+  PosPonto: Integer;
+begin
+  Result := '';
+  for Item in Lista do
+  begin
+    PosPonto := Pos('.', Item);
+    if PosPonto > 0 then
+      NomeAposPonto := Copy(Item, PosPonto + 1, Length(Item))
+    else
+      NomeAposPonto := Item;
+
+    if UpperCase(NomeAposPonto) = UpperCase(FieldName) then
+    begin
+      Result := Item; // retorna "p.nome", "c.nome", etc
+      Exit;
+    end;
+  end;
+end;
+
+procedure TfrmTelaHeranca.ControlarBotoes(btnNovo, btnAlterar, btnCancelar,
+      btnGravar, btnApagar:TBitBtn; Navegador: TDBNavigator;
+      Flag:Boolean);
+//configurando botões e desabilitando uns  quando outros forem clicados
+ begin
+    btnNovo.Enabled :=Flag;
+    btnApagar.Enabled :=Flag;
+    btnAlterar.Enabled :=Flag;
+    Navegador.Enabled   :=Flag;
+    pgcListagem.Pages[0].TabVisible :=Flag;
+    btnCancelar.Enabled :=not(Flag);
+    btnGravar.Enabled :=not(Flag);
+ end;
+
+ procedure TfrmTelaHeranca.ControlarIndiceTab(pgcListagem: TPageControl; Indice: Integer);
+begin
+   if(pgcListagem.Pages[Indice].TabVisible) then
+   pgcListagem.TabIndex:=Indice;
+end;
+
+//função que retorna uma string
+function TfrmTelaHeranca.RetornarCampoTraduzido(Campo:String):String;
+var i:Integer;
+begin
+   for I := 0 to QryListagem.Fields.Count-1 do begin
+     if  LowerCase(QryListagem.Fields[i].FieldName)=LowerCase(Campo) then
+     begin
+       Result:= QryListagem.Fields[i].DisplayLabel;
+       Break;
+     end;
+   end;
+end;
+
+procedure TfrmTelaHeranca.LimparEdits;
+var i: Integer;
+begin
+   for i := 0 to ComponentCount -1 do begin
+      if (Components[i] is TLabeledEdit) then
+            TLabeledEdit(Components[i]).Text:=EmptyStr
+      else if (Components[i]is TEdit) then
+        TEdit(Components[i]).Text:= ''
+      else if (Components[i]is TMaskEdit) then
+        TMaskEdit(Components[i]).Text:= ''
+      else if (Components[i] is TMemo) then
+        TMemo(Components[i]).Text:= ''
+      else if (Components[i]is TDBLookupComboBox) then
+        TDBLookupComboBox(Components[i]).keyValue:= Null;
+  end;
+end;
+
+
+procedure TfrmTelaHeranca.mskPesquisarKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  if Key = VK_RETURN then
+  begin
+    btnPesquisar.Click;
+    Key := 0;
+  end;
+end;
+
+{$REGION 'MÉTODOS VIRTUAIS'}
+function TfrmTelaHeranca.Apagar: Boolean;
+begin
+    ShowMessage('DELETADO');
+    Result := True;
+end;
+
+procedure TfrmTelaHeranca.ExibirLabelIndice(Campo:string; aLabel:TLabel);
+begin
+  aLabel.Caption:=RetornarCampoTraduzido(Campo);
+end;
+
+function TfrmTelaHeranca.Gravar(EstadoDoCadastro: TEstadoDoCadastro): Boolean;
+begin
+  Result := True;
+//mensagens para o usuário saber se a ação aconteceu
+     if(EstadoDoCadastro=ecInserir) then
+        ShowMessage('Inserir')
+      else if (EstadoDoCadastro=ecAlterar) then
+        ShowMessage('Alterado');
+end;
+
+procedure TfrmTelaHeranca.grdListagemDblClick(Sender: TObject);
+begin
+  btnAlterar.Click;
+end;
+
+procedure TfrmTelaHeranca.grdListagemKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  if Key = VK_ESCAPE then
+  begin
+    Key := 0; // evita conflito
+    Close;
+  end;
+  BloqueiaCTRL_DEL_DBGrid(Key,Shift);
+
+end;
+
+procedure TfrmTelaHeranca.BloqueiaCTRL_DEL_DBGrid(var Key: Word; Shift: TShiftState);
+begin
+  //Bloqueia o CTRL + DEL
+  if(Shift = [ssCtrl]) and (Key = 46) then
+    Key:=0;
+end;
+
+function TfrmTelaHeranca.ExisteCampoObrigatorio: Boolean;
+var
+  i: Integer;
+begin
+  Result := False;
+
+  for i := 0 to ComponentCount - 1 do
+  begin
+    // valida TLabeledEdit
+    if (Components[i] is TLabeledEdit) then
+    begin
+      if (TLabeledEdit(Components[i]).Tag = 2) and
+         (TLabeledEdit(Components[i]).Enabled) and
+         (Trim(TLabeledEdit(Components[i]).Text) = '')
+      then
+      begin
+        MessageDlg(
+          TLabeledEdit(Components[i]).EditLabel.Caption +
+          ' é um campo obrigatório',
+          mtInformation,
+          [mbOK],
+          0
+        );
+
+        TLabeledEdit(Components[i]).SetFocus;
+        Result := True;
+        Break;
+      end;
+    end;
+
+    // valida TCurrencyEdit
+    if (Components[i] is TCurrencyEdit) then
+    begin
+      if (TCurrencyEdit(Components[i]).Tag = 2) and
+         (TCurrencyEdit(Components[i]).Enabled) and
+         (TCurrencyEdit(Components[i]).Value <= 0)
+      then
+      begin
+        MessageDlg(
+          'Todos os campos devem ser preenchidos!',
+          mtInformation,
+          [mbOK],
+          0
+        );
+
+        TCurrencyEdit(Components[i]).SetFocus;
+        Result := True;
+        Break;
+      end;
+    end;
+
+    // TMaskEdit
+    if (Components[i] is TMaskEdit) then
+    begin
+      if (TMaskEdit(Components[i]).Tag = 2) and
+         (TMaskEdit(Components[i]).Enabled) and
+         (Trim(TMaskEdit(Components[i]).Text) = '')
+      then
+      begin
+        MessageDlg(
+          'Preencha todos os campos.',
+          mtWarning,
+          [mbOK],
+          0
+        );
+
+        TMaskEdit(Components[i]).SetFocus;
+        Result := True;
+        Exit;
+      end;
+    end;
+  end;
+end;
+
+procedure TfrmTelaHeranca.FormCreate(Sender: TObject);
+begin
+  QryListagem.Connection:=dtmConexao.conexaoDB;
+  dtsListagem.DataSet:=QryListagem;
+  grdListagem.DataSource:=dtsListagem;
+  grdListagem.Options:=[dgTitles,dgIndicator,dgColumnResize,
+                         dgColLines,dgRowLines,dgTabs,
+                         dgCancelOnExit,dgTitleClick,dgTitleHotTrack];
+end;
+
+procedure TfrmTelaHeranca.FormShow(Sender: TObject);
+begin
+  if (QryListagem.SQL.Text <> EmptyStr) then
+  begin
+    QryListagem.IndexFieldNames := IndiceAtual;
+    ExibirLabelIndice(IndiceAtual, lbl1);
+    SelectOriginal := QryListagem.SQL.Text;
+    QryListagem.Open;
+  end;
+
+  ControlarIndiceTab(pgcListagem, 0);
+  DesabilitarEditPK;
+
+  ControlarBotoes(
+    btnNovo,
+    btnAlterar,
+    btnCancelar,
+    btnGravar,
+    btnApagar,
+    btnNavigator,
+    True
+  );
+end;
+
+procedure TfrmTelaHeranca.DesabilitarEditPK;  //declara que o desabilitar pertence ao form tela herança
+var i: Integer;
+begin
+   for i := 0 to ComponentCount -1 do begin // o indice começa em 0 por isso o -1
+      if(Components[i] is TLabeledEdit) then begin  // verifica se o componente atual é do tipo TLabeledEdit
+          if(TLabeledEdit(Components[i]).Tag = 1) then begin
+            TLabeledEdit(Components[i]).Enabled:=False;  //desativa o campo, impedindo o usuário de editá-lo
+            Break;    // para o loop evitando busca desnecessária
+          end;
+      end;
+   end;
+end;
+
+{$ENDREGION}
+end.

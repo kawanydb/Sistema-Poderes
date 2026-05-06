@@ -1,29 +1,29 @@
 inherited frmCadastroPoderes: TfrmCadastroPoderes
   Caption = 'Cadastro de Poderes'
-  ClientHeight = 425
-  ClientWidth = 587
+  ClientHeight = 454
+  ClientWidth = 671
+  Position = poScreenCenter
   OnClose = FormClose
-  ExplicitWidth = 593
-  ExplicitHeight = 454
+  ExplicitWidth = 677
+  ExplicitHeight = 483
   PixelsPerInch = 96
   TextHeight = 13
   inherited pgcListagem: TPageControl
-    Width = 587
-    Height = 384
+    Width = 671
+    Height = 413
+    ActivePage = ts1
     ExplicitWidth = 587
     ExplicitHeight = 384
     inherited ts1: TTabSheet
-      ExplicitLeft = 4
-      ExplicitTop = 24
-      ExplicitWidth = 579
-      ExplicitHeight = 356
+      ExplicitWidth = 663
+      ExplicitHeight = 385
       inherited pnlListagemTopo: TPanel
-        Width = 579
-        ExplicitWidth = 579
+        Width = 663
+        ExplicitWidth = 663
       end
       inherited grdListagem: TDBGrid
-        Width = 579
-        Height = 296
+        Width = 663
+        Height = 325
         DataSource = dtsListagem
         Columns = <
           item
@@ -38,18 +38,17 @@ inherited frmCadastroPoderes: TfrmCadastroPoderes
           end
           item
             Expanded = False
-            FieldName = 'Descri'#231#227'o'
+            FieldName = 'descricao'
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'categoria'
-            Width = 64
             Visible = True
           end
           item
             Expanded = False
-            FieldName = 'N'#237'vel de Poder'
+            FieldName = 'nivel'
             Visible = True
           end>
       end
@@ -58,8 +57,8 @@ inherited frmCadastroPoderes: TfrmCadastroPoderes
       ExplicitWidth = 579
       ExplicitHeight = 356
       inherited pnlCampos: TPanel
-        Width = 579
-        Height = 356
+        Width = 663
+        Height = 385
         ExplicitWidth = 579
         ExplicitHeight = 356
         object lbl15: TLabel
@@ -142,9 +141,9 @@ inherited frmCadastroPoderes: TfrmCadastroPoderes
           Top = 170
           Width = 220
           Height = 21
-          DataSource = dtsListagem
-          KeyField = 'categoriaId'
-          ListField = 'descricao'
+          KeyField = 'id'
+          ListField = 'nome'
+          ListSource = dtsCategoria
           TabOrder = 3
         end
         object dblkNivelPoder: TDBLookupComboBox
@@ -161,8 +160,8 @@ inherited frmCadastroPoderes: TfrmCadastroPoderes
     end
   end
   inherited pnlRodape: TPanel
-    Top = 384
-    Width = 587
+    Top = 413
+    Width = 671
     ExplicitTop = 384
     ExplicitWidth = 587
     inherited btnNavigator: TDBNavigator
@@ -182,20 +181,24 @@ inherited frmCadastroPoderes: TfrmCadastroPoderes
       'FROM poderes p'
       'INNER JOIN categorias c ON c.id = p.categoria_id'
       'INNER JOIN nivel_poder n ON n.id = p.nivel_poder_id')
+    Left = 564
     Top = 32
     object fdtncfldQryListagemid: TFDAutoIncField
+      DisplayLabel = 'C'#243'digo'
       FieldName = 'id'
       Origin = 'id'
       ProviderFlags = [pfInWhere, pfInKey]
       ReadOnly = True
     end
     object nQryListagemnome: TStringField
+      DisplayLabel = 'Nome'
       FieldName = 'nome'
       Origin = 'nome'
       Required = True
       Size = 100
     end
     object nQryListagemdescricao: TStringField
+      DisplayLabel = 'Descri'#231#227'o'
       FieldName = 'descricao'
       Origin = 'descricao'
       Size = 500
@@ -211,19 +214,21 @@ inherited frmCadastroPoderes: TfrmCadastroPoderes
       Required = True
     end
     object nQryListagemcategoria: TStringField
+      DisplayLabel = 'Categoria'
       FieldName = 'categoria'
       Origin = 'categoria'
       Required = True
       Size = 50
     end
     object nQryListagemnivel: TStringField
+      DisplayLabel = 'N'#237'vel de poder'
       FieldName = 'nivel'
       Origin = 'nivel'
       Required = True
     end
   end
   inherited dtsListagem: TDataSource
-    Left = 460
+    Left = 620
     Top = 32
   end
   object QryNivelPoder: TFDQuery
@@ -232,7 +237,7 @@ inherited frmCadastroPoderes: TfrmCadastroPoderes
       'SELECT id,'
       '       nivel'
       ' FROM nivel_poder')
-    Left = 260
+    Left = 372
     Top = 32
     object fdtncfldQryNivelPoderid: TFDAutoIncField
       FieldName = 'id'
@@ -248,7 +253,33 @@ inherited frmCadastroPoderes: TfrmCadastroPoderes
   end
   object dtsNivelPoder: TDataSource
     DataSet = QryNivelPoder
-    Left = 324
-    Top = 32
+    Left = 452
+    Top = 40
+  end
+  object QryCategoria: TFDQuery
+    Connection = dtmConexao.conexaoDB
+    SQL.Strings = (
+      'SELECT id,'
+      '       nome'
+      ' FROM categorias')
+    Left = 516
+    Top = 176
+    object fdtncfldQryNivelPoderid1: TFDAutoIncField
+      FieldName = 'id'
+      Origin = 'id'
+      ProviderFlags = [pfInWhere, pfInKey]
+      ReadOnly = True
+    end
+    object nQryCategorianome: TStringField
+      FieldName = 'nome'
+      Origin = 'nome'
+      Required = True
+      Size = 50
+    end
+  end
+  object dtsCategoria: TDataSource
+    DataSet = QryCategoria
+    Left = 580
+    Top = 176
   end
 end

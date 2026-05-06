@@ -31,6 +31,10 @@ type
     intgrfldQryListagemnivel_poder_id: TIntegerField;
     nQryListagemcategoria: TStringField;
     nQryListagemnivel: TStringField;
+    QryCategoria: TFDQuery;
+    fdtncfldQryNivelPoderid1: TFDAutoIncField;
+    dtsCategoria: TDataSource;
+    nQryCategorianome: TStringField;
     procedure btnAlterarClick(Sender: TObject);
     procedure btnNovoClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -38,8 +42,8 @@ type
   private
     oPoder:TPoder;
   public
-  function Apagar:Boolean; virtual;
-  function Gravar(EstadoDoCadastro:TEstadoDoCadastro):Boolean; virtual;
+  function Apagar:Boolean; override;
+  function Gravar(EstadoDoCadastro:TEstadoDoCadastro):Boolean; override;
   end;
 
 var
@@ -117,11 +121,9 @@ begin
   IndiceAtual := 'nome';
 
   QryNivelPoder.Connection := dtmConexao.conexaoDB;
-  QryNivelPoder.SQL.Text := 'SELECT id, nivel FROM nivel_poder ORDER BY id';
   QryNivelPoder.Open;
   QryListagem.Open;
-
-  dtsNivelPoder.DataSet := QryNivelPoder;
+  QryCategoria.Open;
 end;
 
 end.
