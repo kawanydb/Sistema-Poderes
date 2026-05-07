@@ -66,7 +66,6 @@ type
     lbl3: TLabel;
     btnMenu: TPngBitBtn;
     Image2: TImage;
-    Image4: TImage;
     procedure btnCadPoderesClick(Sender: TObject);
     procedure btnCadCategoriasClick(Sender: TObject);
     procedure btnNivelPoderClick(Sender: TObject);

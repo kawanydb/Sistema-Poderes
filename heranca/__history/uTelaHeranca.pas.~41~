@@ -7,7 +7,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Vcl.Buttons, Vcl.Grids, Vcl.DBGrids, Vcl.StdCtrls, Vcl.Mask, Vcl.ExtCtrls,
   Vcl.ComCtrls, uDTMConexao, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
   FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
-  Vcl.DBCtrls, RxCurrEdit, uEnum,cArquivoIni, System.IniFiles;
+  Vcl.DBCtrls, RxCurrEdit, uEnum;
 
 type
   TfrmTelaHeranca = class(TForm)
@@ -42,12 +42,10 @@ type
     procedure grdListagemDblClick(Sender: TObject);
     procedure mskPesquisarKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure btnPesquisarClick(Sender: TObject);
-    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   protected
       EstadoDoCadastro:TEstadoDoCadastro;
   private
   SelectOriginal:String;
-  FGridCarregado: Boolean;
     procedure ControlarBotoes(btnNovo, btnAlterar, btnCancelar, btnGravar, btnApagar: TBitBtn; Navegador: TDBNavigator;
       Flag: Boolean);
     procedure ControlarIndiceTab(pgcListagem: TPageControl; Indice: Integer);
@@ -57,8 +55,6 @@ type
     procedure ExibirLabelIndice(Campo: string; aLabel: TLabel);
     function ExisteCampoObrigatorio: Boolean;
     procedure BloqueiaCTRL_DEL_DBGrid(var Key: Word; Shift: TShiftState);
-    procedure CarregarGrid;
-    procedure SalvarGrid;
 
   public
     IndiceAtual:string;
@@ -433,11 +429,6 @@ begin
   end;
 end;
 
-procedure TfrmTelaHeranca.FormClose(Sender: TObject; var Action: TCloseAction);
-begin
-  SalvarGrid;
-end;
-
 procedure TfrmTelaHeranca.FormCreate(Sender: TObject);
 begin
   QryListagem.Connection:=dtmConexao.conexaoDB;
@@ -456,13 +447,6 @@ begin
     ExibirLabelIndice(IndiceAtual, lbl1);
     SelectOriginal := QryListagem.SQL.Text;
     QryListagem.Open;
-  end;
-
-  //garante que garregue a função
-  if not FGridCarregado then
-  begin
-    CarregarGrid;
-    FGridCarregado := True;
   end;
 
   ControlarIndiceTab(pgcListagem, 0);
@@ -491,80 +475,6 @@ begin
       end;
    end;
 end;
-{$ENDREGION}
-
-{$REGION 'Salvar Posição e Largura das Colunas'}
-procedure TfrmTelaHeranca.SalvarGrid;
-var
-  Ini: TIniFile;
-  i: Integer;
-  Secao: string;
-begin
-  Secao := Self.Name;
-
-  Ini := TIniFile.Create(
-    ExtractFilePath(Application.ExeName) +
-    'grid_padrao.ini');
-
-  try
-    for i := 0 to grdListagem.Columns.Count - 1 do
-    begin
-      Ini.WriteString(Secao, 'Campo' + IntToStr(i),
-        grdListagem.Columns[i].FieldName);
-
-      Ini.WriteInteger(Secao, 'Width' + IntToStr(i),
-        grdListagem.Columns[i].Width);
-    end;
-  finally
-    Ini.Free;
-  end;
-end;
-
-procedure TfrmTelaHeranca.CarregarGrid;
-var
-  Ini: TIniFile;
-  i, j: Integer;
-  Campo: string;
-  Secao: string;
-begin
-  Secao := Self.Name;
-
-  Ini := TIniFile.Create(
-    ExtractFilePath(Application.ExeName) +
-    'grid_padrao.ini');
-
-  try
-    //coluna
-    for i := 0 to grdListagem.Columns.Count - 1 do
-    begin
-      Campo := Ini.ReadString(Secao, 'Campo' + IntToStr(i), '');
-
-      for j := 0 to grdListagem.Columns.Count - 1 do
-      begin
-        if SameText(grdListagem.Columns[j].FieldName, Campo) then
-        begin
-          grdListagem.Columns[j].Index := i;
-          Break;
-        end;
-      end;
-    end;
-
-    // largura
-    for i := 0 to grdListagem.Columns.Count - 1 do
-    begin
-      grdListagem.Columns[i].Width :=
-        Ini.ReadInteger(
-          Secao,
-          'Width' + IntToStr(i),
-          grdListagem.Columns[i].Width
-        );
-    end;
-
-  finally
-    Ini.Free;
-  end;
-end;
 
 {$ENDREGION}
-
 end.

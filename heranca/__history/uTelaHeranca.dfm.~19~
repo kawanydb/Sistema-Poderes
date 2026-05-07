@@ -12,7 +12,6 @@ object frmTelaHeranca: TfrmTelaHeranca
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
-  OnClose = FormClose
   OnCreate = FormCreate
   OnShow = FormShow
   PixelsPerInch = 96
@@ -22,7 +21,7 @@ object frmTelaHeranca: TfrmTelaHeranca
     Top = 0
     Width = 681
     Height = 398
-    ActivePage = ts1
+    ActivePage = tsManutencao
     Align = alClient
     TabOrder = 0
     object ts1: TTabSheet
@@ -114,6 +113,7 @@ object frmTelaHeranca: TfrmTelaHeranca
     Color = 15986933
     ParentBackground = False
     TabOrder = 1
+    ExplicitTop = 400
     object btnNovo: TBitBtn
       Left = 12
       Top = 11

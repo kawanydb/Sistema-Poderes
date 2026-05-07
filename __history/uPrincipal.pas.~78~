@@ -54,6 +54,7 @@ type
     pnlExportar: TPanel;
     lblExpTit: TLabel;
     lblExpDesc: TLabel;
+    btnMenuu: TButton;
     Image3: TImage;
     Image1: TImage;
     pnlCardImportacoes: TPanel;
@@ -63,10 +64,6 @@ type
     pnlRodape: TPanel;
     lbl1: TLabel;
     lbl2: TLabel;
-    lbl3: TLabel;
-    btnMenu: TPngBitBtn;
-    Image2: TImage;
-    Image4: TImage;
     procedure btnCadPoderesClick(Sender: TObject);
     procedure btnCadCategoriasClick(Sender: TObject);
     procedure btnNivelPoderClick(Sender: TObject);
@@ -74,6 +71,7 @@ type
     procedure btnExportarCSVClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure btnMenuuClick(Sender: TObject);
     procedure pnlCardPoderesResize(Sender: TObject);
     procedure pnlCardCategoriasResize(Sender: TObject);
     procedure pnlCardNiveisResize(Sender: TObject);
@@ -84,7 +82,6 @@ type
     procedure pnlImportarResize(Sender: TObject);
     procedure pnlExportarResize(Sender: TObject);
     procedure btnFecharClick(Sender: TObject);
-    procedure btnMenuClick(Sender: TObject);
   private
     procedure AtualizarTotais;
     procedure ImportarCSV(Caminho: string);
@@ -100,6 +97,14 @@ var
 implementation
 
 {$R *.dfm}
+
+procedure TdtmPrincipal.btnMenuuClick(Sender: TObject);
+begin
+  if pnlSidebar.Width = 0 then
+    pnlSidebar.Width := 220
+  else
+    pnlSidebar.Width := 0;
+end;
 
 procedure TdtmPrincipal.FormCreate(Sender: TObject);
 begin
@@ -170,15 +175,7 @@ begin
   end;
 end;
 
-procedure TdtmPrincipal.btnMenuClick(Sender: TObject);
-begin
-  if pnlSidebar.Width = 0 then
-    pnlSidebar.Width := 220
-  else
-    pnlSidebar.Width := 0;
-end;
-
-procedure TdtmPrincipal.btnExportarCSVClick(Sender: TObject);
+procedure TdtmPrincipal.btnExportarCSVClick(Sender: TObject);
 begin
   if dlgSave1.Execute then
     ExportarCSV(dlgSave1.FileName);

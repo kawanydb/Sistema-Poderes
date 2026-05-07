@@ -22,11 +22,15 @@ object frmTelaHeranca: TfrmTelaHeranca
     Top = 0
     Width = 681
     Height = 398
-    ActivePage = ts1
+    ActivePage = tsManutencao
     Align = alClient
     TabOrder = 0
     object ts1: TTabSheet
       Caption = 'Listagem'
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object pnlListagemTopo: TPanel
         Left = 0
         Top = 0

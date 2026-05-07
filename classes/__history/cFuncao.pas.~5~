@@ -10,11 +10,12 @@ uses System.Classes, Vcl.Controls,Vcl.ExtCtrls, Vcl.Dialogs, System.SysUtils, Vc
 
 type
   TFuncao = class
-  public
-    class procedure CriarForm(aNomeForm: TFormClass; aConexao: TFDConnection);
-    class procedure CriarSombra(APanel: TPanel; Desloc: Integer = 6);
-    class procedure AtualizarSombra(APanel: TPanel; Desloc: Integer = 6);
-    class procedure ArredondarPainel(APanel: TPanel; ARaio: Integer = 20);
+    private
+
+    public
+      class procedure CriarForm(aNomeForm: TFormClass; aConexao: TFDConnection); static;
+      class procedure ArredondarPainel(APanel: TPanel; ARaio: Integer = 20);
+      class procedure CriarSombra(APanel: TPanel; Deslocamento: Integer = 5);
   end;
 
 implementation
@@ -32,44 +33,33 @@ begin
   end;
 end;
 
-class procedure TFuncao.CriarSombra(APanel: TPanel; Desloc: Integer);
+procedure CriarSombra(APanel: TPanel; ARaio: Integer = 20; Desloc: Integer = 6);
 var
   Sombra: TPanel;
 begin
-  // evita duplicar
-  if APanel.Tag <> 0 then Exit;
-
   Sombra := TPanel.Create(APanel.Owner);
   Sombra.Parent := APanel.Parent;
+
+  // posição deslocada (ESSENCIAL)
+  Sombra.Left := APanel.Left + Desloc;
+  Sombra.Top := APanel.Top + Desloc;
+
+  Sombra.Width := APanel.Width;
+  Sombra.Height := APanel.Height;
+
+  // cor mais escura pra aparecer
+  Sombra.Color := $00B5B5B5;
 
   Sombra.BevelOuter := bvNone;
   Sombra.Caption := '';
   Sombra.Enabled := False;
-  Sombra.Color := clBlack;;
 
-  // guarda referência no Tag
-  APanel.Tag := NativeInt(Sombra);
+  // arredonda também
+  TFuncao.ArredondarPainel(Sombra, ARaio);
 
-  AtualizarSombra(APanel, Desloc);
-
+  // ordem correta
   Sombra.SendToBack;
   APanel.BringToFront;
-end;
-
-class procedure TFuncao.AtualizarSombra(APanel: TPanel; Desloc: Integer);
-var
-  S: TPanel;
-begin
-  if APanel.Tag = 0 then Exit;
-
-  S := TPanel(APanel.Tag);
-
-  S.SetBounds(
-    APanel.Left + Desloc,
-    APanel.Top + Desloc,
-    APanel.Width,
-    APanel.Height
-  );
 end;
 
 class procedure TFuncao.ArredondarPainel(APanel: TPanel; ARaio: Integer = 20);

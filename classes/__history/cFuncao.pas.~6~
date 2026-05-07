@@ -45,7 +45,7 @@ begin
   Sombra.BevelOuter := bvNone;
   Sombra.Caption := '';
   Sombra.Enabled := False;
-  Sombra.Color := clBlack;;
+  Sombra.Color := $00C0C0C0;
 
   // guarda referência no Tag
   APanel.Tag := NativeInt(Sombra);

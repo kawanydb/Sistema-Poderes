@@ -42,12 +42,10 @@ type
     procedure grdListagemDblClick(Sender: TObject);
     procedure mskPesquisarKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure btnPesquisarClick(Sender: TObject);
-    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   protected
       EstadoDoCadastro:TEstadoDoCadastro;
   private
   SelectOriginal:String;
-  FGridCarregado: Boolean;
     procedure ControlarBotoes(btnNovo, btnAlterar, btnCancelar, btnGravar, btnApagar: TBitBtn; Navegador: TDBNavigator;
       Flag: Boolean);
     procedure ControlarIndiceTab(pgcListagem: TPageControl; Indice: Integer);
@@ -57,6 +55,7 @@ type
     procedure ExibirLabelIndice(Campo: string; aLabel: TLabel);
     function ExisteCampoObrigatorio: Boolean;
     procedure BloqueiaCTRL_DEL_DBGrid(var Key: Word; Shift: TShiftState);
+    procedure AlinharColunas(aGrid: TDBGrid);
     procedure CarregarGrid;
     procedure SalvarGrid;
 
@@ -433,11 +432,6 @@ begin
   end;
 end;
 
-procedure TfrmTelaHeranca.FormClose(Sender: TObject; var Action: TCloseAction);
-begin
-  SalvarGrid;
-end;
-
 procedure TfrmTelaHeranca.FormCreate(Sender: TObject);
 begin
   QryListagem.Connection:=dtmConexao.conexaoDB;
@@ -456,13 +450,6 @@ begin
     ExibirLabelIndice(IndiceAtual, lbl1);
     SelectOriginal := QryListagem.SQL.Text;
     QryListagem.Open;
-  end;
-
-  //garante que garregue a função
-  if not FGridCarregado then
-  begin
-    CarregarGrid;
-    FGridCarregado := True;
   end;
 
   ControlarIndiceTab(pgcListagem, 0);
@@ -534,7 +521,6 @@ begin
     'grid_padrao.ini');
 
   try
-    //coluna
     for i := 0 to grdListagem.Columns.Count - 1 do
     begin
       Campo := Ini.ReadString(Secao, 'Campo' + IntToStr(i), '');
@@ -544,22 +530,17 @@ begin
         if SameText(grdListagem.Columns[j].FieldName, Campo) then
         begin
           grdListagem.Columns[j].Index := i;
+
+          grdListagem.Columns[j].Width :=
+            Ini.ReadInteger(
+              Secao,
+              'Width' + IntToStr(i),
+              grdListagem.Columns[j].Width
+            );
           Break;
         end;
       end;
     end;
-
-    // largura
-    for i := 0 to grdListagem.Columns.Count - 1 do
-    begin
-      grdListagem.Columns[i].Width :=
-        Ini.ReadInteger(
-          Secao,
-          'Width' + IntToStr(i),
-          grdListagem.Columns[i].Width
-        );
-    end;
-
   finally
     Ini.Free;
   end;
