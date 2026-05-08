@@ -65,6 +65,8 @@ type
     lbl2: TLabel;
     lbl3: TLabel;
     btnMenu: TPngBitBtn;
+    Image2: TImage;
+    Image4: TImage;
     procedure btnCadPoderesClick(Sender: TObject);
     procedure btnCadCategoriasClick(Sender: TObject);
     procedure btnNivelPoderClick(Sender: TObject);
@@ -211,6 +213,10 @@ begin
       if Trim(Linha) = '' then Continue;
 
       Campos := Linha.Split([';']);
+      Campos[0] := TFuncao.SemEnter(Trim(Campos[0]));
+      Campos[1] := TFuncao.SemEnter(Trim(Campos[1]));
+      Campos[2] := TFuncao.SemEnter(Trim(Campos[2]));
+      Campos[3] := TFuncao.SemEnter(Trim(Campos[3]));
 
       if Length(Campos) < 4 then
       begin
@@ -316,12 +322,12 @@ begin
     Lista.Add('nome;descricao;categoria;nivel');
     while not Qry.Eof do
     begin
-      Lista.Add(
-        Qry.FieldByName('nome').AsString + ';' +
-        Qry.FieldByName('descricao').AsString + ';' +
-        Qry.FieldByName('categoria').AsString + ';' +
-        Qry.FieldByName('nivel').AsString
-      );
+          Lista.Add(
+      TFuncao.SemEnter(Qry.FieldByName('nome').AsString) + ';' +
+      TFuncao.SemEnter(Qry.FieldByName('descricao').AsString) + ';' +
+      TFuncao.SemEnter(Qry.FieldByName('categoria').AsString) + ';' +
+      TFuncao.SemEnter(Qry.FieldByName('nivel').AsString)
+    );
       Qry.Next;
     end;
 

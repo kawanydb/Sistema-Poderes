@@ -12,6 +12,7 @@ object frmTelaHeranca: TfrmTelaHeranca
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  OnClose = FormClose
   OnCreate = FormCreate
   OnShow = FormShow
   PixelsPerInch = 96
@@ -32,6 +33,8 @@ object frmTelaHeranca: TfrmTelaHeranca
         Width = 673
         Height = 60
         Align = alTop
+        Color = 15986933
+        ParentBackground = False
         TabOrder = 0
         object lbl1: TLabel
           Left = 19
@@ -58,7 +61,6 @@ object frmTelaHeranca: TfrmTelaHeranca
           TabOrder = 1
           Text = ''
           TextHint = 'Digite sua Pesquisa'
-          OnChange = mskPesquisarChange
           OnKeyDown = mskPesquisarKeyDown
         end
       end
@@ -68,21 +70,22 @@ object frmTelaHeranca: TfrmTelaHeranca
         Width = 673
         Height = 310
         Align = alClient
+        Color = 15986933
         DrawingStyle = gdsClassic
-        FixedColor = 13612943
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
+        FixedColor = 5972132
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clBlack
         Font.Height = -11
-        Font.Name = 'Tahoma'
-        Font.Style = []
+        Font.Name = 'Segoe UI'
+        Font.Style = [fsBold]
         Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgAlwaysShowSelection, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
         ParentFont = False
         TabOrder = 1
-        TitleFont.Charset = DEFAULT_CHARSET
-        TitleFont.Color = clWindowText
+        TitleFont.Charset = ANSI_CHARSET
+        TitleFont.Color = clWhite
         TitleFont.Height = -11
-        TitleFont.Name = 'Tahoma'
-        TitleFont.Style = []
+        TitleFont.Name = 'Segoe UI'
+        TitleFont.Style = [fsBold]
         OnDblClick = grdListagemDblClick
         OnKeyDown = grdListagemKeyDown
       end
@@ -96,6 +99,8 @@ object frmTelaHeranca: TfrmTelaHeranca
         Width = 673
         Height = 370
         Align = alClient
+        Color = 15986933
+        ParentBackground = False
         TabOrder = 0
       end
     end
@@ -106,6 +111,8 @@ object frmTelaHeranca: TfrmTelaHeranca
     Width = 681
     Height = 41
     Align = alBottom
+    Color = 15986933
+    ParentBackground = False
     TabOrder = 1
     object btnNovo: TBitBtn
       Left = 12

@@ -58,6 +58,7 @@ var
    Ini:TIniFile;
 begin
   try
+
     Ini :=TIniFile.Create(ArquivoIni);
     Result := Ini.ReadString( aSecao, aEntrada, 'NÃO ENCONTRADO');
   finally

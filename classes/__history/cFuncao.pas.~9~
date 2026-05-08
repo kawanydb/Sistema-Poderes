@@ -14,9 +14,11 @@ type
 
   public
     class procedure CriarForm(aNomeForm: TFormClass; aConexao: TFDConnection);
+    class procedure CriarSombra(APanel: TPanel; Desloc: Integer = 6);
+    class procedure AtualizarSombra(APanel: TPanel; Desloc: Integer = 6);
     class procedure ArredondarPainel(APanel: TPanel; ARaio: Integer = 20);
-    class function SemEnter(const S: string): string;
-    class function CSV(const S: string): string;
+    function SemEnter(const S: string): string;
+    function CSV(const S: string): string;
   end;
 
 implementation
@@ -34,6 +36,46 @@ begin
   end;
 end;
 
+class procedure TFuncao.CriarSombra(APanel: TPanel; Desloc: Integer);
+var
+  Sombra: TPanel;
+begin
+  // evita duplicar
+  if APanel.Tag <> 0 then Exit;
+
+  Sombra := TPanel.Create(APanel.Owner);
+  Sombra.Parent := APanel.Parent;
+
+  Sombra.BevelOuter := bvNone;
+  Sombra.Caption := '';
+  Sombra.Enabled := False;
+  Sombra.Color := clBlack;;
+
+  // guarda referência no Tag
+  APanel.Tag := NativeInt(Sombra);
+
+  AtualizarSombra(APanel, Desloc);
+
+  Sombra.SendToBack;
+  APanel.BringToFront;
+end;
+
+class procedure TFuncao.AtualizarSombra(APanel: TPanel; Desloc: Integer);
+var
+  S: TPanel;
+begin
+  if APanel.Tag = 0 then Exit;
+
+  S := TPanel(APanel.Tag);
+
+  S.SetBounds(
+    APanel.Left + Desloc,
+    APanel.Top + Desloc,
+    APanel.Width,
+    APanel.Height
+  );
+end;
+
 class procedure TFuncao.ArredondarPainel(APanel: TPanel; ARaio: Integer = 20);
 var
   R: HRGN;
@@ -48,7 +90,7 @@ begin
   SetWindowRgn(APanel.Handle, R, True);
 end;
 
-class function TFuncao.SemEnter(const S: string): string;
+function TFuncao.SemEnter(const S: string): string;
 begin
   Result := StringReplace(S, sLineBreak, ' ', [rfReplaceAll]);
   Result := StringReplace(Result, #13#10, ' ', [rfReplaceAll]);
@@ -56,7 +98,7 @@ begin
   Result := StringReplace(Result, #10, ' ', [rfReplaceAll]);
 end;
 
-class function TFuncao.CSV(const S: string): string;
+function TFuncao.CSV(const S: string): string;
 begin
   Result := StringReplace(SemEnter(S), ';', ',', [rfReplaceAll]);
 end;

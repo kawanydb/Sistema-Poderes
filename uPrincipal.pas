@@ -101,6 +101,7 @@ implementation
 
 {$R *.dfm}
 
+{$REGION 'EVENTOS DO FORM'}
 procedure TdtmPrincipal.FormCreate(Sender: TObject);
 begin
   pnlSidebar.Width := 0;
@@ -110,39 +111,9 @@ procedure TdtmPrincipal.FormShow(Sender: TObject);
 begin
   AtualizarTotais;
 end;
+{$ENDREGION}
 
-procedure TdtmPrincipal.AtualizarTotais;
-var
-  Qry: TFDQuery;
-begin
-  Qry := TFDQuery.Create(nil);
-  try
-    Qry.Connection := dtmConexao.conexaoDB;
-
-    Qry.SQL.Text := 'SELECT COUNT(*) FROM poderes';
-    Qry.Open;
-    lblTotalPoderesVal.Caption := Qry.Fields[0].AsString;
-    Qry.Close;
-
-    Qry.SQL.Text := 'SELECT COUNT(*) FROM categorias';
-    Qry.Open;
-    lblTotalCatVal.Caption := Qry.Fields[0].AsString;
-    Qry.Close;
-
-    Qry.SQL.Text := 'SELECT COUNT(*) FROM nivel_poder';
-    Qry.Open;
-    lblTotalNivelVal.Caption := Qry.Fields[0].AsString;
-    Qry.Close;
-
-    Qry.SQL.Text := 'SELECT COUNT(*) FROM importacoes';
-    Qry.Open;
-    lblTotalImportacoes.Caption := Qry.Fields[0].AsString;
-    Qry.Close;
-  finally
-    Qry.Free;
-  end;
-end;
-
+{$REGION 'BOTÕES'}
 procedure TdtmPrincipal.btnCadCategoriasClick(Sender: TObject);
 begin
   TFuncao.CriarForm(TfrmCadCategoria, dtmConexao.conexaoDB);
@@ -188,6 +159,7 @@ procedure TdtmPrincipal.btnFecharClick(Sender: TObject);
 begin
   Close;
 end;
+{$ENDREGION}
 
 {$REGION 'IMPORTAR E EXPORTAR'}
 procedure TdtmPrincipal.ImportarCSV(Caminho: string);
@@ -196,6 +168,7 @@ var
   Linha: string;
   Campos: TArray<string>;
   i: Integer;
+  j: Integer;
   QryInsert, QryCheck: TFDQuery;
   CategoriaID, NivelID: Integer;
 begin
@@ -214,13 +187,16 @@ begin
 
       Campos := Linha.Split([';']);
 
+      for j := 0 to High(Campos) do
+        Campos[j] := Trim(TFuncao.SemEnter(Campos[j]));
+
       if Length(Campos) < 4 then
       begin
         ShowMessage('Linha ' + IntToStr(i) + ' ignorada: campos insuficientes.');
         Continue;
       end;
 
-      // ?? BUSCAR CATEGORIA
+      //busca categoria
       QryCheck.Close;
       QryCheck.SQL.Text := 'SELECT id FROM categorias WHERE LOWER(nome) = LOWER(:cat)';
       QryCheck.ParamByName('cat').AsString := Trim(Campos[2]);
@@ -235,7 +211,7 @@ begin
       CategoriaID := QryCheck.FieldByName('id').AsInteger;
       QryCheck.Close;
 
-      // ?? BUSCAR NÍVEL
+      //busca nível
       QryCheck.SQL.Text := 'SELECT id FROM nivel_poder WHERE LOWER(nivel) = LOWER(:nivel)';
       QryCheck.ParamByName('nivel').AsString := Trim(Campos[3]);
       QryCheck.Open;
@@ -249,7 +225,7 @@ begin
       NivelID := QryCheck.FieldByName('id').AsInteger;
       QryCheck.Close;
 
-      // ?? VERIFICAR DUPLICADO
+      //verifica duplicado
       QryCheck.SQL.Text := 'SELECT COUNT(*) AS total FROM poderes WHERE LOWER(nome) = LOWER(:nome)';
       QryCheck.ParamByName('nome').AsString := Trim(Campos[0]);
       QryCheck.Open;
@@ -262,7 +238,6 @@ begin
 
       QryCheck.Close;
 
-      // ? INSERT SEGURO
       QryInsert.Close;
       QryInsert.SQL.Text :=
         'INSERT INTO poderes (nome, descricao, categoria_id, nivel_poder_id) ' +
@@ -319,10 +294,14 @@ begin
     while not Qry.Eof do
     begin
       Lista.Add(
-        Qry.FieldByName('nome').AsString + ';' +
-        Qry.FieldByName('descricao').AsString + ';' +
-        Qry.FieldByName('categoria').AsString + ';' +
-        Qry.FieldByName('nivel').AsString
+        String.Join(';',
+          [
+            TFuncao.CSV(Qry.FieldByName('nome').AsString),
+            TFuncao.CSV(Qry.FieldByName('descricao').AsString),
+            TFuncao.CSV(Qry.FieldByName('categoria').AsString),
+            TFuncao.CSV(Qry.FieldByName('nivel').AsString)
+          ]
+        )
       );
       Qry.Next;
     end;
@@ -336,6 +315,7 @@ begin
 end;
 {$ENDREGION}
 
+{$REGION 'PANELS'}
 procedure TdtmPrincipal.pnlAcaoCategoriasResize(Sender: TObject);
 begin
   TFuncao.ArredondarPainel(pnlAcaoCategorias, 20);
@@ -380,5 +360,38 @@ procedure TdtmPrincipal.pnlImportarResize(Sender: TObject);
 begin
   TFuncao.ArredondarPainel(pnlImportar, 20);
 end;
+
+procedure TdtmPrincipal.AtualizarTotais;
+var
+  Qry: TFDQuery;
+begin
+  Qry := TFDQuery.Create(nil);
+  try
+    Qry.Connection := dtmConexao.conexaoDB;
+
+    Qry.SQL.Text := 'SELECT COUNT(*) FROM poderes';
+    Qry.Open;
+    lblTotalPoderesVal.Caption := Qry.Fields[0].AsString;
+    Qry.Close;
+
+    Qry.SQL.Text := 'SELECT COUNT(*) FROM categorias';
+    Qry.Open;
+    lblTotalCatVal.Caption := Qry.Fields[0].AsString;
+    Qry.Close;
+
+    Qry.SQL.Text := 'SELECT COUNT(*) FROM nivel_poder';
+    Qry.Open;
+    lblTotalNivelVal.Caption := Qry.Fields[0].AsString;
+    Qry.Close;
+
+    Qry.SQL.Text := 'SELECT COUNT(*) FROM importacoes';
+    Qry.Open;
+    lblTotalImportacoes.Caption := Qry.Fields[0].AsString;
+    Qry.Close;
+  finally
+    Qry.Free;
+  end;
+end;
+{$ENDREGION}
 
 end.

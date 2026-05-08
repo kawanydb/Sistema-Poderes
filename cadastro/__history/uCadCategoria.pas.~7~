@@ -56,9 +56,9 @@ begin
   else if (EstadoDoCadastro=ecAlterar) then
   Result:=oCategoria.Atualizar;
 end;
+
 {$ENDREGION}
 
-{$REGION 'BOTÕES'}
 procedure TfrmCadCategoria.btnAlterarClick(Sender: TObject);
 begin
   if oCategoria.Selecionar(QryListagem.FieldByName('id').AsInteger) then begin
@@ -71,9 +71,7 @@ begin
   end;
   inherited;
 end;
-{$ENDREGION}
 
-{$REGION 'EVENTOS DO FORM'}
 procedure TfrmCadCategoria.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   inherited;
@@ -87,5 +85,4 @@ begin
   oCategoria := TCategoria.Create(dtmConexao.conexaoDB);
   IndiceAtual:= 'nome';
 end;
-{$ENDREGION}
 end.

@@ -65,6 +65,7 @@ function TCategoria.getDescricao: string;
 begin
   Result:= Self.F_nome;
 end;
+
 {$ENDREGION}
 
 {$REGION 'SETS'}

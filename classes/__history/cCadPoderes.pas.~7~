@@ -216,5 +216,4 @@ begin
       FreeAndNil(Qry);
   end;
 end;
-{$ENDREGION}
 end.

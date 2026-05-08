@@ -211,8 +211,6 @@
     Color = 15591917
     ParentBackground = False
     TabOrder = 1
-    ExplicitLeft = 191
-    ExplicitTop = -7
     object lblSecCad: TLabel
       Left = 58
       Top = 224
@@ -11620,8 +11618,6 @@
       Color = 1574960
       ParentBackground = False
       TabOrder = 0
-      ExplicitLeft = 32
-      ExplicitTop = 50
       DesignSize = (
         843
         90)
@@ -12155,23 +12151,21 @@
       Color = 1049630
       ParentBackground = False
       TabOrder = 10
-      DesignSize = (
-        843
-        41)
       object lbl3: TLabel
-        Left = 299
-        Top = 13
-        Width = 239
-        Height = 13
+        Left = 1
+        Top = 1
+        Width = 841
+        Height = 26
+        Align = alTop
         Alignment = taCenter
-        Anchors = [akTop]
-        Caption = 'Desenvolvido por Kawany em Domtec Sistemas'
+        Caption = 'Desenvolvido por Kawany '#13#10#169' 2026 Domtec Sistemas.'
         Font.Charset = ANSI_CHARSET
         Font.Color = clWhite
         Font.Height = -11
         Font.Name = 'Segoe UI'
         Font.Style = []
         ParentFont = False
+        ExplicitWidth = 135
       end
     end
   end

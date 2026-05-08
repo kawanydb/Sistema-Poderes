@@ -81,7 +81,7 @@ begin
 end;
 {$ENDREGION}
 
-
+{$REGION 'BOTÕES'}
 procedure TfrmCadastroPoderes.btnAlterarClick(Sender: TObject);
 begin
    if oPoder.Selecionar(QryListagem.FieldByName('id').AsInteger) then begin
@@ -103,8 +103,9 @@ begin
   inherited;
   edtNomePoder.SetFocus;
 end;
+{$ENDREGION}
 
-
+{$REGION 'EVENTOS DO FORM'}
 procedure TfrmCadastroPoderes.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   inherited;
@@ -125,5 +126,5 @@ begin
   QryListagem.Open;
   QryCategoria.Open;
 end;
-
+{$ENDREGION}
 end.

@@ -54,7 +54,6 @@ type
     pnlExportar: TPanel;
     lblExpTit: TLabel;
     lblExpDesc: TLabel;
-    btnMenuu: TButton;
     Image3: TImage;
     Image1: TImage;
     pnlCardImportacoes: TPanel;
@@ -63,6 +62,11 @@ type
     btnFechar: TPngBitBtn;
     pnlRodape: TPanel;
     lbl1: TLabel;
+    lbl2: TLabel;
+    lbl3: TLabel;
+    btnMenu: TPngBitBtn;
+    Image2: TImage;
+    Image4: TImage;
     procedure btnCadPoderesClick(Sender: TObject);
     procedure btnCadCategoriasClick(Sender: TObject);
     procedure btnNivelPoderClick(Sender: TObject);
@@ -70,7 +74,6 @@ type
     procedure btnExportarCSVClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
-    procedure btnMenuuClick(Sender: TObject);
     procedure pnlCardPoderesResize(Sender: TObject);
     procedure pnlCardCategoriasResize(Sender: TObject);
     procedure pnlCardNiveisResize(Sender: TObject);
@@ -81,6 +84,7 @@ type
     procedure pnlImportarResize(Sender: TObject);
     procedure pnlExportarResize(Sender: TObject);
     procedure btnFecharClick(Sender: TObject);
+    procedure btnMenuClick(Sender: TObject);
   private
     procedure AtualizarTotais;
     procedure ImportarCSV(Caminho: string);
@@ -96,14 +100,6 @@ var
 implementation
 
 {$R *.dfm}
-
-procedure TdtmPrincipal.btnMenuuClick(Sender: TObject);
-begin
-  if pnlSidebar.Width = 0 then
-    pnlSidebar.Width := 220
-  else
-    pnlSidebar.Width := 0;
-end;
 
 procedure TdtmPrincipal.FormCreate(Sender: TObject);
 begin
@@ -174,7 +170,15 @@ begin
   end;
 end;
 
-procedure TdtmPrincipal.btnExportarCSVClick(Sender: TObject);
+procedure TdtmPrincipal.btnMenuClick(Sender: TObject);
+begin
+  if pnlSidebar.Width = 0 then
+    pnlSidebar.Width := 220
+  else
+    pnlSidebar.Width := 0;
+end;
+
+procedure TdtmPrincipal.btnExportarCSVClick(Sender: TObject);
 begin
   if dlgSave1.Execute then
     ExportarCSV(dlgSave1.FileName);
@@ -192,6 +196,7 @@ var
   Linha: string;
   Campos: TArray<string>;
   i: Integer;
+  j: Integer;
   QryInsert, QryCheck: TFDQuery;
   CategoriaID, NivelID: Integer;
 begin
@@ -210,13 +215,16 @@ begin
 
       Campos := Linha.Split([';']);
 
+      for j := 0 to High(Campos) do
+        Campos[j] := Trim(TFuncao.SemEnter(Campos[j]));
+
       if Length(Campos) < 4 then
       begin
         ShowMessage('Linha ' + IntToStr(i) + ' ignorada: campos insuficientes.');
         Continue;
       end;
 
-      // ?? BUSCAR CATEGORIA
+      //busca categoria
       QryCheck.Close;
       QryCheck.SQL.Text := 'SELECT id FROM categorias WHERE LOWER(nome) = LOWER(:cat)';
       QryCheck.ParamByName('cat').AsString := Trim(Campos[2]);
@@ -231,7 +239,7 @@ begin
       CategoriaID := QryCheck.FieldByName('id').AsInteger;
       QryCheck.Close;
 
-      // ?? BUSCAR NÍVEL
+      //busca nível
       QryCheck.SQL.Text := 'SELECT id FROM nivel_poder WHERE LOWER(nivel) = LOWER(:nivel)';
       QryCheck.ParamByName('nivel').AsString := Trim(Campos[3]);
       QryCheck.Open;
@@ -245,7 +253,7 @@ begin
       NivelID := QryCheck.FieldByName('id').AsInteger;
       QryCheck.Close;
 
-      // ?? VERIFICAR DUPLICADO
+      //verifica duplicado
       QryCheck.SQL.Text := 'SELECT COUNT(*) AS total FROM poderes WHERE LOWER(nome) = LOWER(:nome)';
       QryCheck.ParamByName('nome').AsString := Trim(Campos[0]);
       QryCheck.Open;
@@ -258,7 +266,6 @@ begin
 
       QryCheck.Close;
 
-      // ? INSERT SEGURO
       QryInsert.Close;
       QryInsert.SQL.Text :=
         'INSERT INTO poderes (nome, descricao, categoria_id, nivel_poder_id) ' +
@@ -315,10 +322,14 @@ begin
     while not Qry.Eof do
     begin
       Lista.Add(
-        Qry.FieldByName('nome').AsString + ';' +
-        Qry.FieldByName('descricao').AsString + ';' +
-        Qry.FieldByName('categoria').AsString + ';' +
-        Qry.FieldByName('nivel').AsString
+        String.Join(';',
+          [
+            TFuncao.CSV(Qry.FieldByName('nome').AsString),
+            TFuncao.CSV(Qry.FieldByName('descricao').AsString),
+            TFuncao.CSV(Qry.FieldByName('categoria').AsString),
+            TFuncao.CSV(Qry.FieldByName('nivel').AsString)
+          ]
+        )
       );
       Qry.Next;
     end;

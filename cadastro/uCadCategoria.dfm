@@ -1,7 +1,6 @@
 inherited frmCadCategoria: TfrmCadCategoria
   Caption = 'Cadastro de Categoria'
   Position = poScreenCenter
-  OnClose = FormClose
   PixelsPerInch = 96
   TextHeight = 13
   inherited pgcListagem: TPageControl

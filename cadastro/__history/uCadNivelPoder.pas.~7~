@@ -34,7 +34,7 @@ implementation
 
 {$R *.dfm}
 
-{$REGION 'OVERRIDE'}
+{$REGION 'Override'}
 function TfrmCadNivelPoder.Apagar: Boolean;
 var Qry:TFDQuery;
 begin
@@ -57,9 +57,9 @@ begin
   else if (EstadoDoCadastro=ecAlterar) then
   Result:=oNivel.Atualizar;
 end;
+
 {$ENDREGION}
 
-{$REGION 'BOTÕES'}
 procedure TfrmCadNivelPoder.btnAlterarClick(Sender: TObject);
 begin
   if oNivel.Selecionar(QryListagem.FieldByName('id').AsInteger) then begin
@@ -72,9 +72,7 @@ begin
   end;
   inherited;
 end;
-{$ENDREGION}
 
-{$REGION 'EVENTOS DO FORM'}
 procedure TfrmCadNivelPoder.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   inherited;
@@ -88,5 +86,5 @@ begin
   oNivel := TNivel.Create(dtmConexao.conexaoDB);
   IndiceAtual:= 'nivel';
 end;
-{$ENDREGION}
+
 end.

@@ -1,14 +1,25 @@
-inherited frmCadCategoria: TfrmCadCategoria
-  Caption = 'Cadastro de Categoria'
+inherited frmCadNivelPoder: TfrmCadNivelPoder
+  Caption = 'frmNivelPoder'
+  Position = poScreenCenter
+  OnClose = FormClose
   PixelsPerInch = 96
   TextHeight = 13
   inherited pgcListagem: TPageControl
-    ActivePage = ts1
     inherited ts1: TTabSheet
-      ExplicitLeft = 4
-      ExplicitTop = 24
-      ExplicitWidth = 673
-      ExplicitHeight = 370
+      inherited grdListagem: TDBGrid
+        DataSource = dtsListagem
+        Columns = <
+          item
+            Expanded = False
+            FieldName = 'id'
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'nivel'
+            Visible = True
+          end>
+      end
     end
     inherited tsManutencao: TTabSheet
       inherited pnlCampos: TPanel
@@ -25,7 +36,7 @@ inherited frmCadCategoria: TfrmCadCategoria
           Font.Style = [fsBold, fsUnderline]
           ParentFont = False
         end
-        object edtCategoriaId: TLabeledEdit
+        object edtNivelId: TLabeledEdit
           Tag = 1
           Left = 13
           Top = 54
@@ -38,15 +49,15 @@ inherited frmCadCategoria: TfrmCadCategoria
           NumbersOnly = True
           TabOrder = 0
         end
-        object edtDescricao: TLabeledEdit
+        object edtNivelPoder: TLabeledEdit
           Tag = 2
           Left = 13
           Top = 110
           Width = 229
           Height = 21
-          EditLabel.Width = 92
+          EditLabel.Width = 69
           EditLabel.Height = 13
-          EditLabel.Caption = 'Nome da Categoria'
+          EditLabel.Caption = 'N'#237'vel de Poder'
           MaxLength = 30
           TabOrder = 1
         end
@@ -61,13 +72,26 @@ inherited frmCadCategoria: TfrmCadCategoria
   inherited QryListagem: TFDQuery
     SQL.Strings = (
       'SELECT id,'
-      '       nome'
-      ' FROM categorias')
+      '       nivel'
+      ' FROM nivel_poder')
     Left = 420
-    Top = 24
+    Top = 32
+    object fdtncfldQryListagemid: TFDAutoIncField
+      DisplayLabel = 'C'#243'digo'
+      FieldName = 'id'
+      Origin = 'id'
+      ProviderFlags = [pfInWhere, pfInKey]
+      ReadOnly = True
+    end
+    object nQryListagemnivel: TStringField
+      DisplayLabel = 'N'#237'vel'
+      FieldName = 'nivel'
+      Origin = 'nivel'
+      Required = True
+    end
   end
   inherited dtsListagem: TDataSource
-    Left = 476
+    Left = 500
     Top = 40
   end
 end

@@ -1,6 +1,7 @@
-inherited frmCadNivelPoder: TfrmCadNivelPoder
-  Caption = 'frmNivelPoder'
+inherited frmCadCategoria: TfrmCadCategoria
+  Caption = 'Cadastro de Categoria'
   Position = poScreenCenter
+  OnClose = FormClose
   PixelsPerInch = 96
   TextHeight = 13
   inherited pgcListagem: TPageControl
@@ -15,7 +16,7 @@ inherited frmCadNivelPoder: TfrmCadNivelPoder
           end
           item
             Expanded = False
-            FieldName = 'nivel'
+            FieldName = 'nome'
             Visible = True
           end>
       end
@@ -35,7 +36,7 @@ inherited frmCadNivelPoder: TfrmCadNivelPoder
           Font.Style = [fsBold, fsUnderline]
           ParentFont = False
         end
-        object edtNivelId: TLabeledEdit
+        object edtCategoriaId: TLabeledEdit
           Tag = 1
           Left = 13
           Top = 54
@@ -48,15 +49,15 @@ inherited frmCadNivelPoder: TfrmCadNivelPoder
           NumbersOnly = True
           TabOrder = 0
         end
-        object edtNivelPoder: TLabeledEdit
+        object edtDescricao: TLabeledEdit
           Tag = 2
           Left = 13
           Top = 110
           Width = 229
           Height = 21
-          EditLabel.Width = 69
+          EditLabel.Width = 92
           EditLabel.Height = 13
-          EditLabel.Caption = 'N'#237'vel de Poder'
+          EditLabel.Caption = 'Nome da Categoria'
           MaxLength = 30
           TabOrder = 1
         end
@@ -71,9 +72,9 @@ inherited frmCadNivelPoder: TfrmCadNivelPoder
   inherited QryListagem: TFDQuery
     SQL.Strings = (
       'SELECT id,'
-      '       nivel'
-      ' FROM nivel_poder')
-    Left = 420
+      '       nome'
+      ' FROM categorias')
+    Left = 412
     Top = 32
     object fdtncfldQryListagemid: TFDAutoIncField
       DisplayLabel = 'C'#243'digo'
@@ -82,15 +83,15 @@ inherited frmCadNivelPoder: TfrmCadNivelPoder
       ProviderFlags = [pfInWhere, pfInKey]
       ReadOnly = True
     end
-    object nQryListagemnivel: TStringField
-      DisplayLabel = 'N'#237'vel'
-      FieldName = 'nivel'
-      Origin = 'nivel'
+    object nQryListagemnome: TStringField
+      DisplayLabel = 'Nome'
+      FieldName = 'nome'
+      Origin = 'nome'
       Required = True
+      Size = 50
     end
   end
   inherited dtsListagem: TDataSource
-    Left = 500
-    Top = 40
+    Top = 24
   end
 end

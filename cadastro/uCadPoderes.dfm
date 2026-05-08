@@ -3,7 +3,6 @@ inherited frmCadastroPoderes: TfrmCadastroPoderes
   ClientHeight = 454
   ClientWidth = 671
   Position = poScreenCenter
-  OnClose = FormClose
   ExplicitWidth = 677
   ExplicitHeight = 483
   PixelsPerInch = 96
@@ -11,10 +10,12 @@ inherited frmCadastroPoderes: TfrmCadastroPoderes
   inherited pgcListagem: TPageControl
     Width = 671
     Height = 413
-    ActivePage = ts1
-    ExplicitWidth = 587
-    ExplicitHeight = 384
+    ActivePage = tsManutencao
+    ExplicitWidth = 671
+    ExplicitHeight = 413
     inherited ts1: TTabSheet
+      ExplicitLeft = 4
+      ExplicitTop = 24
       ExplicitWidth = 663
       ExplicitHeight = 385
       inherited pnlListagemTopo: TPanel
@@ -54,13 +55,15 @@ inherited frmCadastroPoderes: TfrmCadastroPoderes
       end
     end
     inherited tsManutencao: TTabSheet
-      ExplicitWidth = 579
-      ExplicitHeight = 356
+      ExplicitLeft = 4
+      ExplicitTop = 24
+      ExplicitWidth = 663
+      ExplicitHeight = 385
       inherited pnlCampos: TPanel
         Width = 663
         Height = 385
-        ExplicitWidth = 579
-        ExplicitHeight = 356
+        ExplicitWidth = 663
+        ExplicitHeight = 385
         object lbl15: TLabel
           Left = 13
           Top = 11
@@ -162,8 +165,8 @@ inherited frmCadastroPoderes: TfrmCadastroPoderes
   inherited pnlRodape: TPanel
     Top = 413
     Width = 671
-    ExplicitTop = 384
-    ExplicitWidth = 587
+    ExplicitTop = 413
+    ExplicitWidth = 671
     inherited btnNavigator: TDBNavigator
       Hints.Strings = ()
     end

@@ -73,6 +73,25 @@ implementation
 
 {$R *.dfm}
 
+{$REGION 'MÉTODOS VIRTUAIS'}
+function TfrmTelaHeranca.Apagar: Boolean;
+begin
+    ShowMessage('DELETADO');
+    Result := True;
+end;
+
+function TfrmTelaHeranca.Gravar(EstadoDoCadastro: TEstadoDoCadastro): Boolean;
+begin
+  Result := True;
+//mensagens para o usuário saber se a ação aconteceu
+     if(EstadoDoCadastro=ecInserir) then
+        ShowMessage('Inserir')
+      else if (EstadoDoCadastro=ecAlterar) then
+        ShowMessage('Alterado');
+end;
+{$ENDREGION}
+
+{$REGION 'BOTÕES'}
 procedure TfrmTelaHeranca.btnAlterarClick(Sender: TObject);
 begin
   ControlarBotoes(btnNovo, btnAlterar, btnCancelar, btnGravar,
@@ -140,7 +159,9 @@ begin
    EstadoDoCadastro:=ecInserir;
    LimparEdits;
 end;
+{$ENDREGION}
 
+{$REGION 'PESQUISAR'}
 procedure TfrmTelaHeranca.btnPesquisarClick(Sender: TObject);
 var
   I, J: Integer;
@@ -253,7 +274,9 @@ begin
   QryListagem.SQL.Text := SQLSemOrder + ' WHERE ' + CondicaoSQL + ' ' + OrderByClause;
   QryListagem.Open;
 end;
+{$ENDREGION}
 
+{$REGION 'CONTROLE'}
 procedure TfrmTelaHeranca.ControlarBotoes(btnNovo, btnAlterar, btnCancelar,
       btnGravar, btnApagar:TBitBtn; Navegador: TDBNavigator;
       Flag:Boolean);
@@ -273,7 +296,9 @@ begin
    if(pgcListagem.Pages[Indice].TabVisible) then
    pgcListagem.TabIndex:=Indice;
 end;
+{$ENDREGION}
 
+{$REGION 'FUNÇÕES DE CONTROLAR EDT'}
 //função que retorna uma string
 function TfrmTelaHeranca.RetornarCampoTraduzido(Campo:String):String;
 var i:Integer;
@@ -302,61 +327,6 @@ begin
       else if (Components[i]is TDBLookupComboBox) then
         TDBLookupComboBox(Components[i]).keyValue:= Null;
   end;
-end;
-
-
-procedure TfrmTelaHeranca.mskPesquisarKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-begin
-  if Key = VK_RETURN then
-  begin
-    btnPesquisar.Click;
-    Key := 0;
-  end;
-end;
-
-{$REGION 'MÉTODOS VIRTUAIS'}
-function TfrmTelaHeranca.Apagar: Boolean;
-begin
-    ShowMessage('DELETADO');
-    Result := True;
-end;
-
-procedure TfrmTelaHeranca.ExibirLabelIndice(Campo:string; aLabel:TLabel);
-begin
-  aLabel.Caption:=RetornarCampoTraduzido(Campo);
-end;
-
-function TfrmTelaHeranca.Gravar(EstadoDoCadastro: TEstadoDoCadastro): Boolean;
-begin
-  Result := True;
-//mensagens para o usuário saber se a ação aconteceu
-     if(EstadoDoCadastro=ecInserir) then
-        ShowMessage('Inserir')
-      else if (EstadoDoCadastro=ecAlterar) then
-        ShowMessage('Alterado');
-end;
-
-procedure TfrmTelaHeranca.grdListagemDblClick(Sender: TObject);
-begin
-  btnAlterar.Click;
-end;
-
-procedure TfrmTelaHeranca.grdListagemKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-begin
-  if Key = VK_ESCAPE then
-  begin
-    Key := 0; // evita conflito
-    Close;
-  end;
-  BloqueiaCTRL_DEL_DBGrid(Key,Shift);
-
-end;
-
-procedure TfrmTelaHeranca.BloqueiaCTRL_DEL_DBGrid(var Key: Word; Shift: TShiftState);
-begin
-  //Bloqueia o CTRL + DEL
-  if(Shift = [ssCtrl]) and (Key = 46) then
-    Key:=0;
 end;
 
 function TfrmTelaHeranca.ExisteCampoObrigatorio: Boolean;
@@ -433,6 +403,60 @@ begin
   end;
 end;
 
+procedure TfrmTelaHeranca.DesabilitarEditPK;  //declara que o desabilitar pertence ao form tela herança
+var i: Integer;
+begin
+   for i := 0 to ComponentCount -1 do begin // o indice começa em 0 por isso o -1
+      if(Components[i] is TLabeledEdit) then begin  // verifica se o componente atual é do tipo TLabeledEdit
+          if(TLabeledEdit(Components[i]).Tag = 1) then begin
+            TLabeledEdit(Components[i]).Enabled:=False;  //desativa o campo, impedindo o usuário de editá-lo
+            Break;    // para o loop evitando busca desnecessária
+          end;
+      end;
+   end;
+end;
+
+procedure TfrmTelaHeranca.mskPesquisarKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  if Key = VK_RETURN then
+  begin
+    btnPesquisar.Click;
+    Key := 0;
+  end;
+end;
+
+procedure TfrmTelaHeranca.ExibirLabelIndice(Campo:string; aLabel:TLabel);
+begin
+  aLabel.Caption:=RetornarCampoTraduzido(Campo);
+end;
+{$ENDREGION}
+
+{$REGION 'GRID'}
+procedure TfrmTelaHeranca.grdListagemDblClick(Sender: TObject);
+begin
+  btnAlterar.Click;
+end;
+
+procedure TfrmTelaHeranca.grdListagemKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  if Key = VK_ESCAPE then
+  begin
+    Key := 0; // evita conflito
+    Close;
+  end;
+  BloqueiaCTRL_DEL_DBGrid(Key,Shift);
+
+end;
+
+procedure TfrmTelaHeranca.BloqueiaCTRL_DEL_DBGrid(var Key: Word; Shift: TShiftState);
+begin
+  //Bloqueia o CTRL + DEL
+  if(Shift = [ssCtrl]) and (Key = 46) then
+    Key:=0;
+end;
+{$ENDREGION}
+
+{$REGION 'EVENTOS FORM'}
 procedure TfrmTelaHeranca.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   SalvarGrid;
@@ -477,19 +501,6 @@ begin
     btnNavigator,
     True
   );
-end;
-
-procedure TfrmTelaHeranca.DesabilitarEditPK;  //declara que o desabilitar pertence ao form tela herança
-var i: Integer;
-begin
-   for i := 0 to ComponentCount -1 do begin // o indice começa em 0 por isso o -1
-      if(Components[i] is TLabeledEdit) then begin  // verifica se o componente atual é do tipo TLabeledEdit
-          if(TLabeledEdit(Components[i]).Tag = 1) then begin
-            TLabeledEdit(Components[i]).Enabled:=False;  //desativa o campo, impedindo o usuário de editá-lo
-            Break;    // para o loop evitando busca desnecessária
-          end;
-      end;
-   end;
 end;
 {$ENDREGION}
 
