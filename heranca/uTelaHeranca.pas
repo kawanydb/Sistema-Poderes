@@ -43,6 +43,8 @@ type
     procedure mskPesquisarKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure btnPesquisarClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure grdListagemDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn;
+      State: TGridDrawState);
   protected
       EstadoDoCadastro:TEstadoDoCadastro;
   private
@@ -437,6 +439,32 @@ begin
   btnAlterar.Click;
 end;
 
+procedure TfrmTelaHeranca.grdListagemDrawColumnCell(Sender: TObject; const Rect: TRect; DataCol: Integer; Column: TColumn;
+  State: TGridDrawState);
+begin
+  //ZEBRAR
+  if not (gdSelected in State) then
+  begin
+  //verifica se o número da linha é ímpar ou par e da uma cor p cada
+    if Odd(TDBGrid(Sender).DataSource.DataSet.RecNo) then
+      TDBGrid(Sender).Canvas.Brush.Color := $00F4F0FD //$00F2F2F2 // Cinza claro
+    else
+      TDBGrid(Sender).Canvas.Brush.Color := $00E2D8F5; // Cinza escuro
+  end;
+
+  if (gdSelected in State) then
+  begin
+    TDBGrid(Sender).Canvas.Brush.Color := $00301050;
+    TDBGrid(Sender).Canvas.Font.Color  := clWhite;
+  end;
+
+  // Aplica a cor no fundo
+  TDBGrid(Sender).Canvas.FillRect(Rect);
+
+  //mostra o texto padrão
+  TDBGrid(Sender).DefaultDrawColumnCell(Rect, DataCol, Column, State);
+end;
+
 procedure TfrmTelaHeranca.grdListagemKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
   if Key = VK_ESCAPE then
@@ -491,6 +519,7 @@ begin
 
   ControlarIndiceTab(pgcListagem, 0);
   DesabilitarEditPK;
+  grdListagem.SetFocus;
 
   ControlarBotoes(
     btnNovo,

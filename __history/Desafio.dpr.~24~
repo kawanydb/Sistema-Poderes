@@ -1,0 +1,31 @@
+﻿program Desafio;
+
+uses
+  Vcl.Forms,
+  uTelaHeranca in 'heranca\uTelaHeranca.pas' {frmTelaHeranca},
+  uDTMConexao in 'datamodule\uDTMConexao.pas' {dtmConexao: TDataModule},
+  uEnum in 'heranca\uEnum.pas',
+  uPrincipal in 'uPrincipal.pas' {dtmPrincipal},
+  uCadPoderes in 'cadastro\uCadPoderes.pas' {frmCadastroPoderes},
+  cCadPoderes in 'classes\cCadPoderes.pas',
+  uCadCategoria in 'cadastro\uCadCategoria.pas' {frmCadCategoria},
+  cCadCategoria in 'classes\cCadCategoria.pas',
+  cFuncao in 'classes\cFuncao.pas',
+  uCadNivelPoder in 'cadastro\uCadNivelPoder.pas' {frmCadNivelPoder},
+  cCadNivelPoder in 'classes\cCadNivelPoder.pas',
+  cArquivoIni in 'classes\cArquivoIni.pas';
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+
+  Application.CreateForm(TdtmConexao, dtmConexao);
+  Application.CreateForm(TdtmPrincipal, dtmPrincipal);
+  Application.CreateForm(TfrmTelaHeranca, frmTelaHeranca);
+  Application.CreateForm(TfrmCadastroPoderes, frmCadastroPoderes);
+  Application.CreateForm(TfrmCadCategoria, frmCadCategoria);
+  Application.CreateForm(TfrmCadNivelPoder, frmCadNivelPoder);
+  Application.Run;
+end.

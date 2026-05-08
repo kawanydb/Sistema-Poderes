@@ -13,7 +13,8 @@ uses
   cFuncao in 'classes\cFuncao.pas',
   uCadNivelPoder in 'cadastro\uCadNivelPoder.pas' {frmCadNivelPoder},
   cCadNivelPoder in 'classes\cCadNivelPoder.pas',
-  cArquivoIni in 'classes\cArquivoIni.pas';
+  cArquivoIni in 'classes\cArquivoIni.pas',
+  uEnter in 'terceiros\uEnter.pas';
 
 {$R *.res}
 

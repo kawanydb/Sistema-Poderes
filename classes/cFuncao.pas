@@ -12,6 +12,8 @@ type
   TFuncao = class
   private
 
+
+
   public
     class procedure CriarForm(aNomeForm: TFormClass; aConexao: TFDConnection);
     class procedure ArredondarPainel(APanel: TPanel; ARaio: Integer = 20);
@@ -60,5 +62,6 @@ class function TFuncao.CSV(const S: string): string;
 begin
   Result := StringReplace(SemEnter(S), ';', ',', [rfReplaceAll]);
 end;
+
 
 end.

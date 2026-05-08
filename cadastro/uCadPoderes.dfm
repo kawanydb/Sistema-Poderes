@@ -10,12 +10,9 @@ inherited frmCadastroPoderes: TfrmCadastroPoderes
   inherited pgcListagem: TPageControl
     Width = 671
     Height = 413
-    ActivePage = tsManutencao
     ExplicitWidth = 671
     ExplicitHeight = 413
     inherited ts1: TTabSheet
-      ExplicitLeft = 4
-      ExplicitTop = 24
       ExplicitWidth = 663
       ExplicitHeight = 385
       inherited pnlListagemTopo: TPanel
@@ -23,40 +20,43 @@ inherited frmCadastroPoderes: TfrmCadastroPoderes
         ExplicitWidth = 663
       end
       inherited grdListagem: TDBGrid
-        Width = 663
-        Height = 325
+        Width = 657
+        Height = 319
         DataSource = dtsListagem
         Columns = <
           item
             Expanded = False
             FieldName = 'id'
+            Title.Alignment = taCenter
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'nome'
+            Title.Alignment = taCenter
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'descricao'
+            Title.Alignment = taCenter
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'categoria'
+            Title.Alignment = taCenter
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'nivel'
+            Title.Alignment = taCenter
             Visible = True
           end>
       end
     end
     inherited tsManutencao: TTabSheet
-      ExplicitLeft = 4
-      ExplicitTop = 24
       ExplicitWidth = 663
       ExplicitHeight = 385
       inherited pnlCampos: TPanel
@@ -137,7 +137,7 @@ inherited frmCadastroPoderes: TfrmCadastroPoderes
           Lines.Strings = (
             'edtDescricao')
           MaxLength = 255
-          TabOrder = 2
+          TabOrder = 4
         end
         object dblkCategoria: TDBLookupComboBox
           Left = 13
@@ -147,7 +147,7 @@ inherited frmCadastroPoderes: TfrmCadastroPoderes
           KeyField = 'id'
           ListField = 'nome'
           ListSource = dtsCategoria
-          TabOrder = 3
+          TabOrder = 2
         end
         object dblkNivelPoder: TDBLookupComboBox
           Left = 257
@@ -157,7 +157,7 @@ inherited frmCadastroPoderes: TfrmCadastroPoderes
           KeyField = 'id'
           ListField = 'nivel'
           ListSource = dtsNivelPoder
-          TabOrder = 4
+          TabOrder = 3
         end
       end
     end

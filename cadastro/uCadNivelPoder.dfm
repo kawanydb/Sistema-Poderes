@@ -11,11 +11,13 @@ inherited frmCadNivelPoder: TfrmCadNivelPoder
           item
             Expanded = False
             FieldName = 'id'
+            Title.Alignment = taCenter
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'nivel'
+            Title.Alignment = taCenter
             Visible = True
           end>
       end
