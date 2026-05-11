@@ -1,4 +1,4 @@
-# 🦸 Sistema Poderes
+# 🌀 Sistema Poderes
 
 Um sistema desktop desenvolvido em Delphi para gerenciamento de superpoderes, com cadastro, pesquisa, importação e exportação de dados.
 
