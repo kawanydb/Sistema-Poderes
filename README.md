@@ -1,59 +1,54 @@
-# Sistema Poderes
+# 🦸 Sistema Poderes
 
-## Objetivo
-
-Sistema desktop desenvolvido em Delphi para gerenciamento de superpoderes, permitindo cadastro, pesquisa, importação e exportação de dados.
-
-- Desafio: Lista de Superpoderes
-- Entrada: CSV
-- Saída: CSV
-
-O sistema possibilita organizar poderes por categorias e níveis de poder, além de apresentar estatísticas em dashboard.
+Um sistema desktop desenvolvido em Delphi para gerenciamento de superpoderes, com cadastro, pesquisa, importação e exportação de dados.
 
 ---
 
-## Tecnologias Utilizadas
+## 📋 Sobre o Projeto
 
-- Delphi / Object Pascal
-- VCL
-- FireDAC
-- SQL Server 2014
-- SQL Server Management Studio (SSMS)
+| Aspecto | Descrição |
+|--------|-----------|
+| **Desafio** | Lista de Superpoderes |
+| **Entrada** | CSV |
+| **Saída** | CSV |
 
----
-
-## Como Executar
-
-### 1. Pré-requisitos
-
-Antes de executar o sistema, é necessário ter instalado:
-
-- SQL Server 2014 ou superior
-- SQL Server Management Studio (SSMS)
+O sistema possibilita organizar poderes por categorias e níveis de poder, além de apresentar estatísticas em um dashboard interativo.
 
 ---
 
-### 2. Criar o Banco de Dados
+## 🛠️ Tecnologias Utilizadas
 
-1. Abra o SQL Server Management Studio (SSMS)
+- 🔵 **Delphi / Object Pascal**
+- 🎨 **VCL** (Visual Component Library)
+- 🗄️ **FireDAC** (Data Access Layer)
+- 💾 **SQL Server 2014**
+- 🖥️ **SQL Server Management Studio (SSMS)**
+
+---
+
+## ⚙️ Como Executar
+
+### 📦 1. Pré-requisitos
+
+Antes de executar o sistema, certifique-se de ter instalado:
+
+- ✅ SQL Server 2014 ou superior
+- ✅ SQL Server Management Studio (SSMS)
+
+### 🗄️ 2. Criar o Banco de Dados
+
+1. Abra o **SQL Server Management Studio (SSMS)**
 2. Conecte-se ao servidor SQL
-3. Abra o arquivo:
-
-```txt
-sql/database.sql
-```
-
+3. Abra o arquivo `sql/database.sql`
 4. Execute o script clicando em **Execute** ou pressionando `F5`
 
-Isso criará o banco de dados e as tabelas utilizadas pelo sistema.
+✨ Isso criará o banco de dados e as tabelas necessárias.
 
----
+### 🔧 3. Configurar o arquivo `config.ini`
 
-### 3. Configurar o arquivo config.ini
+O arquivo `config.ini` deve permanecer na **mesma pasta** do `Desafio.exe`.
 
-O arquivo `config.ini` deve permanecer na mesma pasta do `Desafio.exe`.
-
-Exemplo de configuração:
+**Exemplo de configuração:**
 
 ```ini
 [Conexao]
@@ -65,37 +60,28 @@ User_Name=sa
 Password=123
 ```
 
-### Descrição dos campos
+**Descrição dos campos:**
 
 | Campo | Descrição |
-|------|------------|
-| DriverID | Tipo do banco de dados |
-| Server | Nome do servidor SQL |
-| Database | Nome do banco de dados |
-| OSAuthent | Autenticação do Windows |
-| User_Name | Usuário do SQL Server |
-| Password | Senha do SQL Server |
+|-------|-----------|
+| `DriverID` | Tipo do banco de dados |
+| `Server` | Nome do servidor SQL |
+| `Database` | Nome do banco de dados |
+| `OSAuthent` | Autenticação do Windows |
+| `User_Name` | Usuário do SQL Server |
+| `Password` | Senha do SQL Server |
 
----
-
-### 4. Executar o Sistema
-
-Após configurar o banco:
+### ▶️ 4. Executar o Sistema
 
 1. Abra a pasta do sistema
-2. Execute o arquivo:
-
-```txt
-Desafio.exe
-```
-
-3. O sistema irá conectar automaticamente ao banco de dados através do `config.ini`
+2. Execute o arquivo `Desafio.exe`
+3. O sistema conectará automaticamente ao banco de dados 🎉
 
 ---
 
-## Estrutura do Projeto
+## 📂 Estrutura do Projeto
 
-```txt
+```
 SistemaPoderes/
 │
 ├── Desafio.exe
@@ -107,13 +93,13 @@ SistemaPoderes/
 
 ---
 
-## Como Importar/Exportar Dados
+## 📥📤 Importar/Exportar Dados
 
-### Importação CSV
+### 📥 Importação CSV
 
-O sistema permite importar poderes através de arquivos CSV.
+O sistema permite importar superpoderes através de arquivos CSV.
 
-Formato esperado:
+**Formato esperado:**
 
 ```csv
 nome;descricao;categoria;nivel
@@ -121,65 +107,69 @@ Telecinese;Mover objetos com a mente;Mental;Avançado
 Super Força;Força acima do normal;Física;Intermediário
 ```
 
-### Passos para importar
+**Passos para importar:**
 
 1. Abrir o sistema
 2. Selecionar a opção de importação
 3. Escolher o arquivo CSV
-4. Confirmar a importação
+4. Confirmar a importação ✅
 
----
-
-### Exportação CSV
+### 📤 Exportação CSV
 
 O sistema exporta os dados cadastrados em formato CSV.
 
-### Passos para exportar
+**Passos para exportar:**
 
 1. Abrir o sistema
 2. Selecionar a opção de exportação
 3. Escolher o local para salvar
-4. Confirmar a exportação
+4. Confirmar a exportação ✅
 
 ---
 
-## Funcionalidades
+## ✨ Funcionalidades
 
-- Cadastro de Poderes
-- Cadastro de Categorias
-- Cadastro de Níveis de Poder
-- Pesquisa de registros
-- Dashboard com estatísticas
-- Importação de CSV
-- Exportação de CSV
-- Navegação por atalhos de teclado
-- Grid configurável
-- Interface personalizada
+- ⚡ Cadastro de Poderes
+- 🏷️ Cadastro de Categorias
+- 📊 Cadastro de Níveis de Poder
+- 🔍 Pesquisa de registros
+- 📈 Dashboard com estatísticas
+- 📥 Importação de CSV
+- 📤 Exportação de CSV
+- ⌨️ Navegação por atalhos de teclado
+- 🎨 Grid configurável
+- 🖼️ Interface personalizada
 
 ---
 
-## Atalhos
+## ⌨️ Atalhos de Teclado
 
 | Tecla | Função |
-|------|---------|
-| F9 | Cadastro de Poderes |
-| F5 | Cadastro de Categorias |
-| F2 | Cadastro de Níveis |
-| Enter | Navegação entre campos |
+|-------|---------|
+| **F9** | Cadastro de Poderes |
+| **F5** | Cadastro de Categorias |
+| **F2** | Cadastro de Níveis |
+| **Enter** | Navegação entre campos |
 
 ---
 
-## Distribuição
+## 🚀 Distribuição
 
-O sistema pode ser executado sem Delphi instalado.
+O sistema pode ser executado **sem Delphi instalado**.
 
-Necessário apenas:
-- SQL Server configurado
-- Banco criado
-- Arquivo `config.ini` configurado corretamente
+**Necessário apenas:**
+- 💾 SQL Server configurado
+- 🗄️ Banco de dados criado
+- ⚙️ Arquivo `config.ini` configurado corretamente
 
 ---
 
-## Autor
+## 👨‍💻 Autor
 
-kawanydb
+**kawanydb**
+
+---
+
+<p align="center">
+  <strong>🦸 Gerencie seus superpoderes com estilo! 🦸</strong>
+</p>
