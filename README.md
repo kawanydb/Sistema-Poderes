@@ -33,18 +33,8 @@ O sistema possibilita organizar poderes por categorias e níveis de poder, além
 Antes de executar o sistema, certifique-se de ter instalado:
 
 -  SQL Server 2014 ou superior
--  SQL Server Management Studio (SSMS)
 
-### 🗄️ 2. Criar o Banco de Dados
-
-1. Abra o **SQL Server Management Studio (SSMS)**
-2. Conecte-se ao servidor SQL
-3. Abra o arquivo `SQL/Poderes.sql`
-4. Execute o script clicando em **Execute** ou pressionando `F5`
-
-Assim, criando o banco de dados e as tabelas necessárias.
-
-### 🔧 3. Configurar o arquivo `config.ini`
+### 🔧 2. Configurar o arquivo `config.ini`
 
 O arquivo `config.ini` deve permanecer na **mesma pasta** do `Desafio.exe`.
 
@@ -71,7 +61,7 @@ Password=123
 | `User_Name` | Usuário do SQL Server |
 | `Password` | Senha do SQL Server |
 
-### ▶️ 4. Executar o Sistema
+### ▶️ 3. Executar o Sistema
 
 1. Abra a pasta do sistema
 2. Execute o arquivo `Desafio.exe`
@@ -158,9 +148,9 @@ O sistema exporta os dados cadastrados em formato CSV.
 O sistema pode ser executado **sem Delphi instalado**.
 
 **Necessário apenas:**
--  SQL Server configurado.
--  Banco de dados criado.
+-  SQL Server instalado.
 -  Arquivo `config.ini` configurado corretamente.
+-  Arquivo `config.ini` na **mesma pasta** do `Desafio.exe`.
 
 ---
 
