@@ -26,7 +26,7 @@ O sistema possibilita organizar poderes por categorias e níveis de poder, além
 
 ---
 
-## 🔵 Como Executar
+## 💻 Como Executar
 
 ### 📦 1. Pré-requisitos
 
@@ -87,8 +87,8 @@ SistemaPoderes/
 ├── Desafio.exe
 ├── config.ini
 ├── grid_padrao.ini
-└── sql/
-    └── database.sql
+└── SQL/
+    └── Poderes.sql
 ```
 
 ---
@@ -110,9 +110,9 @@ Super Força;Força acima do normal;Física;Intermediário
 **Passos para importar:**
 
 1. Abrir o sistema
-2. Selecionar a opção de importação
-3. Escolher o arquivo CSV
-4. Confirmar a importação 
+2. Selecionar a opção de importação.
+3. Escolher o arquivo CSV.
+4. Confirmar a importação.
 
 ### 📤 Exportação CSV
 
@@ -120,25 +120,25 @@ O sistema exporta os dados cadastrados em formato CSV.
 
 **Passos para exportar:**
 
-1. Abrir o sistema
-2. Selecionar a opção de exportação
-3. Escolher o local para salvar
-4. Confirmar a exportação 
+1. Abrir o sistema.
+2. Selecionar a opção de exportação.
+3. Escolher o local para salvar.
+4. Confirmar a exportação.
 
 ---
 
 ## ✨ Funcionalidades
 
--  Cadastro de Poderes
--  Cadastro de Categorias
--  Cadastro de Níveis de Poder
--  Pesquisa de registros
--  Dashboard com estatísticas
--  Importação de CSV
--  Exportação de CSV
--  Navegação por atalhos de teclado
--  Grid configurável
--  Interface personalizada
+-  Cadastro de Poderes.
+-  Cadastro de Categorias.
+-  Cadastro de Níveis de Poder.
+-  Pesquisa de registros.
+-  Dashboard com estatísticas.
+-  Importação de CSV.
+-  Exportação de CSV.
+-  Navegação por atalhos de teclado.
+-  Grid configurável.
+-  Interface personalizada.
 
 ---
 
@@ -149,7 +149,7 @@ O sistema exporta os dados cadastrados em formato CSV.
 | **F9** | Cadastro de Poderes |
 | **F5** | Cadastro de Categorias |
 | **F2** | Cadastro de Níveis |
-| **Enter** | Navegação entre campos |
+| **Enter** | Navegação entre campos do grid |
 
 ---
 
@@ -158,13 +158,13 @@ O sistema exporta os dados cadastrados em formato CSV.
 O sistema pode ser executado **sem Delphi instalado**.
 
 **Necessário apenas:**
--  SQL Server configurado
--  Banco de dados criado
--  Arquivo `config.ini` configurado corretamente
+-  SQL Server configurado.
+-  Banco de dados criado.
+-  Arquivo `config.ini` configurado corretamente.
 
 ---
 
-## Desenvolvido por
+## 👩🏻‍💻 Desenvolvido por
 
 **kawanydb**
 
