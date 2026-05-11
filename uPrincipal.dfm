@@ -258,7 +258,6 @@
     ParentBackground = False
     ParentCtl3D = False
     TabOrder = 1
-    ExplicitLeft = 183
     object lblSecCad: TLabel
       Left = 67
       Top = 258
@@ -6646,7 +6645,6 @@
       Color = 1574960
       ParentBackground = False
       TabOrder = 0
-      ExplicitWidth = 843
       object lblTitulo: TLabel
         Left = 61
         Top = 16
@@ -9116,7 +9114,6 @@
       Color = 1049630
       ParentBackground = False
       TabOrder = 10
-      ExplicitWidth = 843
       object lbl3: TLabel
         Left = 1
         Top = 1

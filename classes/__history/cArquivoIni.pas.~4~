@@ -1,0 +1,81 @@
+unit cArquivoIni;
+
+interface
+
+uses System.Classes,
+     Vcl.Controls,
+     Vcl.ExtCtrls,
+     Vcl.Dialogs,
+     FireDAC.Comp.Client,
+     FireDAC.Stan.Error,
+     FireDAC.DatS,
+     FireDAC.Phys.Intf,
+     FireDAC.DApt.Intf,
+     FireDAC.Stan.Async,
+     FireDAC.DApt,
+     FireDAC.Comp.DataSet,
+     System.SysUtils,
+     FireDAC.Stan.Param,
+     Forms,
+     System.IniFiles,
+     System.IOUtils;
+
+type
+  TArquivoIni = class
+
+  private
+
+  public
+    class function ArquivoIni:string; static;
+    class function LerIni(aSecao:String; aEntrada:String):String; static;
+    class procedure AtualizarIni(aSecao, aEntrada, aValor: string); static;
+  end;
+
+implementation
+
+{ TArquivoIni }
+
+class function TArquivoIni.ArquivoIni: string;
+var
+  Caminho: string;
+begin
+  Caminho := TPath.GetFullPath(
+    ExtractFilePath(ParamStr(0)) + '..\..\config.ini'
+  );
+
+  Result := Caminho;
+end;
+
+class procedure TArquivoIni.AtualizarIni(aSecao, aEntrada, aValor: string);
+var
+   Ini:TIniFile;
+begin
+  try
+  //cria a variável ini, chama a função que tranforma o arquivo em
+  //ini e abre caso exista
+    Ini := TIniFile.Create(ArquivoIni);
+    Ini.WriteString( aSecao, aEntrada, aValor);
+  finally
+    Ini.Free;
+  end;
+end;
+
+class function TArquivoIni.LerIni(aSecao, aEntrada: String): String;
+var
+  Ini: TIniFile;
+  Caminho: string;
+begin
+  Caminho := ArquivoIni;
+
+  if not FileExists(Caminho) then
+    raise Exception.Create('INI não encontrado em: ' + Caminho);
+
+  Ini := TIniFile.Create(Caminho);
+  try
+    Result := Ini.ReadString(aSecao, aEntrada, '');
+  finally
+    Ini.Free;
+  end;
+end;
+
+end.

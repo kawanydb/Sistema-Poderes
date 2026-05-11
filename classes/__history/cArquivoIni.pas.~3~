@@ -1,0 +1,68 @@
+unit cArquivoIni;
+
+interface
+
+uses System.Classes,
+     Vcl.Controls,
+     Vcl.ExtCtrls,
+     Vcl.Dialogs,
+     FireDAC.Comp.Client,
+     FireDAC.Stan.Error,
+     FireDAC.DatS,
+     FireDAC.Phys.Intf,
+     FireDAC.DApt.Intf,
+     FireDAC.Stan.Async,
+     FireDAC.DApt,
+     FireDAC.Comp.DataSet,
+     System.SysUtils,
+     FireDAC.Stan.Param,
+     Forms,
+     System.IniFiles;
+
+type
+  TArquivoIni = class
+
+  private
+
+  public
+    class function ArquivoIni:string; static;
+    class function LerIni(aSecao:String; aEntrada:String):String; static;
+    class procedure AtualizarIni(aSecao, aEntrada, aValor: string); static;
+  end;
+
+implementation
+
+{ TArquivoIni }
+
+class function TArquivoIni.ArquivoIni: string;
+begin
+  Result := ChangeFileExt(Application.ExeName, '.INI');
+end;
+
+class procedure TArquivoIni.AtualizarIni(aSecao, aEntrada, aValor: string);
+var
+   Ini:TIniFile;
+begin
+  try
+  //cria a variável ini, chama a função que tranforma o arquivo em
+  //ini e abre caso exista
+    Ini := TIniFile.Create(ArquivoIni);
+    Ini.WriteString( aSecao, aEntrada, aValor);
+  finally
+    Ini.Free;
+  end;
+end;
+
+class function TArquivoIni.LerIni(aSecao, aEntrada: String): String;
+var
+   Ini:TIniFile;
+begin
+  try
+    Ini :=TIniFile.Create(ArquivoIni);
+    Result := Ini.ReadString( aSecao, aEntrada, 'NÃO ENCONTRADO');
+  finally
+    Ini.Free;
+  end;
+end;
+
+end.

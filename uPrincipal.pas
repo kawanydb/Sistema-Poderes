@@ -313,8 +313,12 @@ begin
 
       if QryCheck.IsEmpty then
       begin
-        Inc(Ignorados);
-        Continue;
+        QryCheck.Close;
+        QryCheck.SQL.Text :=
+          'INSERT INTO categorias (nome) VALUES (:nome); ' +
+          'SELECT SCOPE_IDENTITY() AS id';
+        QryCheck.ParamByName('nome').AsString := Campos[2];
+        QryCheck.Open;
       end;
 
       CategoriaID := QryCheck.FieldByName('id').AsInteger;
@@ -328,8 +332,12 @@ begin
 
       if QryCheck.IsEmpty then
       begin
-        Inc(Ignorados);
-        Continue;
+        QryCheck.Close;
+        QryCheck.SQL.Text :=
+          'INSERT INTO nivel_poder (nivel) VALUES (:nivel); ' +
+          'SELECT SCOPE_IDENTITY() AS id';
+        QryCheck.ParamByName('nivel').AsString := Campos[3];
+        QryCheck.Open;
       end;
 
       NivelID := QryCheck.FieldByName('id').AsInteger;

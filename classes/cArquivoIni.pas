@@ -17,7 +17,8 @@ uses System.Classes,
      System.SysUtils,
      FireDAC.Stan.Param,
      Forms,
-     System.IniFiles;
+     System.IniFiles,
+     System.IOUtils;
 
 type
   TArquivoIni = class
@@ -36,7 +37,7 @@ implementation
 
 class function TArquivoIni.ArquivoIni: string;
 begin
-  Result := ChangeFileExt(Application.ExeName, '.INI');
+  Result := ExtractFilePath(ParamStr(0)) + 'config.ini';
 end;
 
 class procedure TArquivoIni.AtualizarIni(aSecao, aEntrada, aValor: string);
@@ -55,11 +56,17 @@ end;
 
 class function TArquivoIni.LerIni(aSecao, aEntrada: String): String;
 var
-   Ini:TIniFile;
+  Ini: TIniFile;
+  Caminho: string;
 begin
+  Caminho := ArquivoIni;
+
+  if not FileExists(Caminho) then
+    raise Exception.Create('INI não encontrado em: ' + Caminho);
+
+  Ini := TIniFile.Create(Caminho);
   try
-    Ini :=TIniFile.Create(ArquivoIni);
-    Result := Ini.ReadString( aSecao, aEntrada, 'NÃO ENCONTRADO');
+    Result := Ini.ReadString(aSecao, aEntrada, '');
   finally
     Ini.Free;
   end;

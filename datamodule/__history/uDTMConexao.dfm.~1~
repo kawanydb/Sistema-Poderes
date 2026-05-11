@@ -1,9 +1,0 @@
-object dtmdl1: Tdtmdl1
-  OldCreateOrder = False
-  Height = 177
-  Width = 286
-  object conexaoDB: TFDConnection
-    Left = 64
-    Top = 64
-  end
-end

@@ -5,13 +5,17 @@ interface
 uses
   System.SysUtils, System.Classes, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Error, FireDAC.UI.Intf,
   FireDAC.Phys.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys, FireDAC.VCLUI.Wait, Data.DB,
-  FireDAC.Comp.Client, FireDAC.Phys.MSSQL, FireDAC.Phys.MSSQLDef;
+  FireDAC.Comp.Client, FireDAC.Phys.MSSQL, FireDAC.Phys.MSSQLDef, System.IniFiles, Vcl.Forms, System.IOUtils,FireDAC.Comp.Script,
+  FireDAC.Comp.ScriptCommands,FireDAC.Stan.Util, Vcl.Dialogs, cArquivoIni;
 
 type
   TdtmConexao = class(TDataModule)
     conexaoDB: TFDConnection;
+    FDScript1: TFDScript;
+    procedure DataModuleCreate(Sender: TObject);
   private
     { Private declarations }
+    procedure CriarBancoSeNaoExistir;
   public
     { Public declarations }
   end;
@@ -24,5 +28,96 @@ implementation
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
 {$R *.dfm}
+
+procedure TdtmConexao.CriarBancoSeNaoExistir;
+var
+  Ini: TIniFile;
+  CaminhoINI: string;
+  Banco: string;
+  ScriptSQL: string;
+begin
+  CaminhoINI := ExtractFilePath(ParamStr(0)) + 'config.ini';
+
+  Ini := TIniFile.Create(CaminhoINI);
+  try
+    Banco := Ini.ReadString('Conexao', 'Database', '');
+
+    conexaoDB.Connected := False;
+    conexaoDB.Params.Database := 'master';
+    conexaoDB.Connected := True;
+
+    try
+      conexaoDB.ExecSQL(
+        'IF DB_ID(''' + Banco + ''') IS NULL ' +
+        'CREATE DATABASE ' + Banco
+      );
+    except
+    end;
+
+    conexaoDB.Connected := False;
+    conexaoDB.Params.Database := Banco;
+    conexaoDB.Connected := True;
+
+    ScriptSQL :=
+      ExtractFilePath(ParamStr(0)) +
+      'sql\DesafioPoderes.sql';
+
+    if FileExists(ScriptSQL) then
+    begin
+      FDScript1.SQLScripts.Clear;
+      FDScript1.SQLScripts.Add;
+
+      FDScript1.SQLScripts[0].SQL.LoadFromFile(ScriptSQL);
+      FDScript1.Connection := conexaoDB;
+      FDScript1.ScriptOptions.CommandSeparator := 'GO';
+      try
+        FDScript1.ExecuteAll;
+      except
+      end;
+    end;
+
+  finally
+    Ini.Free;
+  end;
+end;
+
+procedure TdtmConexao.DataModuleCreate(Sender: TObject);
+var
+  Ini: TIniFile;
+  CaminhoINI: string;
+  Server, Banco: string;
+begin
+  CaminhoINI := TArquivoIni.ArquivoIni;
+
+  if not FileExists(CaminhoINI) then
+    raise Exception.Create('config.ini não encontrado em: ' + CaminhoINI);
+
+  Ini := TIniFile.Create(CaminhoINI);
+  try
+    Server := Ini.ReadString('Conexao', 'Server', '');
+    Banco  := Ini.ReadString('Conexao', 'Database', '');
+
+    if Server = '' then
+      raise Exception.Create('Server vazio no config.ini');
+
+    if Banco = '' then
+      raise Exception.Create('Database vazio no config.ini');
+
+    conexaoDB.Connected := False;
+    conexaoDB.Params.Clear;
+
+    conexaoDB.Params.DriverID := 'MSSQL';
+    conexaoDB.Params.Values['Server'] := Server;
+    conexaoDB.Params.Database := Banco;
+    conexaoDB.Params.Values['OSAuthent'] := 'Yes';
+
+    CriarBancoSeNaoExistir;
+
+    conexaoDB.Connected := True;
+
+  finally
+    Ini.Free;
+  end;
+end;
 
 end.

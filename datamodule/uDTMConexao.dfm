@@ -1,5 +1,6 @@
 object dtmConexao: TdtmConexao
   OldCreateOrder = False
+  OnCreate = DataModuleCreate
   Height = 177
   Width = 286
   object conexaoDB: TFDConnection
@@ -13,5 +14,13 @@ object dtmConexao: TdtmConexao
     LoginPrompt = False
     Left = 64
     Top = 64
+  end
+  object FDScript1: TFDScript
+    SQLScripts = <>
+    Connection = conexaoDB
+    Params = <>
+    Macros = <>
+    Left = 224
+    Top = 72
   end
 end
