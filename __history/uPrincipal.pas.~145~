@@ -55,11 +55,9 @@ type
     lblExpTit: TLabel;
     lblExpDesc: TLabel;
     Image3: TImage;
-    Image1: TImage;
     pnlCardImportacoes: TPanel;
     lblTotalImportacoes: TLabel;
     lblTotalNivelImportações: TLabel;
-    btnFechar: TPngBitBtn;
     pnlRodape: TPanel;
     lbl1: TLabel;
     lbl2: TLabel;
@@ -76,6 +74,11 @@ type
     pnl7: TPanel;
     pnl8: TPanel;
     pnl9: TPanel;
+    lblSecCad1: TLabel;
+    Image1: TImage;
+    btnFechar: TSpeedButton;
+    lblNavArq1: TLabel;
+    lbl4: TLabel;
     procedure btnCadPoderesClick(Sender: TObject);
     procedure btnCadCategoriasClick(Sender: TObject);
     procedure btnNivelPoderClick(Sender: TObject);
@@ -116,6 +119,7 @@ type
     procedure lblAcaoNivelTitClick(Sender: TObject);
     procedure lblAcaoNivelDescClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
     TeclaEnter: TMREnter;
     procedure AtualizarTotais;
@@ -179,6 +183,15 @@ begin
   pnlAcaoNiveis.OnMouseLeave := PanelMouseLeave;
 end;
 
+procedure TdtmPrincipal.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  case Key of
+    VK_F9: btnCadPoderes.Click;
+    VK_F5: btnCadCategorias.Click;
+    VK_F2: btnNivelPoder.Click;
+  end;
+end;
+
 procedure TdtmPrincipal.FormShow(Sender: TObject);
 begin
   AtualizarTotais;
@@ -229,7 +242,7 @@ end;
 
 procedure TdtmPrincipal.btnFecharClick(Sender: TObject);
 begin
-  Close;
+  Application.Terminate;
 end;
 {$ENDREGION}
 
@@ -610,7 +623,7 @@ begin
   end;
 end;
 
-procedure TdtmPrincipal.lblAcaoCatDescClick(Sender: TObject);
+rocedure TdtmPrincipal.lblAcaoCatDescClick(Sender: TObject);
 begin
   TFuncao.CriarForm(TfrmCadCategoria, dtmConexao.conexaoDB);
   AtualizarTotais;

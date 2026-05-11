@@ -203,6 +203,7 @@
       Font.Name = 'Segoe UI'
       Font.Style = []
       ParentFont = False
+      OnClick = lbl4Click
     end
     object pnlLogo: TPanel
       Left = 0

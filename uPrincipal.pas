@@ -58,7 +58,6 @@ type
     pnlCardImportacoes: TPanel;
     lblTotalImportacoes: TLabel;
     lblTotalNivelImportações: TLabel;
-    btnFechar: TPngBitBtn;
     pnlRodape: TPanel;
     lbl1: TLabel;
     lbl2: TLabel;
@@ -77,6 +76,9 @@ type
     pnl9: TPanel;
     lblSecCad1: TLabel;
     Image1: TImage;
+    btnFechar: TSpeedButton;
+    lblNavArq1: TLabel;
+    lbl4: TLabel;
     procedure btnCadPoderesClick(Sender: TObject);
     procedure btnCadCategoriasClick(Sender: TObject);
     procedure btnNivelPoderClick(Sender: TObject);
