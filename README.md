@@ -164,7 +164,7 @@ O sistema pode ser executado **sem Delphi instalado**.
 
 ---
 
-## 👨‍💻 Autor
+## Desenvolvido por
 
 **kawanydb**
 
