@@ -1,6 +1,6 @@
 # 🌀 Sistema Poderes
 
-Um sistema desktop desenvolvido em Delphi para gerenciamento de superpoderes, com cadastro, pesquisa, importação e exportação de dados.
+Um sistema desktop desenvolvido em Delphi para gerenciamento de superpoderes, com cadastro, pesquisa, importação e exportação de dados em CSV.
 
 ---
 
@@ -39,10 +39,10 @@ Antes de executar o sistema, certifique-se de ter instalado:
 
 1. Abra o **SQL Server Management Studio (SSMS)**
 2. Conecte-se ao servidor SQL
-3. Abra o arquivo `sql/database.sql`
+3. Abra o arquivo `SQL/Poderes.sql`
 4. Execute o script clicando em **Execute** ou pressionando `F5`
 
-✨ Isso criará o banco de dados e as tabelas necessárias.
+Assim, criando o banco de dados e as tabelas necessárias.
 
 ### 🔧 3. Configurar o arquivo `config.ini`
 
