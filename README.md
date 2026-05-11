@@ -24,17 +24,36 @@ O sistema possibilita organizar poderes por categorias e níveis de poder, além
 
 ## Como Executar
 
-### 1. Configurar o banco de dados
+### 1. Pré-requisitos
 
-Abra o SQL Server Management Studio e execute o arquivo:
+Antes de executar o sistema, é necessário ter instalado:
+
+- SQL Server 2014 ou superior
+- SQL Server Management Studio (SSMS)
+
+---
+
+### 2. Criar o Banco de Dados
+
+1. Abra o SQL Server Management Studio (SSMS)
+2. Conecte-se ao servidor SQL
+3. Abra o arquivo:
 
 ```txt
 sql/database.sql
 ```
 
-### 2. Configurar o arquivo config.ini
+4. Execute o script clicando em **Execute** ou pressionando `F5`
 
-Exemplo:
+Isso criará o banco de dados e as tabelas utilizadas pelo sistema.
+
+---
+
+### 3. Configurar o arquivo config.ini
+
+O arquivo `config.ini` deve permanecer na mesma pasta do `Desafio.exe`.
+
+Exemplo de configuração:
 
 ```ini
 [Conexao]
@@ -46,13 +65,31 @@ User_Name=sa
 Password=123
 ```
 
-### 3. Executar o sistema
+### Descrição dos campos
 
-Abra o arquivo:
+| Campo | Descrição |
+|------|------------|
+| DriverID | Tipo do banco de dados |
+| Server | Nome do servidor SQL |
+| Database | Nome do banco de dados |
+| OSAuthent | Autenticação do Windows |
+| User_Name | Usuário do SQL Server |
+| Password | Senha do SQL Server |
+
+---
+
+### 4. Executar o Sistema
+
+Após configurar o banco:
+
+1. Abra a pasta do sistema
+2. Execute o arquivo:
 
 ```txt
 Desafio.exe
 ```
+
+3. O sistema irá conectar automaticamente ao banco de dados através do `config.ini`
 
 ---
 
