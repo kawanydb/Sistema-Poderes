@@ -18,22 +18,22 @@ O sistema possibilita organizar poderes por categorias e níveis de poder, além
 
 ## 🛠️ Tecnologias Utilizadas
 
-- 🔵 **Delphi / Object Pascal**
-- 🎨 **VCL** (Visual Component Library)
-- 🗄️ **FireDAC** (Data Access Layer)
-- 💾 **SQL Server 2014**
-- 🖥️ **SQL Server Management Studio (SSMS)**
+-  **Delphi / Object Pascal**
+-  **VCL** (Visual Component Library)
+-  **FireDAC** (Data Access Layer)
+-  **SQL Server 2014**
+-  **SQL Server Management Studio (SSMS)**
 
 ---
 
-## ⚙️ Como Executar
+## 🔵 Como Executar
 
 ### 📦 1. Pré-requisitos
 
 Antes de executar o sistema, certifique-se de ter instalado:
 
-- ✅ SQL Server 2014 ou superior
-- ✅ SQL Server Management Studio (SSMS)
+-  SQL Server 2014 ou superior
+-  SQL Server Management Studio (SSMS)
 
 ### 🗄️ 2. Criar o Banco de Dados
 
@@ -93,7 +93,7 @@ SistemaPoderes/
 
 ---
 
-## 📥📤 Importar/Exportar Dados
+## 🗂️ Importar/Exportar Dados
 
 ### 📥 Importação CSV
 
@@ -112,7 +112,7 @@ Super Força;Força acima do normal;Física;Intermediário
 1. Abrir o sistema
 2. Selecionar a opção de importação
 3. Escolher o arquivo CSV
-4. Confirmar a importação ✅
+4. Confirmar a importação 
 
 ### 📤 Exportação CSV
 
@@ -123,22 +123,22 @@ O sistema exporta os dados cadastrados em formato CSV.
 1. Abrir o sistema
 2. Selecionar a opção de exportação
 3. Escolher o local para salvar
-4. Confirmar a exportação ✅
+4. Confirmar a exportação 
 
 ---
 
 ## ✨ Funcionalidades
 
-- ⚡ Cadastro de Poderes
-- 🏷️ Cadastro de Categorias
-- 📊 Cadastro de Níveis de Poder
-- 🔍 Pesquisa de registros
-- 📈 Dashboard com estatísticas
-- 📥 Importação de CSV
-- 📤 Exportação de CSV
-- ⌨️ Navegação por atalhos de teclado
-- 🎨 Grid configurável
-- 🖼️ Interface personalizada
+-  Cadastro de Poderes
+-  Cadastro de Categorias
+-  Cadastro de Níveis de Poder
+-  Pesquisa de registros
+-  Dashboard com estatísticas
+-  Importação de CSV
+-  Exportação de CSV
+-  Navegação por atalhos de teclado
+-  Grid configurável
+-  Interface personalizada
 
 ---
 
@@ -153,14 +153,14 @@ O sistema exporta os dados cadastrados em formato CSV.
 
 ---
 
-## 🚀 Distribuição
+## ⚙️ Distribuição
 
 O sistema pode ser executado **sem Delphi instalado**.
 
 **Necessário apenas:**
-- 💾 SQL Server configurado
-- 🗄️ Banco de dados criado
-- ⚙️ Arquivo `config.ini` configurado corretamente
+-  SQL Server configurado
+-  Banco de dados criado
+-  Arquivo `config.ini` configurado corretamente
 
 ---
 
@@ -168,8 +168,3 @@ O sistema pode ser executado **sem Delphi instalado**.
 
 **kawanydb**
 
----
-
-<p align="center">
-  <strong>🦸 Gerencie seus superpoderes com estilo! 🦸</strong>
-</p>
