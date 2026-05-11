@@ -1,46 +1,53 @@
 ﻿[Closed Files]
-File_0=TSourceModule,'C:\Users\devmv\Documents\DesafioPoderes\classes\cArquivoIni.pas',0,1,25,6,60,0,0,,
-File_1=TSourceModule,'C:\Users\devmv\Documents\DesafioPoderes\uCadPoderes.pas',0,1,7,17,13,0,0,,
-File_2=TSourceModule,'C:\DesafioPoderes\uTelaHeranca.pas',0,1,1,1,1,0,0,,
-File_3=TSourceModule,'C:\ProjetoDelphi\cadastro\uCadProduto.pas',0,1,31,54,43,0,0,,
-File_4=TSourceModule,'C:\ProjetoDelphi\datamodule\uDTMGrafico.pas',0,1,1,1,1,0,0,,
-File_5=TSourceModule,'C:\ProjetoDelphi\datamodule\uDTMConexao.pas',0,1,1,1,1,0,0,,
-File_6=TSourceModule,'C:\ProjetoDelphi\processo\uProVenda.pas',0,1,135,42,148,0,0,,
-File_7=TSourceModule,'C:\ProjetoDelphi\heranca\uTelaHeranca.pas',0,1,806,37,824,0,0,{{480,52}
-File_8=TSourceModule,'C:\ProjetoDelphi\datamodule\uDTMVenda.pas',0,1,1,1,1,0,0,,
+File_0=TSourceModule,'C:\Users\devmv\Documents\DesafioPoderes\uCadPoderes.pas',0,1,7,17,13,0,0,,
+File_1=TSourceModule,'C:\DesafioPoderes\uTelaHeranca.pas',0,1,1,1,1,0,0,,
+File_2=TSourceModule,'C:\ProjetoDelphi\cadastro\uCadProduto.pas',0,1,31,54,43,0,0,,
+File_3=TSourceModule,'C:\ProjetoDelphi\datamodule\uDTMGrafico.pas',0,1,1,1,1,0,0,,
+File_4=TSourceModule,'C:\ProjetoDelphi\datamodule\uDTMConexao.pas',0,1,1,1,1,0,0,,
+File_5=TSourceModule,'C:\ProjetoDelphi\processo\uProVenda.pas',0,1,135,42,148,0,0,,
+File_6=TSourceModule,'C:\ProjetoDelphi\heranca\uTelaHeranca.pas',0,1,806,37,824,0,0,{{480,52}
+File_7=TSourceModule,'C:\ProjetoDelphi\datamodule\uDTMVenda.pas',0,1,1,1,1,0,0,,
 
 [Modules]
 Module0=C:\Users\devmv\Documents\DesafioPoderes\datamodule\uDTMConexao.pas
-Module1=C:\Users\devmv\Documents\DesafioPoderes\cadastro\uCadCategoria.pas
-Module2=C:\Users\devmv\Documents\DesafioPoderes\heranca\uTelaHeranca.pas
-Module3=C:\Users\devmv\Documents\DesafioPoderes\uPrincipal.pas
+Module1=C:\Users\devmv\Documents\DesafioPoderes\classes\cArquivoIni.pas
+Module2=C:\Users\devmv\Documents\DesafioPoderes\uPrincipal.pas
+Module3=C:\Users\devmv\Documents\DesafioPoderes\heranca\uTelaHeranca.pas
 Module4=C:\Users\devmv\Documents\DesafioPoderes\terceiros\uEnter.pas
 Module5=C:\Users\devmv\Documents\DesafioPoderes\classes\cFuncao.pas
-Module6=C:\Users\devmv\Documents\DesafioPoderes\cadastro\uCadPoderes.pas
-Module7=C:\Users\devmv\Documents\DesafioPoderes\cadastro\uCadNivelPoder.pas
-Module8=C:\Users\devmv\Documents\DesafioPoderes\heranca\uEnum.pas
-Module9=C:\Users\devmv\Documents\DesafioPoderes\classes\cCadPoderes.pas
-Module10=C:\Users\devmv\Documents\DesafioPoderes\classes\cCadCategoria.pas
-Module11=C:\Users\devmv\Documents\DesafioPoderes\classes\cCadNivelPoder.pas
-Count=12
+Module6=C:\Users\devmv\Documents\DesafioPoderes\Desafio.dproj
+Module7=C:\Users\devmv\Documents\DesafioPoderes\cadastro\uCadCategoria.pas
+Module8=C:\Users\devmv\Documents\DesafioPoderes\cadastro\uCadPoderes.pas
+Module9=C:\Users\devmv\Documents\DesafioPoderes\cadastro\uCadNivelPoder.pas
+Module10=C:\Users\devmv\Documents\DesafioPoderes\heranca\uEnum.pas
+Module11=C:\Users\devmv\Documents\DesafioPoderes\classes\cCadPoderes.pas
+Module12=C:\Users\devmv\Documents\DesafioPoderes\classes\cCadCategoria.pas
+Module13=C:\Users\devmv\Documents\DesafioPoderes\classes\cCadNivelPoder.pas
+Count=14
 EditWindowCount=1
 
 [C:\Users\devmv\Documents\DesafioPoderes\datamodule\uDTMConexao.pas]
 ModuleType=TSourceModule
 
-[C:\Users\devmv\Documents\DesafioPoderes\cadastro\uCadCategoria.pas]
-ModuleType=TSourceModule
-
-[C:\Users\devmv\Documents\DesafioPoderes\heranca\uTelaHeranca.pas]
+[C:\Users\devmv\Documents\DesafioPoderes\classes\cArquivoIni.pas]
 ModuleType=TSourceModule
 
 [C:\Users\devmv\Documents\DesafioPoderes\uPrincipal.pas]
+ModuleType=TSourceModule
+
+[C:\Users\devmv\Documents\DesafioPoderes\heranca\uTelaHeranca.pas]
 ModuleType=TSourceModule
 
 [C:\Users\devmv\Documents\DesafioPoderes\terceiros\uEnter.pas]
 ModuleType=TSourceModule
 
 [C:\Users\devmv\Documents\DesafioPoderes\classes\cFuncao.pas]
+ModuleType=TSourceModule
+
+[C:\Users\devmv\Documents\DesafioPoderes\Desafio.dproj]
+ModuleType=TBaseProject
+
+[C:\Users\devmv\Documents\DesafioPoderes\cadastro\uCadCategoria.pas]
 ModuleType=TSourceModule
 
 [C:\Users\devmv\Documents\DesafioPoderes\cadastro\uCadPoderes.pas]
@@ -62,7 +69,7 @@ ModuleType=TSourceModule
 ModuleType=TSourceModule
 
 [EditWindow0]
-ViewCount=12
+ViewCount=14
 CurrentEditView=C:\Users\devmv\Documents\DesafioPoderes\datamodule\uDTMConexao.pas
 View0=0
 View1=1
@@ -76,6 +83,8 @@ View8=8
 View9=9
 View10=10
 View11=11
+View12=12
+View13=13
 PercentageSizes=1
 Create=1
 Visible=1
@@ -92,17 +101,15 @@ ClientHeight=8889
 DockedToMainForm=1
 BorlandEditorCodeExplorer=BorlandEditorCodeExplorer@EditWindow0
 TopPanelSize=0
-LeftPanelSize=1911
-LeftPanelClients=PropertyInspector
-LeftPanelData=00000800010000000000B8180000000000000000000000000000000100000000B81800001100000050726F7065727479496E73706563746F72FFFFFFFF
+LeftPanelSize=0
 RightPanelSize=0
 BottomPanelSize=0
 BottomPanelClients=MessageView,DockSite1
-BottomPanelData=000008000102020000000F0000004D65737361676556696577466F726D09000000446F636B53697465311534000000000000022806000000000000FFFFFFFF
+BottomPanelData=000008000102020000000F0000004D65737361676556696577466F726D09000000446F636B5369746531AF4500000000000002E605000000000000FFFFFFFF
 BottomMiddlePanelSize=0
 BottomMiddlePanelClients=DockSite0,GraphDrawingModel
 BottomMiddelPanelData=0000080001020200000009000000446F636B536974653010000000477261706844726177696E67566965779A1D00000000000002F806000000000000FFFFFFFF
-TabDockLeftClients=DockSite3=0
+TabDockLeftClients=PropertyInspector=0,DockSite3=1
 TabDockRightClients=DockSite2=0,DockSite4=1
 
 [View0]
@@ -119,59 +126,81 @@ EditViewName=Borland.FormDesignerView
 [View1]
 CustomEditViewType=TEditView
 Module=C:\Users\devmv\Documents\DesafioPoderes\uPrincipal.pas
-CursorX=82
-CursorY=338
-TopLine=317
+CursorX=41
+CursorY=132
+TopLine=168
 LeftCol=1
-Elisions={{141,0},{199,11},{'EVENTOS DO FORM'}}{{201,0},{247,11},{'BOTÕES'}}{{494,0},{616,11},{'PANELS'}}{{618,0},{699,11},{'ORGANIZAÇÃO DOS CLIQUES'}}{{701,0},{727,11},{'ANIMAÇÃO TPANEL'}}
+Elisions={{201,0},{247,11},{'BOTÕES'}}{{249,0},{492,11},{'IMPORTAR E EXPORTAR'}}
 Bookmarks=
 EditViewName=C:\Users\devmv\Documents\DesafioPoderes\uPrincipal.pas
 
 [View2]
 CustomEditViewType=TEditView
 Module=C:\Users\devmv\Documents\DesafioPoderes\datamodule\uDTMConexao.pas
-CursorX=31
-CursorY=74
-TopLine=35
+CursorX=35
+CursorY=63
+TopLine=52
 LeftCol=1
 Elisions=
 Bookmarks=
-EditViewName=Borland.FormDesignerView
+EditViewName=C:\Users\devmv\Documents\DesafioPoderes\datamodule\uDTMConexao.pas
 
 [View3]
 CustomEditViewType=TEditView
+Module=C:\Users\devmv\Documents\DesafioPoderes\Desafio.dpr
+CursorX=4
+CursorY=17
+TopLine=1
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=C:\Users\devmv\Documents\DesafioPoderes\Desafio.dpr
+
+[View4]
+CustomEditViewType=TEditView
+Module=C:\Users\devmv\Documents\DesafioPoderes\classes\cArquivoIni.pas
+CursorX=51
+CursorY=33
+TopLine=27
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=C:\Users\devmv\Documents\DesafioPoderes\classes\cArquivoIni.pas
+
+[View5]
+CustomEditViewType=TEditView
 Module=C:\Users\devmv\Documents\DesafioPoderes\classes\cFuncao.pas
-CursorX=79
-CursorY=67
-TopLine=62
+CursorX=30
+CursorY=63
+TopLine=43
 LeftCol=1
 Elisions=
 Bookmarks=
 EditViewName=C:\Users\devmv\Documents\DesafioPoderes\classes\cFuncao.pas
 
-[View4]
+[View6]
 CustomEditViewType=TEditView
 Module=C:\Users\devmv\Documents\DesafioPoderes\terceiros\uEnter.pas
-CursorX=43
-CursorY=7
+CursorX=7
+CursorY=11
 TopLine=1
 LeftCol=1
 Elisions=
 Bookmarks=
 EditViewName=C:\Users\devmv\Documents\DesafioPoderes\terceiros\uEnter.pas
 
-[View5]
+[View7]
 CustomEditViewType=TEditView
 Module=C:\Users\devmv\Documents\DesafioPoderes\cadastro\uCadCategoria.pas
 CursorX=1
 CursorY=76
-TopLine=31
+TopLine=25
 LeftCol=1
 Elisions={{36,0},{59,11},{'Override'}}{{61,0},{74,11},{'BOTÕES'}}
 Bookmarks=
-EditViewName=Borland.FormDesignerView
+EditViewName=C:\Users\devmv\Documents\DesafioPoderes\cadastro\uCadCategoria.pas
 
-[View6]
+[View8]
 CustomEditViewType=TEditView
 Module=C:\Users\devmv\Documents\DesafioPoderes\cadastro\uCadNivelPoder.pas
 CursorX=11
@@ -182,7 +211,7 @@ Elisions={{37,0},{60,11},{'OVERRIDE'}}{{62,0},{75,11},{'BOTÕES'}}{{77,0},{91,11
 Bookmarks=
 EditViewName=Borland.FormDesignerView
 
-[View7]
+[View9]
 CustomEditViewType=TEditView
 Module=C:\Users\devmv\Documents\DesafioPoderes\cadastro\uCadPoderes.pas
 CursorX=1
@@ -193,7 +222,7 @@ Elisions={{56,0},{82,11},{'Override'}}{{108,0},{129,11},{'EVENTOS DO FORM'}}
 Bookmarks=
 EditViewName=Borland.FormDesignerView
 
-[View8]
+[View10]
 CustomEditViewType=TEditView
 Module=C:\Users\devmv\Documents\DesafioPoderes\classes\cCadNivelPoder.pas
 CursorX=1
@@ -204,7 +233,7 @@ Elisions={{45,0},{55,11},{'Constructor and Destructor'}}{{57,0},{68,11},{'GETS'}
 Bookmarks=
 EditViewName=C:\Users\devmv\Documents\DesafioPoderes\classes\cCadNivelPoder.pas
 
-[View9]
+[View11]
 CustomEditViewType=TEditView
 Module=C:\Users\devmv\Documents\DesafioPoderes\classes\cCadCategoria.pas
 CursorX=1
@@ -215,7 +244,7 @@ Elisions={{46,0},{56,11},{'Constructor and Destructor'}}{{58,0},{68,11},{'GETS'}
 Bookmarks=
 EditViewName=C:\Users\devmv\Documents\DesafioPoderes\classes\cCadCategoria.pas
 
-[View10]
+[View12]
 CustomEditViewType=TEditView
 Module=C:\Users\devmv\Documents\DesafioPoderes\classes\cCadPoderes.pas
 CursorX=7
@@ -226,7 +255,7 @@ Elisions={{54,0},{64,11},{'Constructor and Destructor'}}{{66,0},{219,11},{'CRUD'
 Bookmarks=
 EditViewName=C:\Users\devmv\Documents\DesafioPoderes\classes\cCadPoderes.pas
 
-[View11]
+[View13]
 CustomEditViewType=TEditView
 Module=C:\Users\devmv\Documents\DesafioPoderes\heranca\uEnum.pas
 CursorX=25
@@ -334,14 +363,14 @@ Visible=0
 Docked=1
 State=0
 Left=0
-Top=0
+Top=18
 Width=2767
-Height=1417
+Height=1361
 MaxLeft=-1
 MaxTop=-1
 ClientWidth=2767
-ClientHeight=1417
-TBDockHeight=1417
+ClientHeight=1361
+TBDockHeight=1361
 LRDockWidth=2767
 Dockable=1
 StayOnTop=0
@@ -406,27 +435,27 @@ StayOnTop=0
 [PropertyInspector]
 PercentageSizes=1
 Create=1
-Visible=1
+Visible=0
 Docked=1
 State=0
-Left=0
-Top=18
-Width=1911
-Height=8639
+Left=83
+Top=311
+Width=1896
+Height=9014
 MaxLeft=-1
 MaxTop=-1
-ClientWidth=1911
-ClientHeight=8639
+ClientWidth=1896
+ClientHeight=9014
 TBDockHeight=9014
-LRDockWidth=1911
+LRDockWidth=1896
 Dockable=1
 StayOnTop=0
-SplitPos=112
+SplitPos=111
 
 [PropInspDesignerSelection]
 ArrangeBy=Name
-SelectedItem=Params,
-ExpandedItems=Anchors=0,BorderIcons=0,ConnectedStoredUsage=0,FetchOptions=0,FormatOptions=0,"LiveBindings Designer=0",Params=0,ResourceOptions=0,TxOptions=0,UpdateOptions=0
+SelectedItem=Caption,
+ExpandedItems=Anchors=0,BorderIcons=0
 
 [ClassBrowserTool]
 PercentageSizes=1
@@ -572,12 +601,12 @@ Docked=1
 State=0
 Left=0
 Top=0
-Width=10029
-Height=1458
+Width=3821
+Height=1069
 MaxLeft=-1
 MaxTop=-1
-ClientWidth=10029
-ClientHeight=1458
+ClientWidth=3821
+ClientHeight=1069
 TBDockHeight=208
 LRDockWidth=7408
 Dockable=1
@@ -755,12 +784,12 @@ Docked=1
 State=0
 Left=0
 Top=0
-Width=10029
-Height=1458
+Width=3821
+Height=1069
 MaxLeft=-1
 MaxTop=-1
-ClientWidth=10029
-ClientHeight=1458
+ClientWidth=3821
+ClientHeight=1069
 TBDockHeight=1542
 LRDockWidth=8741
 Dockable=1

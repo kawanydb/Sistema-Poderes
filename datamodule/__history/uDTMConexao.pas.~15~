@@ -60,7 +60,7 @@ begin
 
     ScriptSQL :=
       ExtractFilePath(ParamStr(0)) +
-      'SQL\Poderes.sql';
+      'sql\DesafioPoderes.sql';
 
     if FileExists(ScriptSQL) then
     begin
