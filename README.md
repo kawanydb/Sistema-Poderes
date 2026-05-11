@@ -149,8 +149,7 @@ O sistema pode ser executado **sem Delphi instalado**.
 
 **Necessário apenas:**
 -  SQL Server instalado.
--  Arquivo `config.ini` configurado corretamente.
--  Arquivo `config.ini` na **mesma pasta** do `Desafio.exe`.
+-  Arquivo `config.ini` configurado corretamente e na **mesma pasta** do `Desafio.exe`.
 
 ---
 
