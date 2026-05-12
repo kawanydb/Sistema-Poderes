@@ -67,7 +67,7 @@ Password=123
 2. Execute o arquivo `Desafio.exe`
 3. O sistema conectará automaticamente ao banco de dados.
    
-# 🚨 Ao executar o arquivo `Desafio.exe` o banco de dados será criado automaticamente, basta apenas configurar o `config.ini`!
+### 🚨 Ao executar o arquivo `Desafio.exe` o banco de dados será criado automaticamente, basta apenas configurar o `config.ini`!
 ---
 
 ## 📂 Estrutura do Projeto
