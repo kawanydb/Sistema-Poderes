@@ -85,7 +85,6 @@ end;
 function TfrmTelaHeranca.Gravar(EstadoDoCadastro: TEstadoDoCadastro): Boolean;
 begin
   Result := True;
-//mensagens para o usuário saber se a ação aconteceu
      if(EstadoDoCadastro=ecInserir) then
         ShowMessage('Inserir')
       else if (EstadoDoCadastro=ecAlterar) then
@@ -105,25 +104,25 @@ procedure TfrmTelaHeranca.btnApagarClick(Sender: TObject);
 begin
   if (Apagar) then
   begin
-       ControlarBotoes(btnNovo, btnAlterar, btnCancelar, btnGravar,
-                      btnApagar, btnNavigator, true);
-       ControlarIndiceTab(pgcListagem, 0);
-       LimparEdits;
-       QryListagem.Refresh;
+    ControlarBotoes(btnNovo, btnAlterar, btnCancelar, btnGravar,
+                    btnApagar, btnNavigator, true);
+    ControlarIndiceTab(pgcListagem, 0);
+    LimparEdits;
+    QryListagem.Refresh;
   end
   else
   begin
-        MessageDlg('Erro na exclusão', mtError, [mbok],0);
+    MessageDlg('Erro na exclusão', mtError, [mbok],0);
   end;
 end;
 
 procedure TfrmTelaHeranca.btnCancelarClick(Sender: TObject);
 begin
   ControlarBotoes(btnNovo, btnAlterar, btnCancelar, btnGravar,
-   btnApagar, btnNavigator, true);
-   ControlarIndiceTab(pgcListagem, 0);
-   EstadoDoCadastro:=ecNenhum;
-   LimparEdits;
+    btnApagar, btnNavigator, true);
+    ControlarIndiceTab(pgcListagem, 0);
+  EstadoDoCadastro:=ecNenhum;
+  LimparEdits;
 end;
 
 procedure TfrmTelaHeranca.btnFecharClick(Sender: TObject);
@@ -135,14 +134,16 @@ procedure TfrmTelaHeranca.btnGravarClick(Sender: TObject);
 begin
   if (ExisteCampoObrigatorio) then
       Abort;
+
    Try
      if Gravar(EstadoDoCadastro) then begin
        QryListagem.Close;
        QryListagem.Open;
 
        ControlarBotoes(btnNovo, btnAlterar, btnCancelar, btnGravar,
-                      btnApagar, btnNavigator, true);
-       ControlarIndiceTab(pgcListagem, 0);
+                      btnApagar, btnNavigator, True);
+
+       ControlarIndiceTab(pgcListagem, 0); //volta pra aba de listagem
        EstadoDoCadastro:=ecNenhum;
        LimparEdits;
        QryListagem.Refresh;
@@ -405,14 +406,15 @@ begin
   end;
 end;
 
-procedure TfrmTelaHeranca.DesabilitarEditPK;  //declara que o desabilitar pertence ao form tela herança
+procedure TfrmTelaHeranca.DesabilitarEditPK;
 var i: Integer;
 begin
-   for i := 0 to ComponentCount -1 do begin // o indice começa em 0 por isso o -1
-      if(Components[i] is TLabeledEdit) then begin  // verifica se o componente atual é do tipo TLabeledEdit
+//desativa o campo, impedindo o usuário de editá-lo
+   for i := 0 to ComponentCount -1 do begin
+      if(Components[i] is TLabeledEdit) then begin
           if(TLabeledEdit(Components[i]).Tag = 1) then begin
-            TLabeledEdit(Components[i]).Enabled:=False;  //desativa o campo, impedindo o usuário de editá-lo
-            Break;    // para o loop evitando busca desnecessária
+            TLabeledEdit(Components[i]).Enabled:=False;
+            Break;
           end;
       end;
    end;
@@ -420,6 +422,7 @@ end;
 
 procedure TfrmTelaHeranca.mskPesquisarKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
+//enter p pesquisar
   if Key = VK_RETURN then
   begin
     btnPesquisar.Click;
@@ -447,9 +450,9 @@ begin
   begin
   //verifica se o número da linha é ímpar ou par e da uma cor p cada
     if Odd(TDBGrid(Sender).DataSource.DataSet.RecNo) then
-      TDBGrid(Sender).Canvas.Brush.Color := $00F4F0FD //$00F2F2F2 // Cinza claro
+      TDBGrid(Sender).Canvas.Brush.Color := $00F4F0FD
     else
-      TDBGrid(Sender).Canvas.Brush.Color := $00E2D8F5; // Cinza escuro
+      TDBGrid(Sender).Canvas.Brush.Color := $00E2D8F5;
   end;
 
   if (gdSelected in State) then
@@ -469,11 +472,10 @@ procedure TfrmTelaHeranca.grdListagemKeyDown(Sender: TObject; var Key: Word; Shi
 begin
   if Key = VK_ESCAPE then
   begin
-    Key := 0; // evita conflito
+    Key := 0;
     Close;
   end;
   BloqueiaCTRL_DEL_DBGrid(Key,Shift);
-
 end;
 
 procedure TfrmTelaHeranca.BloqueiaCTRL_DEL_DBGrid(var Key: Word; Shift: TShiftState);

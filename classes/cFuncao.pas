@@ -25,14 +25,14 @@ implementation
 
 class procedure TFuncao.CriarForm(aNomeForm: TFormClass; aConexao: TFDConnection);
 var
-  form: TForm;
+  Form: TForm;
 begin
   try
-    form := aNomeForm.Create(Application);
-    form.ShowModal;
+    Form := aNomeForm.Create(Application);
+    Form.ShowModal;
   finally
-    if Assigned(form) then
-      form.Free;
+    if Assigned(Form) then
+      Form.Free;
   end;
 end;
 
@@ -40,6 +40,7 @@ class procedure TFuncao.ArredondarPainel(APanel: TPanel; ARaio: Integer = 20);
 var
   R: HRGN;
 begin
+  //cria um retângulo arredondado
   R := CreateRoundRectRgn(
     0, 0,
     APanel.Width,
@@ -50,6 +51,7 @@ begin
   SetWindowRgn(APanel.Handle, R, True);
 end;
 
+//remove o enter pra criar o csv
 class function TFuncao.SemEnter(const S: string): string;
 begin
   Result := StringReplace(S, sLineBreak, ' ', [rfReplaceAll]);
@@ -58,6 +60,7 @@ begin
   Result := StringReplace(Result, #10, ' ', [rfReplaceAll]);
 end;
 
+ //remoive enter e troca ; por ,
 class function TFuncao.CSV(const S: string): string;
 begin
   Result := StringReplace(SemEnter(S), ';', ',', [rfReplaceAll]);

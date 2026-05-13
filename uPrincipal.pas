@@ -186,9 +186,16 @@ end;
 procedure TdtmPrincipal.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
   case Key of
-    VK_F9: btnCadPoderes.Click;
-    VK_F5: btnCadCategorias.Click;
-    VK_F2: btnNivelPoder.Click;
+    VK_F5: btnCadPoderes.Click;
+    VK_F6: btnCadCategorias.Click;
+    VK_F7: btnNivelPoder.Click;
+  end;
+
+  //fechar Ctrl+Q
+  if (Key = Ord('Q')) and (ssCtrl in Shift) then
+  begin
+    btnFechar.Click;
+    Key := 0;
   end;
 end;
 
@@ -254,14 +261,14 @@ var
   Campos: TArray<string>;
   i, j: Integer;
   QryInsert, QryCheck: TFDQuery;
-  CategoriaID, NivelID: Integer;
-
+  CategoriaID, NivelID: Integer; //guarda os IDs encontrados/criados no banco.
   Importados, Ignorados, Erros: Integer;
 begin
   Lista := TStringList.Create;
   QryInsert := TFDQuery.Create(nil);
   QryCheck := TFDQuery.Create(nil);
 
+  //inicializa contadores
   Importados := 0;
   Ignorados := 0;
   Erros := 0;
@@ -277,6 +284,7 @@ begin
 
     for i := 1 to Lista.Count - 1 do
     begin
+    //ignora linha vazia
       Linha := Trim(Lista[i]);
       if Linha = '' then
       begin
@@ -284,9 +292,10 @@ begin
         Continue;
       end;
 
-      Campos := Linha.Split([';']);
+      //divide em colunas
+      Campos := Linha.Split([';']); //se n encontrou
       if Length(Campos) < 4 then
-        Campos := Linha.Split([',']);
+        Campos := Linha.Split([',']); //tenta
 
       if Length(Campos) < 4 then
       begin
@@ -294,6 +303,7 @@ begin
         Continue;
       end;
 
+      //limpa campos
       for j := 0 to High(Campos) do
         Campos[j] := Trim(TFuncao.SemEnter(Campos[j]));
 
@@ -304,13 +314,14 @@ begin
         Continue;
       end;
 
-      // ===== categoria =====
+      //procura por categoria no banco
       QryCheck.Close;
       QryCheck.SQL.Text :=
         'SELECT id FROM categorias WHERE LOWER(nome) = LOWER(:cat)';
       QryCheck.ParamByName('cat').AsString := Campos[2];
       QryCheck.Open;
 
+      //se n existir faz o insert
       if QryCheck.IsEmpty then
       begin
         QryCheck.Close;
@@ -324,7 +335,7 @@ begin
       CategoriaID := QryCheck.FieldByName('id').AsInteger;
       QryCheck.Close;
 
-      // ===== nível =====
+      //nivel
       QryCheck.SQL.Text :=
         'SELECT id FROM nivel_poder WHERE LOWER(nivel) = LOWER(:nivel)';
       QryCheck.ParamByName('nivel').AsString := Campos[3];
@@ -343,12 +354,13 @@ begin
       NivelID := QryCheck.FieldByName('id').AsInteger;
       QryCheck.Close;
 
-      // ===== duplicado =====
+      //verifica duplicado
       QryCheck.SQL.Text :=
         'SELECT COUNT(*) AS total FROM poderes WHERE LOWER(nome) = LOWER(:nome)';
       QryCheck.ParamByName('nome').AsString := Campos[0];
       QryCheck.Open;
 
+      //se existir continua
       if QryCheck.FieldByName('total').AsInteger > 0 then
       begin
         QryCheck.Close;
@@ -358,7 +370,7 @@ begin
 
       QryCheck.Close;
 
-      // ===== insert =====
+      //insert no poderes
       QryInsert.Close;
       QryInsert.SQL.Text :=
         'INSERT INTO poderes (nome, descricao, categoria_id, nivel_poder_id) ' +
@@ -370,15 +382,16 @@ begin
       QryInsert.ParamByName('nivel_id').AsInteger := NivelID;
 
       try
-        QryInsert.ExecSQL;
+        QryInsert.ExecSQL; //executa o insert
         Inc(Importados);
       except
+      //se der erro, conta mas continua
         Inc(Erros);
         Continue;
       end;
     end;
 
-    // registro da importação
+    //salva data e hora da importação
     with TFDQuery.Create(nil) do
     try
       Connection := dtmConexao.conexaoDB;
@@ -389,6 +402,7 @@ begin
       Free;
     end;
 
+    //mostra pro usuario oq aconteceu
     ShowMessage(
       'Importação finalizada!' + sLineBreak + sLineBreak +
       ' Importados: ' + IntToStr(Importados) + sLineBreak +
@@ -413,6 +427,7 @@ var
   Qry: TFDQuery;
   TotalExportados: Integer;
 begin
+//cria objetos na memória e inicia o contador
   Lista := TStringList.Create;
   Qry   := TFDQuery.Create(nil);
   TotalExportados := 0;
@@ -434,13 +449,16 @@ begin
       Exit;
     end;
 
+    //primeira linha do arquivo
     Lista.Add('nome;descricao;categoria;nivel');
 
+    //percorre todas as linhas do registro e monta o csv linha por linha
     while not Qry.Eof do
     begin
       Lista.Add(
         String.Join(';',
           [
+          //TFuncao = trata caracteres especiais
             TFuncao.CSV(Qry.FieldByName('nome').AsString),
             TFuncao.CSV(Qry.FieldByName('descricao').AsString),
             TFuncao.CSV(Qry.FieldByName('categoria').AsString),
@@ -448,7 +466,7 @@ begin
           ]
         )
       );
-      Inc(TotalExportados);
+      Inc(TotalExportados); //soma no contador
       Qry.Next;
     end;
 
@@ -477,7 +495,7 @@ begin
       Free;
     end;
 
-    //feedback com quantidade
+    //mensagem pro usuário
     ShowMessage(
       'Exportação concluída!' + sLineBreak + sLineBreak +
       ' Registros exportados: ' + IntToStr(TotalExportados) + sLineBreak +
@@ -709,7 +727,7 @@ begin
 
   P.Tag := 1;
   P.SetBounds(P.Left - 2, P.Top - 2, P.Width + 4, P.Height + 4);
-  P.Color := $00EAD7DF;;
+  P.Color := $00EAD7DF;
 end;
 
 procedure TdtmPrincipal.PanelMouseLeave(Sender: TObject);

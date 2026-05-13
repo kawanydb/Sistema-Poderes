@@ -64,7 +64,6 @@ function TNivel.getDescricao: string;
 begin
   Result:= Self.F_Nivel;
 end;
-
 {$ENDREGION}
 
 {$REGION 'SETS'}

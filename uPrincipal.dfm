@@ -3,7 +3,7 @@
   Top = 0
   Caption = 'Sistema de Superpoderes'
   ClientHeight = 662
-  ClientWidth = 1036
+  ClientWidth = 1028
   Color = clWhite
   Font.Charset = ANSI_CHARSET
   Font.Color = clWindowText
@@ -249,7 +249,7 @@
   object pnlMain: TPanel
     Left = 185
     Top = 0
-    Width = 851
+    Width = 843
     Height = 662
     Align = alClient
     BevelOuter = bvNone
@@ -6638,7 +6638,7 @@
     object pnlTopo: TPanel
       Left = 0
       Top = 0
-      Width = 851
+      Width = 843
       Height = 90
       Align = alTop
       BevelOuter = bvNone
@@ -6831,7 +6831,7 @@
       end
     end
     object pnlAcaoPoderes: TPanel
-      Left = 80
+      Left = 85
       Top = 289
       Width = 240
       Height = 120
@@ -9108,7 +9108,7 @@
     object pnlRodape: TPanel
       Left = 0
       Top = 621
-      Width = 851
+      Width = 843
       Height = 41
       Align = alBottom
       Color = 1049630
@@ -9117,7 +9117,7 @@
       object lbl3: TLabel
         Left = 1
         Top = 1
-        Width = 849
+        Width = 135
         Height = 26
         Align = alTop
         Alignment = taCenter
@@ -9128,7 +9128,6 @@
         Font.Name = 'Segoe UI'
         Font.Style = []
         ParentFont = False
-        ExplicitWidth = 135
       end
     end
   end

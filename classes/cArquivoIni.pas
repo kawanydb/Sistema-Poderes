@@ -45,8 +45,7 @@ var
    Ini:TIniFile;
 begin
   try
-  //cria a variável ini, chama a função que tranforma o arquivo em
-  //ini e abre caso exista
+  //cria a variável ini, chama a função que tranforma o arquivo em ini e abre caso exista
     Ini := TIniFile.Create(ArquivoIni);
     Ini.WriteString( aSecao, aEntrada, aValor);
   finally

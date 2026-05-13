@@ -32,20 +32,25 @@ implementation
 procedure TdtmConexao.CriarBancoSeNaoExistir;
 var
   Ini: TIniFile;
-  CaminhoINI: string;
+  CaminhoINI: string; //caminho do config.ini
   Banco: string;
   ScriptSQL: string;
 begin
+  // pega a pasta do .exe + config.ini
   CaminhoINI := ExtractFilePath(ParamStr(0)) + 'config.ini';
 
+  //lê o ini
   Ini := TIniFile.Create(CaminhoINI);
   try
+    // lê o nome do banco no config.ini
     Banco := Ini.ReadString('Conexao', 'Database', '');
 
+    //conecta no master
     conexaoDB.Connected := False;
     conexaoDB.Params.Database := 'master';
     conexaoDB.Connected := True;
 
+    //verifica se o banco existe
     try
       conexaoDB.ExecSQL(
         'IF DB_ID(''' + Banco + ''') IS NULL ' +
@@ -54,20 +59,23 @@ begin
     except
     end;
 
+    //desconecta do banco, define nome e conecta dnv
     conexaoDB.Connected := False;
     conexaoDB.Params.Database := Banco;
     conexaoDB.Connected := True;
 
+    //executa o script
     ScriptSQL :=
       ExtractFilePath(ParamStr(0)) +
       'SQL\Poderes.sql';
 
+    //verifica se o arquivo existe
     if FileExists(ScriptSQL) then
     begin
       FDScript1.SQLScripts.Clear;
       FDScript1.SQLScripts.Add;
 
-      FDScript1.SQLScripts[0].SQL.LoadFromFile(ScriptSQL);
+      FDScript1.SQLScripts[0].SQL.LoadFromFile(ScriptSQL); //carrega o arquivo sql
       FDScript1.Connection := conexaoDB;
       FDScript1.ScriptOptions.CommandSeparator := 'GO';
       try
@@ -81,6 +89,7 @@ begin
   end;
 end;
 
+//lê o config, cria e conecta no banco
 procedure TdtmConexao.DataModuleCreate(Sender: TObject);
 var
   Ini: TIniFile;
@@ -89,11 +98,13 @@ var
 begin
   CaminhoINI := TArquivoIni.ArquivoIni;
 
+  //verifica se o config.ini existe
   if not FileExists(CaminhoINI) then
     raise Exception.Create('config.ini não encontrado em: ' + CaminhoINI);
 
   Ini := TIniFile.Create(CaminhoINI);
   try
+    //lê
     Server := Ini.ReadString('Conexao', 'Server', '');
     Banco  := Ini.ReadString('Conexao', 'Database', '');
 
@@ -103,6 +114,7 @@ begin
     if Banco = '' then
       raise Exception.Create('Database vazio no config.ini');
 
+    //configura a conexão
     conexaoDB.Connected := False;
     conexaoDB.Params.Clear;
 
