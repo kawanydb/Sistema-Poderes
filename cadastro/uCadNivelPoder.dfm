@@ -1,10 +1,14 @@
 inherited frmCadNivelPoder: TfrmCadNivelPoder
-  Caption = 'frmNivelPoder'
+  Caption = 'Cadastro de N'#237'vel de Poder'
   Position = poScreenCenter
   PixelsPerInch = 96
   TextHeight = 13
   inherited pgcListagem: TPageControl
     inherited ts1: TTabSheet
+      ExplicitLeft = 4
+      ExplicitTop = 24
+      ExplicitWidth = 673
+      ExplicitHeight = 370
       inherited grdListagem: TDBGrid
         DataSource = dtsListagem
         Columns = <
