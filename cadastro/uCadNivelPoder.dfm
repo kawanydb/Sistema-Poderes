@@ -4,11 +4,8 @@ inherited frmCadNivelPoder: TfrmCadNivelPoder
   PixelsPerInch = 96
   TextHeight = 13
   inherited pgcListagem: TPageControl
+    ActivePage = tsManutencao
     inherited ts1: TTabSheet
-      ExplicitLeft = 4
-      ExplicitTop = 24
-      ExplicitWidth = 673
-      ExplicitHeight = 370
       inherited grdListagem: TDBGrid
         DataSource = dtsListagem
         Columns = <
@@ -27,6 +24,10 @@ inherited frmCadNivelPoder: TfrmCadNivelPoder
       end
     end
     inherited tsManutencao: TTabSheet
+      ExplicitLeft = 4
+      ExplicitTop = 24
+      ExplicitWidth = 673
+      ExplicitHeight = 370
       inherited pnlCampos: TPanel
         object lbl15: TLabel
           Left = 13

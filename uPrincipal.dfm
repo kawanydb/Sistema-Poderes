@@ -62,7 +62,7 @@
       Width = 277
       Height = 40
       Cursor = crHandPoint
-      Caption = '  Poderes'
+      Caption = '  Poderes (F4)'
       Flat = True
       Font.Charset = ANSI_CHARSET
       Font.Color = 10519250
@@ -78,7 +78,7 @@
       Width = 274
       Height = 40
       Cursor = crHandPoint
-      Caption = '  Categorias'
+      Caption = '  Categorias (F6)'
       Flat = True
       Font.Charset = ANSI_CHARSET
       Font.Color = 10519250
@@ -94,7 +94,7 @@
       Width = 265
       Height = 40
       Cursor = crHandPoint
-      Caption = '  Niveis de Poder'
+      Caption = '  Niveis de Poder (F7)'
       Flat = True
       Font.Charset = ANSI_CHARSET
       Font.Color = 10519250
@@ -168,7 +168,7 @@
       Width = 275
       Height = 40
       Cursor = crHandPoint
-      Caption = 'Fechar'
+      Caption = 'Fechar (Ctrl+Q)'
       Flat = True
       Font.Charset = ANSI_CHARSET
       Font.Color = 10519250
@@ -9117,7 +9117,7 @@
       object lbl3: TLabel
         Left = 1
         Top = 1
-        Width = 135
+        Width = 841
         Height = 26
         Align = alTop
         Alignment = taCenter
@@ -9128,6 +9128,7 @@
         Font.Name = 'Segoe UI'
         Font.Style = []
         ParentFont = False
+        ExplicitWidth = 135
       end
     end
   end
