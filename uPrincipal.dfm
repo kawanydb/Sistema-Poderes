@@ -62,7 +62,7 @@
       Width = 277
       Height = 40
       Cursor = crHandPoint
-      Caption = '  Poderes (F4)'
+      Caption = '  Poderes (F5)'
       Flat = True
       Font.Charset = ANSI_CHARSET
       Font.Color = 10519250
@@ -4539,6 +4539,7 @@
       Top = 478
       Width = 350
       Height = 77
+      Cursor = crHandPoint
       BevelOuter = bvNone
       Color = clWhite
       ParentBackground = False
@@ -4550,6 +4551,7 @@
         Top = 17
         Width = 122
         Height = 25
+        Cursor = crHandPoint
         Caption = 'Importar CSV'
         Font.Charset = ANSI_CHARSET
         Font.Color = clBlack
@@ -4564,6 +4566,7 @@
         Top = 40
         Width = 221
         Height = 17
+        Cursor = crHandPoint
         Caption = 'Carregar poderes de um arquivo CSV'
         Font.Charset = ANSI_CHARSET
         Font.Color = clGray
@@ -4578,6 +4581,7 @@
         Top = 18
         Width = 36
         Height = 41
+        Cursor = crHandPoint
         Picture.Data = {
           07544269746D617042000100424D420001000000000042000000280000008000
           000080000000010020000300000000000100B0030000B0030000000000000000
@@ -6831,11 +6835,11 @@
       end
     end
     object pnlAcaoPoderes: TPanel
-      Left = 85
+      Left = 80
       Top = 289
       Width = 240
       Height = 120
-      Cursor = crHandPoint
+      Cursor = crSizeAll
       BevelOuter = bvNone
       Color = clWhite
       ParentBackground = False
@@ -6847,6 +6851,7 @@
         Top = 40
         Width = 71
         Height = 25
+        Cursor = crHandPoint
         Caption = 'Poderes'
         Font.Charset = ANSI_CHARSET
         Font.Color = clBlack
@@ -6861,6 +6866,7 @@
         Top = 67
         Width = 121
         Height = 34
+        Cursor = crHandPoint
         Caption = 'Cadastre e gerencie superpoderes.'
         Font.Charset = ANSI_CHARSET
         Font.Color = clGray
@@ -6891,6 +6897,7 @@
         Top = 40
         Width = 94
         Height = 25
+        Cursor = crHandPoint
         Caption = 'Categorias'
         Font.Charset = ANSI_CHARSET
         Font.Color = clBlack
@@ -6905,6 +6912,7 @@
         Top = 67
         Width = 137
         Height = 34
+        Cursor = crHandPoint
         Caption = 'Cadastre e gerencie a categoria dos poderes.'
         Font.Charset = ANSI_CHARSET
         Font.Color = clGray
@@ -6933,6 +6941,7 @@
         Top = 40
         Width = 138
         Height = 25
+        Cursor = crHandPoint
         Caption = 'Niveis de Poder'
         Font.Charset = ANSI_CHARSET
         Font.Color = clBlack
@@ -6944,9 +6953,10 @@
       end
       object lblAcaoNivelDesc: TLabel
         Left = 16
-        Top = 67
+        Top = 72
         Width = 139
         Height = 34
+        Cursor = crHandPoint
         Caption = 'Cadastre e gerencie os n'#237'veis do poder'
         Font.Charset = ANSI_CHARSET
         Font.Color = clGray
@@ -6963,6 +6973,7 @@
       Top = 479
       Width = 363
       Height = 76
+      Cursor = crHandPoint
       BevelOuter = bvNone
       Color = clWhite
       ParentBackground = False
@@ -6974,6 +6985,7 @@
         Top = 16
         Width = 120
         Height = 25
+        Cursor = crHandPoint
         Caption = 'Exportar CSV'
         Font.Charset = ANSI_CHARSET
         Font.Color = clBlack
@@ -6984,10 +6996,11 @@
         OnClick = lblExpTitClick
       end
       object lblExpDesc: TLabel
-        Left = 62
+        Left = 57
         Top = 39
         Width = 217
         Height = 17
+        Cursor = crHandPoint
         Caption = 'Salvar listagem atual em arquivo CSV'
         Font.Charset = ANSI_CHARSET
         Font.Color = clGray
@@ -7002,6 +7015,7 @@
         Top = 17
         Width = 36
         Height = 41
+        Cursor = crHandPoint
         Picture.Data = {
           07544269746D617042000100424D420001000000000042000000280000008000
           000080000000010020000300000000000100B0030000B0030000000000000000

@@ -719,28 +719,53 @@ end;
 {$REGION 'ANIMAÇÃO TPANEL'}
 procedure TdtmPrincipal.PanelMouseEnter(Sender: TObject);
 var
-  P: TPanel;
+  Painel: TPanel;
 begin
-  P := Sender as TPanel;
+  Painel := Sender as TPanel;
 
-  if P.Tag = 1 then Exit;
+  if Painel.Tag = 1 then
+    Exit;
 
-  P.Tag := 1;
-  P.SetBounds(P.Left - 2, P.Top - 2, P.Width + 4, P.Height + 4);
-  P.Color := $00EAD7DF;
+  Painel.Tag := 1;
+
+  Painel.SetBounds(
+    Painel.Left - 2,
+    Painel.Top - 2,
+    Painel.Width + 4,
+    Painel.Height + 4
+  );
+
+  Painel.Color := $00EAD7DF;
 end;
 
 procedure TdtmPrincipal.PanelMouseLeave(Sender: TObject);
 var
-  P: TPanel;
+  Painel: TPanel;
+  MousePosicao: TPoint;
 begin
-  P := Sender as TPanel;
+  Painel := Sender as TPanel;
 
-  if P.Tag = 0 then Exit;
+  // pega posição do mouse relativa ao painel
+  MousePosicao := Painel.ScreenToClient(Mouse.CursorPos);
 
-  P.Tag := 0;
-  P.SetBounds(P.Left + 2, P.Top + 2, P.Width - 4, P.Height - 4);
-  P.Color := clWhite;
+  // se ainda estiver dentro do painel, não faz nada
+  if PtInRect(Painel.ClientRect, MousePosicao) then
+    Exit;
+
+  if Painel.Tag = 0 then
+    Exit;
+
+  Painel.Tag := 0;
+
+  Painel.SetBounds(
+    Painel.Left + 2,
+    Painel.Top + 2,
+    Painel.Width - 4,
+    Painel.Height - 4
+  );
+
+  Painel.Color:= clWhite;
 end;
+
 {$ENDREGION}
 end.
