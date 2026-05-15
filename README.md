@@ -34,6 +34,7 @@ Antes de executar o sistema, certifique-se de ter:
 
 -  SQL Server 2014 ou superior
 -  Baixar a pasta .zip no Release aqui do GitHub.
+  
 *Após isso seguir as instruções detalhadamente.*
 
 ### 🔧 2. Configurar o arquivo `config.ini`
