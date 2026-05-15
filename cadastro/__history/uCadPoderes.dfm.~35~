@@ -2,7 +2,7 @@ inherited frmCadastroPoderes: TfrmCadastroPoderes
   Caption = 'Cadastro de Poderes'
   ClientHeight = 454
   ClientWidth = 671
-  OnClose = FormClose
+  Position = poScreenCenter
   ExplicitWidth = 677
   ExplicitHeight = 483
   PixelsPerInch = 96
@@ -10,8 +10,8 @@ inherited frmCadastroPoderes: TfrmCadastroPoderes
   inherited pgcListagem: TPageControl
     Width = 671
     Height = 413
-    ExplicitWidth = 587
-    ExplicitHeight = 384
+    ExplicitWidth = 671
+    ExplicitHeight = 413
     inherited ts1: TTabSheet
       ExplicitWidth = 663
       ExplicitHeight = 385
@@ -20,45 +20,50 @@ inherited frmCadastroPoderes: TfrmCadastroPoderes
         ExplicitWidth = 663
       end
       inherited grdListagem: TDBGrid
-        Width = 663
-        Height = 325
+        Width = 657
+        Height = 319
         DataSource = dtsListagem
         Columns = <
           item
             Expanded = False
             FieldName = 'id'
+            Title.Alignment = taCenter
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'nome'
+            Title.Alignment = taCenter
             Visible = True
           end
           item
             Expanded = False
-            FieldName = 'Descri'#231#227'o'
+            FieldName = 'descricao'
+            Title.Alignment = taCenter
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'categoria'
+            Title.Alignment = taCenter
             Visible = True
           end
           item
             Expanded = False
-            FieldName = 'N'#237'vel de Poder'
+            FieldName = 'nivel'
+            Title.Alignment = taCenter
             Visible = True
           end>
       end
     end
     inherited tsManutencao: TTabSheet
-      ExplicitWidth = 579
-      ExplicitHeight = 356
+      ExplicitWidth = 663
+      ExplicitHeight = 385
       inherited pnlCampos: TPanel
         Width = 663
         Height = 385
-        ExplicitWidth = 579
-        ExplicitHeight = 356
+        ExplicitWidth = 663
+        ExplicitHeight = 385
         object lbl15: TLabel
           Left = 13
           Top = 11
@@ -132,17 +137,17 @@ inherited frmCadastroPoderes: TfrmCadastroPoderes
           Lines.Strings = (
             'edtDescricao')
           MaxLength = 255
-          TabOrder = 2
+          TabOrder = 4
         end
         object dblkCategoria: TDBLookupComboBox
           Left = 13
           Top = 170
           Width = 220
           Height = 21
-          KeyField = 'nome'
-          ListField = 'id'
+          KeyField = 'id'
+          ListField = 'nome'
           ListSource = dtsCategoria
-          TabOrder = 3
+          TabOrder = 2
         end
         object dblkNivelPoder: TDBLookupComboBox
           Left = 257
@@ -152,7 +157,7 @@ inherited frmCadastroPoderes: TfrmCadastroPoderes
           KeyField = 'id'
           ListField = 'nivel'
           ListSource = dtsNivelPoder
-          TabOrder = 4
+          TabOrder = 3
         end
       end
     end
@@ -160,8 +165,8 @@ inherited frmCadastroPoderes: TfrmCadastroPoderes
   inherited pnlRodape: TPanel
     Top = 413
     Width = 671
-    ExplicitTop = 384
-    ExplicitWidth = 587
+    ExplicitTop = 413
+    ExplicitWidth = 671
     inherited btnNavigator: TDBNavigator
       Hints.Strings = ()
     end
@@ -182,18 +187,21 @@ inherited frmCadastroPoderes: TfrmCadastroPoderes
     Left = 564
     Top = 32
     object fdtncfldQryListagemid: TFDAutoIncField
+      DisplayLabel = 'C'#243'digo'
       FieldName = 'id'
       Origin = 'id'
       ProviderFlags = [pfInWhere, pfInKey]
       ReadOnly = True
     end
     object nQryListagemnome: TStringField
+      DisplayLabel = 'Nome'
       FieldName = 'nome'
       Origin = 'nome'
       Required = True
       Size = 100
     end
     object nQryListagemdescricao: TStringField
+      DisplayLabel = 'Descri'#231#227'o'
       FieldName = 'descricao'
       Origin = 'descricao'
       Size = 500
@@ -209,12 +217,14 @@ inherited frmCadastroPoderes: TfrmCadastroPoderes
       Required = True
     end
     object nQryListagemcategoria: TStringField
+      DisplayLabel = 'Categoria'
       FieldName = 'categoria'
       Origin = 'categoria'
       Required = True
       Size = 50
     end
     object nQryListagemnivel: TStringField
+      DisplayLabel = 'N'#237'vel de poder'
       FieldName = 'nivel'
       Origin = 'nivel'
       Required = True

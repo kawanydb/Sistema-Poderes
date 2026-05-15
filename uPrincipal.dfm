@@ -6789,7 +6789,7 @@
       end
     end
     object pnlCardNiveis: TPanel
-      Left = 470
+      Left = 468
       Top = 156
       Width = 161
       Height = 80
@@ -6800,8 +6800,8 @@
       TabOrder = 3
       OnResize = pnlCardNiveisResize
       object lblTotalNivelVal: TLabel
-        Left = 0
-        Top = 18
+        Left = -1
+        Top = 17
         Width = 161
         Height = 32
         Cursor = crNo
@@ -6839,7 +6839,7 @@
       Top = 289
       Width = 240
       Height = 120
-      Cursor = crSizeAll
+      Cursor = crHandPoint
       BevelOuter = bvNone
       Color = clWhite
       ParentBackground = False
@@ -6969,9 +6969,9 @@
       end
     end
     object pnlExportar: TPanel
-      Left = 461
+      Left = 462
       Top = 479
-      Width = 363
+      Width = 360
       Height = 76
       Cursor = crHandPoint
       BevelOuter = bvNone
@@ -9074,7 +9074,7 @@
       end
     end
     object pnlCardImportacoes: TPanel
-      Left = 664
+      Left = 663
       Top = 156
       Width = 161
       Height = 80

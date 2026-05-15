@@ -7,7 +7,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Vcl.Buttons, Vcl.Grids, Vcl.DBGrids, Vcl.StdCtrls, Vcl.Mask, Vcl.ExtCtrls,
   Vcl.ComCtrls, uDTMConexao, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
   FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
-  Vcl.DBCtrls, RxCurrEdit, uEnum,cArquivoIni, System.IniFiles;
+  Vcl.DBCtrls, RxCurrEdit, uEnum,cArquivoIni, System.IniFiles, cFuncao;
 
 type
   TfrmTelaHeranca = class(TForm)
@@ -20,7 +20,6 @@ type
     grdListagem: TDBGrid;
     pnlCampos: TPanel;
     pnlRodape: TPanel;
-    btnNovo: TBitBtn;
     btnAlterar: TBitBtn;
     btnCancelar: TBitBtn;
     btnGravar: TBitBtn;
@@ -28,8 +27,9 @@ type
     btnFechar: TBitBtn;
     QryListagem: TFDQuery;
     dtsListagem: TDataSource;
-    btnNavigator: TDBNavigator;
     lbl1: TLabel;
+    btnNovo: TBitBtn;
+    btnNavigator: TDBNavigator;
     procedure btnNovoClick(Sender: TObject);
     procedure btnAlterarClick(Sender: TObject);
     procedure btnApagarClick(Sender: TObject);
@@ -471,10 +471,10 @@ end;
 procedure TfrmTelaHeranca.grdListagemKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
   if Key = VK_ESCAPE then
-  begin
-    Key := 0;
-    Close;
-  end;
+    begin
+      Key := 0;
+      Close;
+    end;
   BloqueiaCTRL_DEL_DBGrid(Key,Shift);
 end;
 
@@ -493,13 +493,25 @@ begin
 end;
 
 procedure TfrmTelaHeranca.FormCreate(Sender: TObject);
+var I: Integer;
 begin
+  for I := 0 to ComponentCount - 1 do
+  begin
+    if Components[I] is TSpeedButton then
+    begin
+      TSpeedButton(Components[I]).OnMouseEnter := TFuncao.BotaoMouseLeave;
+      TSpeedButton(Components[I]).OnMouseLeave := TFuncao.BotaoMouseEnter;
+    end;
+  end;
+
   QryListagem.Connection:=dtmConexao.conexaoDB;
   dtsListagem.DataSet:=QryListagem;
   grdListagem.DataSource:=dtsListagem;
   grdListagem.Options:=[dgTitles,dgIndicator,dgColumnResize,
                          dgColLines,dgRowLines,dgTabs,
                          dgCancelOnExit,dgTitleClick,dgTitleHotTrack];
+
+
 end;
 
 procedure TfrmTelaHeranca.FormShow(Sender: TObject);

@@ -79,7 +79,7 @@ object frmTelaHeranca: TfrmTelaHeranca
         Font.Height = -11
         Font.Name = 'Segoe UI'
         Font.Style = [fsBold]
-        Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgAlwaysShowSelection, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
+        Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
         ParentFont = False
         TabOrder = 1
         TitleFont.Charset = ANSI_CHARSET
@@ -122,13 +122,12 @@ object frmTelaHeranca: TfrmTelaHeranca
     Color = 15986933
     ParentBackground = False
     TabOrder = 1
-    object btnNovo: TBitBtn
-      Left = 12
-      Top = 11
-      Width = 72
-      Height = 22
-      Caption = '&NOVO'
-      TabOrder = 0
+    object btnNovo: TSpeedButton
+      Left = 22
+      Top = 6
+      Width = 64
+      Height = 21
+      Caption = 'NOVO'
       OnClick = btnNovoClick
     end
     object btnAlterar: TBitBtn
@@ -137,7 +136,7 @@ object frmTelaHeranca: TfrmTelaHeranca
       Width = 72
       Height = 22
       Caption = '&ALTERAR'
-      TabOrder = 1
+      TabOrder = 0
       OnClick = btnAlterarClick
     end
     object btnCancelar: TBitBtn
@@ -146,7 +145,7 @@ object frmTelaHeranca: TfrmTelaHeranca
       Width = 72
       Height = 22
       Caption = '&CANCELAR'
-      TabOrder = 2
+      TabOrder = 1
       OnClick = btnCancelarClick
     end
     object btnGravar: TBitBtn
@@ -155,7 +154,7 @@ object frmTelaHeranca: TfrmTelaHeranca
       Width = 72
       Height = 22
       Caption = '&GRAVAR'
-      TabOrder = 3
+      TabOrder = 2
       OnClick = btnGravarClick
     end
     object btnApagar: TBitBtn
@@ -164,7 +163,7 @@ object frmTelaHeranca: TfrmTelaHeranca
       Width = 72
       Height = 22
       Caption = '&APAGAR'
-      TabOrder = 4
+      TabOrder = 3
       OnClick = btnApagarClick
     end
     object btnFechar: TBitBtn
@@ -173,7 +172,7 @@ object frmTelaHeranca: TfrmTelaHeranca
       Width = 72
       Height = 22
       Caption = '&FECHAR'
-      TabOrder = 5
+      TabOrder = 4
       OnClick = btnFecharClick
     end
     object btnNavigator: TDBNavigator
@@ -184,7 +183,7 @@ object frmTelaHeranca: TfrmTelaHeranca
       Cursor = crHandPoint
       DataSource = dtsListagem
       VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast]
-      TabOrder = 6
+      TabOrder = 5
     end
   end
   object QryListagem: TFDQuery

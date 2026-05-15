@@ -7,7 +7,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Vcl.Buttons, Vcl.Grids, Vcl.DBGrids, Vcl.StdCtrls, Vcl.Mask, Vcl.ExtCtrls,
   Vcl.ComCtrls, uDTMConexao, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
   FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
-  Vcl.DBCtrls, RxCurrEdit, uEnum,cArquivoIni, System.IniFiles;
+  Vcl.DBCtrls, RxCurrEdit, uEnum,cArquivoIni, System.IniFiles, cFuncao;
 
 type
   TfrmTelaHeranca = class(TForm)
@@ -20,7 +20,6 @@ type
     grdListagem: TDBGrid;
     pnlCampos: TPanel;
     pnlRodape: TPanel;
-    btnNovo: TBitBtn;
     btnAlterar: TBitBtn;
     btnCancelar: TBitBtn;
     btnGravar: TBitBtn;
@@ -30,6 +29,7 @@ type
     dtsListagem: TDataSource;
     btnNavigator: TDBNavigator;
     lbl1: TLabel;
+    btnNovo: TSpeedButton;
     procedure btnNovoClick(Sender: TObject);
     procedure btnAlterarClick(Sender: TObject);
     procedure btnApagarClick(Sender: TObject);
@@ -85,7 +85,6 @@ end;
 function TfrmTelaHeranca.Gravar(EstadoDoCadastro: TEstadoDoCadastro): Boolean;
 begin
   Result := True;
-//mensagens para o usuário saber se a ação aconteceu
      if(EstadoDoCadastro=ecInserir) then
         ShowMessage('Inserir')
       else if (EstadoDoCadastro=ecAlterar) then
@@ -96,7 +95,7 @@ end;
 {$REGION 'BOTÕES'}
 procedure TfrmTelaHeranca.btnAlterarClick(Sender: TObject);
 begin
-  ControlarBotoes(btnNovo, btnAlterar, btnCancelar, btnGravar,
+  ControlarBotoes(btnNovo: TSpeedButton, btnAlterar, btnCancelar, btnGravar,
    btnApagar, btnNavigator, false);
    EstadoDoCadastro:=ecAlterar;
 end;
@@ -105,25 +104,25 @@ procedure TfrmTelaHeranca.btnApagarClick(Sender: TObject);
 begin
   if (Apagar) then
   begin
-       ControlarBotoes(btnNovo, btnAlterar, btnCancelar, btnGravar,
-                      btnApagar, btnNavigator, true);
-       ControlarIndiceTab(pgcListagem, 0);
-       LimparEdits;
-       QryListagem.Refresh;
+    ControlarBotoes(btnNovo, btnAlterar, btnCancelar, btnGravar,
+                    btnApagar, btnNavigator, true);
+    ControlarIndiceTab(pgcListagem, 0);
+    LimparEdits;
+    QryListagem.Refresh;
   end
   else
   begin
-        MessageDlg('Erro na exclusão', mtError, [mbok],0);
+    MessageDlg('Erro na exclusão', mtError, [mbok],0);
   end;
 end;
 
 procedure TfrmTelaHeranca.btnCancelarClick(Sender: TObject);
 begin
   ControlarBotoes(btnNovo, btnAlterar, btnCancelar, btnGravar,
-   btnApagar, btnNavigator, true);
-   ControlarIndiceTab(pgcListagem, 0);
-   EstadoDoCadastro:=ecNenhum;
-   LimparEdits;
+    btnApagar, btnNavigator, true);
+    ControlarIndiceTab(pgcListagem, 0);
+  EstadoDoCadastro:=ecNenhum;
+  LimparEdits;
 end;
 
 procedure TfrmTelaHeranca.btnFecharClick(Sender: TObject);
@@ -135,14 +134,16 @@ procedure TfrmTelaHeranca.btnGravarClick(Sender: TObject);
 begin
   if (ExisteCampoObrigatorio) then
       Abort;
+
    Try
      if Gravar(EstadoDoCadastro) then begin
        QryListagem.Close;
        QryListagem.Open;
 
        ControlarBotoes(btnNovo, btnAlterar, btnCancelar, btnGravar,
-                      btnApagar, btnNavigator, true);
-       ControlarIndiceTab(pgcListagem, 0);
+                      btnApagar, btnNavigator, True);
+
+       ControlarIndiceTab(pgcListagem, 0); //volta pra aba de listagem
        EstadoDoCadastro:=ecNenhum;
        LimparEdits;
        QryListagem.Refresh;
@@ -279,7 +280,7 @@ end;
 {$ENDREGION}
 
 {$REGION 'CONTROLE'}
-procedure TfrmTelaHeranca.ControlarBotoes(btnNovo, btnAlterar, btnCancelar,
+procedure TfrmTelaHeranca.ControlarBotoes( btnNovo: TSpeedButton, btnAlterar, btnCancelar,
       btnGravar, btnApagar:TBitBtn; Navegador: TDBNavigator;
       Flag:Boolean);
 //configurando botões e desabilitando uns  quando outros forem clicados
@@ -405,14 +406,15 @@ begin
   end;
 end;
 
-procedure TfrmTelaHeranca.DesabilitarEditPK;  //declara que o desabilitar pertence ao form tela herança
+procedure TfrmTelaHeranca.DesabilitarEditPK;
 var i: Integer;
 begin
-   for i := 0 to ComponentCount -1 do begin // o indice começa em 0 por isso o -1
-      if(Components[i] is TLabeledEdit) then begin  // verifica se o componente atual é do tipo TLabeledEdit
+//desativa o campo, impedindo o usuário de editá-lo
+   for i := 0 to ComponentCount -1 do begin
+      if(Components[i] is TLabeledEdit) then begin
           if(TLabeledEdit(Components[i]).Tag = 1) then begin
-            TLabeledEdit(Components[i]).Enabled:=False;  //desativa o campo, impedindo o usuário de editá-lo
-            Break;    // para o loop evitando busca desnecessária
+            TLabeledEdit(Components[i]).Enabled:=False;
+            Break;
           end;
       end;
    end;
@@ -420,6 +422,7 @@ end;
 
 procedure TfrmTelaHeranca.mskPesquisarKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
+//enter p pesquisar
   if Key = VK_RETURN then
   begin
     btnPesquisar.Click;
@@ -447,21 +450,32 @@ begin
   begin
   //verifica se o número da linha é ímpar ou par e da uma cor p cada
     if Odd(TDBGrid(Sender).DataSource.DataSet.RecNo) then
-      TDBGrid(Sender).Canvas.Brush.Color := $00F2F2F2 // Cinza claro
+      TDBGrid(Sender).Canvas.Brush.Color := $00F4F0FD
     else
-      TDBGrid(Sender).Canvas.Brush.Color := $00E1E1E1; // Cinza escuro
+      TDBGrid(Sender).Canvas.Brush.Color := $00E2D8F5;
   end;
+
+  if (gdSelected in State) then
+  begin
+    TDBGrid(Sender).Canvas.Brush.Color := $00301050;
+    TDBGrid(Sender).Canvas.Font.Color  := clWhite;
+  end;
+
+  // Aplica a cor no fundo
+  TDBGrid(Sender).Canvas.FillRect(Rect);
+
+  //mostra o texto padrão
+  TDBGrid(Sender).DefaultDrawColumnCell(Rect, DataCol, Column, State);
 end;
 
 procedure TfrmTelaHeranca.grdListagemKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
   if Key = VK_ESCAPE then
   begin
-    Key := 0; // evita conflito
+    Key := 0;
     Close;
   end;
   BloqueiaCTRL_DEL_DBGrid(Key,Shift);
-
 end;
 
 procedure TfrmTelaHeranca.BloqueiaCTRL_DEL_DBGrid(var Key: Word; Shift: TShiftState);
@@ -479,13 +493,24 @@ begin
 end;
 
 procedure TfrmTelaHeranca.FormCreate(Sender: TObject);
+var I: Integer;
 begin
+  for I := 0 to ComponentCount - 1 do
+  begin
+    if Components[I] is TSpeedButton then
+    begin
+      TSpeedButton(Components[I]).OnMouseEnter := TFuncao.BotaoMouseLeave;
+      TSpeedButton(Components[I]).OnMouseLeave := TFuncao.BotaoMouseEnter;
+    end;
+  end;
+
   QryListagem.Connection:=dtmConexao.conexaoDB;
   dtsListagem.DataSet:=QryListagem;
   grdListagem.DataSource:=dtsListagem;
   grdListagem.Options:=[dgTitles,dgIndicator,dgColumnResize,
                          dgColLines,dgRowLines,dgTabs,
                          dgCancelOnExit,dgTitleClick,dgTitleHotTrack];
+
 end;
 
 procedure TfrmTelaHeranca.FormShow(Sender: TObject);
@@ -507,6 +532,7 @@ begin
 
   ControlarIndiceTab(pgcListagem, 0);
   DesabilitarEditPK;
+  grdListagem.SetFocus;
 
   ControlarBotoes(
     btnNovo,

@@ -19,6 +19,8 @@ type
     class procedure ArredondarPainel(APanel: TPanel; ARaio: Integer = 20);
     class function SemEnter(const S: string): string;
     class function CSV(const S: string): string;
+    class procedure BotaoMouseLeave(Sender: TObject);
+    class procedure BotaoMouseEnter(Sender: TObject);
   end;
 
 implementation
@@ -64,6 +66,18 @@ end;
 class function TFuncao.CSV(const S: string): string;
 begin
   Result := StringReplace(SemEnter(S), ';', ',', [rfReplaceAll]);
+end;
+
+class procedure TFuncao.BotaoMouseLeave(Sender: TObject);
+begin
+  if Sender is TSpeedButton then
+    TSpeedButton(Sender).Font.Color := clBlack;
+end;
+
+class procedure TFuncao.BotaoMouseEnter(Sender: TObject);
+begin
+  if Sender is TSpeedButton then
+    TSpeedButton(Sender).Font.Color := clWhite;
 end;
 
 

@@ -73,13 +73,13 @@ object frmTelaHeranca: TfrmTelaHeranca
         Align = alClient
         Color = 15986933
         DrawingStyle = gdsClassic
-        FixedColor = 5972132
+        FixedColor = 1574960
         Font.Charset = ANSI_CHARSET
         Font.Color = clBlack
         Font.Height = -11
         Font.Name = 'Segoe UI'
         Font.Style = [fsBold]
-        Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgAlwaysShowSelection, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
+        Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
         ParentFont = False
         TabOrder = 1
         TitleFont.Charset = ANSI_CHARSET
@@ -92,7 +92,6 @@ object frmTelaHeranca: TfrmTelaHeranca
         OnKeyDown = grdListagemKeyDown
         Columns = <
           item
-            Alignment = taCenter
             Expanded = False
             Title.Alignment = taCenter
             Visible = True
@@ -123,48 +122,39 @@ object frmTelaHeranca: TfrmTelaHeranca
     Color = 15986933
     ParentBackground = False
     TabOrder = 1
-    object btnNovo: TBitBtn
-      Left = 12
-      Top = 11
-      Width = 72
-      Height = 22
-      Caption = '&NOVO'
-      TabOrder = 0
-      OnClick = btnNovoClick
-    end
     object btnAlterar: TBitBtn
       Left = 92
       Top = 11
       Width = 72
       Height = 22
-      Caption = '&ALTERAR'
+      Caption = 'ALTERAR'
       TabOrder = 1
       OnClick = btnAlterarClick
     end
     object btnCancelar: TBitBtn
-      Left = 175
+      Left = 170
       Top = 11
       Width = 72
       Height = 22
-      Caption = '&CANCELAR'
+      Caption = 'CANCELAR'
       TabOrder = 2
       OnClick = btnCancelarClick
     end
     object btnGravar: TBitBtn
-      Left = 261
+      Left = 251
       Top = 11
       Width = 72
       Height = 22
-      Caption = '&GRAVAR'
+      Caption = 'GRAVAR'
       TabOrder = 3
       OnClick = btnGravarClick
     end
     object btnApagar: TBitBtn
-      Left = 345
+      Left = 333
       Top = 11
       Width = 72
       Height = 22
-      Caption = '&APAGAR'
+      Caption = 'APAGAR'
       TabOrder = 4
       OnClick = btnApagarClick
     end
@@ -173,20 +163,29 @@ object frmTelaHeranca: TfrmTelaHeranca
       Top = 11
       Width = 72
       Height = 22
-      Caption = '&FECHAR'
+      Caption = 'FECHAR'
       TabOrder = 5
       OnClick = btnFecharClick
     end
-    object btnNavigator: TDBNavigator
-      Left = 428
-      Top = 13
-      Width = 112
-      Height = 18
-      Cursor = crHandPoint
-      DataSource = dtsListagem
-      VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast]
-      TabOrder = 6
+    object btnNovo: TBitBtn
+      Left = 14
+      Top = 11
+      Width = 72
+      Height = 22
+      Caption = 'NOVO'
+      TabOrder = 0
+      OnClick = btnAlterarClick
     end
+  end
+  object btnNavigator: TDBNavigator
+    Left = 436
+    Top = 409
+    Width = 112
+    Height = 22
+    Cursor = crHandPoint
+    DataSource = dtsListagem
+    VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast]
+    TabOrder = 2
   end
   object QryListagem: TFDQuery
     Connection = dtmConexao.conexaoDB

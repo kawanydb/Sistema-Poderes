@@ -13,27 +13,26 @@ type
   private
 
 
+
   public
     class procedure CriarForm(aNomeForm: TFormClass; aConexao: TFDConnection);
     class procedure ArredondarPainel(APanel: TPanel; ARaio: Integer = 20);
     class function SemEnter(const S: string): string;
     class function CSV(const S: string): string;
-    class procedure PanelMouseEnter(Sender: TObject);
-    class procedure PanelMouseLeave(Sender: TObject);
   end;
 
 implementation
 
 class procedure TFuncao.CriarForm(aNomeForm: TFormClass; aConexao: TFDConnection);
 var
-  form: TForm;
+  Form: TForm;
 begin
   try
-    form := aNomeForm.Create(Application);
-    form.ShowModal;
+    Form := aNomeForm.Create(Application);
+    Form.ShowModal;
   finally
-    if Assigned(form) then
-      form.Free;
+    if Assigned(Form) then
+      Form.Free;
   end;
 end;
 
@@ -41,6 +40,7 @@ class procedure TFuncao.ArredondarPainel(APanel: TPanel; ARaio: Integer = 20);
 var
   R: HRGN;
 begin
+  //cria um retângulo arredondado
   R := CreateRoundRectRgn(
     0, 0,
     APanel.Width,
@@ -51,6 +51,7 @@ begin
   SetWindowRgn(APanel.Handle, R, True);
 end;
 
+//remove o enter pra criar o csv
 class function TFuncao.SemEnter(const S: string): string;
 begin
   Result := StringReplace(S, sLineBreak, ' ', [rfReplaceAll]);
@@ -59,35 +60,11 @@ begin
   Result := StringReplace(Result, #10, ' ', [rfReplaceAll]);
 end;
 
+ //remoive enter e troca ; por ,
 class function TFuncao.CSV(const S: string): string;
 begin
   Result := StringReplace(SemEnter(S), ';', ',', [rfReplaceAll]);
 end;
 
-class procedure PanelMouseEnter(Sender: TObject);
-var
-  P: TPanel;
-begin
-  P := Sender as TPanel;
-
-  if P.Tag = 1 then Exit;
-
-  P.Tag := 1;
-  P.SetBounds(P.Left - 2, P.Top - 2, P.Width + 4, P.Height + 4);
-  P.Color := $00E6E6E6;
-end;
-
-class procedure PanelMouseLeave(Sender: TObject);
-var
-  P: TPanel;
-begin
-  P := Sender as TPanel;
-
-  if P.Tag = 0 then Exit;
-
-  P.Tag := 0;
-  P.SetBounds(P.Left + 2, P.Top + 2, P.Width - 4, P.Height - 4);
-  P.Color := clBtnFace;
-end;
 
 end.
