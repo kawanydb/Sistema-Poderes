@@ -30,11 +30,11 @@ O sistema possibilita organizar poderes por categorias e níveis de poder, além
 
 ### 📦 1. Pré-requisitos
 
-Antes de executar o sistema, certifique-se de ter instalado:
+Antes de executar o sistema, certifique-se de ter:
 
 -  SQL Server 2014 ou superior
 -  Baixar a pasta .zip no Release aqui do GitHub.
--  Seguir as instruções detalhadamente.
+*Após isso seguir as instruções detalhadamente.*
 
 ### 🔧 2. Configurar o arquivo `config.ini`
 
@@ -93,7 +93,7 @@ SistemaPoderes/
 
 O sistema permite importar superpoderes através de arquivos CSV.
 
-**Formato esperado:**
+**Formato esperado para entrada:**
 
 ```csv
 nome;descricao;categoria;nivel
@@ -104,7 +104,7 @@ Super Força;Força acima do normal;Física;Intermediário
 **Passos para importar:**
 
 1. Abrir o sistema
-2. Selecionar a opção de importação.
+2. Selecionar a opção de importação no dashboard ou menu.
 3. Escolher o arquivo CSV.
 4. Confirmar a importação.
 
@@ -115,7 +115,7 @@ O sistema exporta os dados cadastrados em formato CSV.
 **Passos para exportar:**
 
 1. Abrir o sistema.
-2. Selecionar a opção de exportação.
+2. Selecionar a opção de exportaçãono dashboard ou menu.
 3. Escolher o local para salvar.
 4. Confirmar a exportação.
 
@@ -140,10 +140,12 @@ O sistema exporta os dados cadastrados em formato CSV.
 
 | Tecla | Função |
 |-------|---------|
-| **F9** | Cadastro de Poderes |
-| **F5** | Cadastro de Categorias |
-| **F2** | Cadastro de Níveis |
-| **Enter** | Navegação entre campos do grid |
+| **F5** | Cadastro de Poderes |
+| **F6** | Cadastro de Categorias |
+| **F7** | Cadastro de Níveis |
+| **Enter** | Navegação entre campos dos cadastros |
+| **Ctrl+Q** | Fecha o sistema |
+| **Tab** | Navegação entre campos da grid |
 
 ---
 
