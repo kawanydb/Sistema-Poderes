@@ -64,6 +64,7 @@ Password=123
 | `Password` | Senha do SQL Server |
 
 ### ▶️ 3. Executar o Sistema
+Após configurar o `config.ini` com os dados corretos:
 
 1. Abra a pasta do sistema
 2. Execute o arquivo `Desafio.exe`
