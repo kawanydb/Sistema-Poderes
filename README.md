@@ -33,6 +33,8 @@ O sistema possibilita organizar poderes por categorias e níveis de poder, além
 Antes de executar o sistema, certifique-se de ter instalado:
 
 -  SQL Server 2014 ou superior
+-  Baixar a pasta .zip no Release aqui do GitHub.
+-  Seguir as instruções detalhadamente.
 
 ### 🔧 2. Configurar o arquivo `config.ini`
 
