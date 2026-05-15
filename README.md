@@ -66,8 +66,8 @@ Password=123
 ### ▶️ 3. Executar o Sistema
 Após configurar o `config.ini` com os dados corretos:
 
-1. Abra a pasta do sistema
-2. Execute o arquivo `Desafio.exe`
+1. Abra a pasta do sistema.
+2. Execute o arquivo `Desafio.exe`. ####(clicando duas vezes nele)
 3. O sistema conectará automaticamente ao banco de dados.
    
 ### 🚨 Ao executar o arquivo `Desafio.exe` o banco de dados será criado automaticamente, basta apenas configurar o `config.ini`!
