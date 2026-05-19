@@ -4,7 +4,6 @@ inherited frmCadNivelPoder: TfrmCadNivelPoder
   PixelsPerInch = 96
   TextHeight = 13
   inherited pgcListagem: TPageControl
-    ActivePage = tsManutencao
     inherited ts1: TTabSheet
       inherited grdListagem: TDBGrid
         DataSource = dtsListagem

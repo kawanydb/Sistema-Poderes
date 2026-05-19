@@ -25,14 +25,12 @@ var
 
 implementation
 
-{%CLASSGROUP 'Vcl.Controls.TControl'}
-
 {$R *.dfm}
 
 procedure TdtmConexao.CriarBancoSeNaoExistir;
 var
   Ini: TIniFile;
-  CaminhoINI: string; //caminho do config.ini
+  CaminhoINI: string;
   Banco: string;
   ScriptSQL: string;
 begin
@@ -54,8 +52,7 @@ begin
     try
       conexaoDB.ExecSQL(
         'IF DB_ID(''' + Banco + ''') IS NULL ' +
-        'CREATE DATABASE ' + Banco
-      );
+        'CREATE DATABASE ' + Banco);
     except
     end;
 

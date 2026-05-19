@@ -1,0 +1,196 @@
+unit cCadNivelPoder;
+
+interface
+
+uses System.Classes,
+     Vcl.Controls,
+     Vcl.ExtCtrls,
+     Vcl.Dialogs,
+     FireDAC.Comp.Client,
+     FireDAC.Stan.Error,
+     FireDAC.DatS,
+     FireDAC.Phys.Intf,
+     FireDAC.DApt.Intf,
+     FireDAC.Stan.Async,
+     FireDAC.DApt,
+     FireDAC.Comp.DataSet,
+     System.SysUtils,
+     FireDAC.Stan.Param;
+
+type
+  TNivel = class
+  private
+  F_NivelId: Integer;
+  F_Nivel: String;
+  conexaoDB: TFDConnection;
+  function getCodigo: Integer;
+  function getDescricao: string;
+  procedure setCodigo(const Value: Integer);
+  procedure setDescricao(const Value: string);
+
+  public
+    constructor Create(aConexao:TFDConnection);
+    destructor Destroy; override;
+    function Inserir:Boolean;
+    function Atualizar:Boolean;
+    function Apagar:Boolean;
+    function Selecionar(id:Integer):Boolean;
+  published
+    property codigo:Integer read getCodigo write setCodigo;
+    property descricao:string read getDescricao write setDescricao;
+  end;
+
+implementation
+
+{$REGION 'Constructor and Destructor'}
+constructor TNivel.Create(aConexao: TFDConnection);
+begin
+  Self.conexaoDB := aConexao;  // salva a conexão
+end;
+
+destructor TNivel.Destroy;
+begin
+  inherited
+end;
+{$ENDREGION}
+
+{$REGION 'GETS'}
+function TNivel.getCodigo: Integer;
+begin
+  Result:= Self.F_NivelId;
+end;
+
+function TNivel.getDescricao: string;
+begin
+  Result:= Self.F_Nivel;
+end;
+{$ENDREGION}
+
+{$REGION 'SETS'}
+ procedure TNivel.setCodigo(const Value: Integer);
+begin
+  Self.F_NivelId := Value;
+end;
+
+procedure TNivel.setDescricao(const Value: string);
+begin
+  Self.F_Nivel := Value;
+end;
+{$ENDREGION}
+
+{$REGION 'CRUD'}
+function TNivel.Apagar: Boolean;
+var Qry:TFDQuery;
+begin
+  if MessageDlg('Apagar o Registro: ' + #13+#13 +
+                'Código: ' + IntToStr(F_NivelId) + #13 +
+                'Descrição: ' + F_Nivel, mtConfirmation, [mbYes, mbNo], 0) = mrNo
+  then
+  begin
+    Result := False;
+    Abort;
+  end;
+  try
+    Result := True;
+    Qry := TFDQuery.Create(nil);
+    Qry.Connection := conexaoDB;
+    conexaoDB.StartTransaction;
+    Qry.SQL.Clear;
+    Qry.SQL.Add('DELETE FROM nivel_poder ' +
+                'WHERE id =:id');
+    Qry.ParamByName('id').AsInteger := F_NivelId;
+    try
+      Qry.ExecSQL;
+      conexaoDB.Commit;
+    except
+      on E: Exception do
+      begin
+        conexaoDB.Rollback;
+        Result := False;
+      end;
+    end;
+  finally
+    if Assigned(Qry) then
+      FreeAndNil(Qry);
+  end;
+end;
+
+function TNivel.Atualizar: Boolean;
+var Qry:TFDQuery;
+begin
+   try
+     Result:=True;
+     Qry:=TFDQuery.Create(nil);
+     Qry.Connection:=conexaoDB;
+     Qry.SQL.Clear;
+     Qry.SQL.Add('UPDATE categorias ' +
+                 ' SET nivel=:nivel ' +
+                 'WHERE id=:id');
+     Qry.ParamByName('id').AsInteger:=Self.F_NivelId;
+     Qry.ParamByName('nivel').AsString:=Self.F_Nivel;
+
+     try
+        conexaoDB.StartTransaction;
+        Qry.ExecSQL;
+        conexaoDB.Commit;
+     except
+        conexaoDB.Rollback;
+        Result:=False;
+     end;
+   finally
+    if Assigned(Qry) then
+    FreeAndNil(Qry);
+
+   end;
+end;
+
+function TNivel.Inserir: Boolean;
+var Qry:TFDQuery;
+begin
+   try
+   result:=True;
+     Qry:=TFDQuery.Create(nil);
+     Qry.Connection:=conexaoDB;
+     Qry.SQL.Clear;
+     Qry.SQL.Add('insert into nivel_poder (nivel) values (:nivel)');
+     Qry.ParamByName('nivel').AsString:=Self.F_Nivel;
+     try
+        conexaoDB.StartTransaction;
+        Qry.ExecSQL;
+        conexaoDB.Commit;
+     except
+        conexaoDB.Rollback;
+        Result:=False;
+     end;
+   finally
+    if Assigned(Qry) then
+    FreeAndNil(Qry);
+   end;
+end;
+
+function TNivel.Selecionar(id: Integer): Boolean;
+var Qry:TFDQuery;
+begin
+   try
+     Result:=True;
+     Qry := TFDQuery.Create(nil);
+     Qry.Connection := conexaoDB;
+     Qry.SQL.Clear;
+     Qry.SQL.Add('SELECT id, nivel ' +
+            'FROM nivel_poder ' +
+            'WHERE id = :id');
+     Qry.ParamByName('id').Value:=id;
+     try
+      Qry.Open;
+      Self.F_NivelId := Qry.FieldByName('id').AsInteger;
+      Self.F_Nivel   := Qry.FieldByName('nivel').AsString;
+     except
+      Result := False;
+      end;
+  finally
+    if Assigned(Qry) then
+    FreeAndNil(Qry);
+  end;
+end;
+{$ENDREGION}
+end.

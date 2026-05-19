@@ -38,35 +38,38 @@ implementation
 function TfrmCadNivelPoder.Apagar: Boolean;
 var Qry:TFDQuery;
 begin
-  if oNivel.Selecionar(QryListagem.FieldByName('id').AsInteger) then begin
-     Result:=oNivel.Apagar;
+  if oNivel.Selecionar(QryListagem.FieldByName('id').AsInteger) then
+  begin
+    Result:=oNivel.Apagar;
   end;
 end;
 
 function TfrmCadNivelPoder.Gravar(EstadoDoCadastro: TEstadoDoCadastro): Boolean;
 begin
   if edtNivelId.Text<>EmptyStr then
-  oNivel.codigo:=StrToInt(edtNivelId.Text)
+    oNivel.codigo:=StrToInt(edtNivelId.Text)
   else
   oNivel.codigo:=0;
 
   oNivel.descricao:=edtNivelPoder.Text;
 
   if(EstadoDoCadastro)=ecInserir then
-  Result:=oNivel.Inserir
+    Result:=oNivel.Inserir
   else if (EstadoDoCadastro=ecAlterar) then
-  Result:=oNivel.Atualizar;
+    Result:=oNivel.Atualizar;
 end;
 {$ENDREGION}
 
 {$REGION 'BOTÕES'}
 procedure TfrmCadNivelPoder.btnAlterarClick(Sender: TObject);
 begin
-  if oNivel.Selecionar(QryListagem.FieldByName('id').AsInteger) then begin
+  if oNivel.Selecionar(QryListagem.FieldByName('id').AsInteger) then
+  begin
     edtNivelId.Text:=IntToStr(oNivel.codigo);
     edtNivelPoder.Text :=oNivel.descricao;
   end
-  else begin
+  else
+  begin
     btnCancelarClick(nil);
     Abort
   end;

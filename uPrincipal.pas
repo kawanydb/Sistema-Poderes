@@ -126,9 +126,8 @@ type
     procedure ImportarCSV(Caminho: string);
     procedure ExportarCSV(Caminho: string);
     procedure PanelMouseEnter(Sender: TObject);
-
-    procedure PanelMouseLeave(Sender: TObject);  public
-
+    procedure PanelMouseLeave(Sender: TObject);
+  public
   end;
 
 var
@@ -153,7 +152,7 @@ begin
 
   TeclaEnter:= TMREnter.Create(Self);
   TeclaEnter.FocusEnabled:=True;
-  TeclaEnter.FocusColor:= clInfoBk;
+  TeclaEnter.FocusColor:= $00FCF5FF;
 
   pnlCardPoderes.OnMouseEnter := PanelMouseEnter;
   pnlCardPoderes.OnMouseLeave := PanelMouseLeave;
@@ -283,113 +282,113 @@ begin
     QryCheck.Connection  := dtmConexao.conexaoDB;
 
     for i := 1 to Lista.Count - 1 do
-    begin
-    //ignora linha vazia
-      Linha := Trim(Lista[i]);
-      if Linha = '' then
       begin
-        Inc(Ignorados);
-        Continue;
-      end;
+      //ignora linha vazia
+        Linha := Trim(Lista[i]);
+        if Linha = '' then
+        begin
+          Inc(Ignorados);
+          Continue;
+        end;
 
-      //divide em colunas
-      Campos := Linha.Split([';']); //se n encontrou
-      if Length(Campos) < 4 then
-        Campos := Linha.Split([',']); //tenta
+        //divide em colunas
+        Campos := Linha.Split([';']); //se n encontrou
+        if Length(Campos) < 4 then
+          Campos := Linha.Split([',']); //tenta
 
-      if Length(Campos) < 4 then
-      begin
-        Inc(Ignorados);
-        Continue;
-      end;
+        if Length(Campos) < 4 then
+        begin
+          Inc(Ignorados);
+          Continue;
+        end;
 
-      //limpa campos
-      for j := 0 to High(Campos) do
-        Campos[j] := Trim(TFuncao.SemEnter(Campos[j]));
+        //limpa campos
+        for j := 0 to High(Campos) do
+          Campos[j] := Trim(TFuncao.SemEnter(Campos[j]));
 
-      // valida obrigatórios
-      if (Campos[0] = '') or (Campos[2] = '') or (Campos[3] = '') then
-      begin
-        Inc(Ignorados);
-        Continue;
-      end;
+        // valida obrigatórios
+        if (Campos[0] = '') or (Campos[2] = '') or (Campos[3] = '') then
+        begin
+          Inc(Ignorados);
+          Continue;
+        end;
 
-      //procura por categoria no banco
-      QryCheck.Close;
-      QryCheck.SQL.Text :=
-        'SELECT id FROM categorias WHERE LOWER(nome) = LOWER(:cat)';
-      QryCheck.ParamByName('cat').AsString := Campos[2];
-      QryCheck.Open;
-
-      //se n existir faz o insert
-      if QryCheck.IsEmpty then
-      begin
+        //procura por categoria no banco
         QryCheck.Close;
         QryCheck.SQL.Text :=
-          'INSERT INTO categorias (nome) VALUES (:nome); ' +
-          'SELECT SCOPE_IDENTITY() AS id';
-        QryCheck.ParamByName('nome').AsString := Campos[2];
+          'SELECT id FROM categorias WHERE LOWER(nome) = LOWER(:cat)';
+        QryCheck.ParamByName('cat').AsString := Campos[2];
         QryCheck.Open;
-      end;
 
-      CategoriaID := QryCheck.FieldByName('id').AsInteger;
-      QryCheck.Close;
+        //se n existir faz o insert
+        if QryCheck.IsEmpty then
+        begin
+          QryCheck.Close;
+          QryCheck.SQL.Text :=
+            'INSERT INTO categorias (nome) VALUES (:nome); ' +
+            'SELECT SCOPE_IDENTITY() AS id';
+          QryCheck.ParamByName('nome').AsString := Campos[2];
+          QryCheck.Open;
+        end;
 
-      //nivel
-      QryCheck.SQL.Text :=
-        'SELECT id FROM nivel_poder WHERE LOWER(nivel) = LOWER(:nivel)';
-      QryCheck.ParamByName('nivel').AsString := Campos[3];
-      QryCheck.Open;
-
-      if QryCheck.IsEmpty then
-      begin
+        CategoriaID := QryCheck.FieldByName('id').AsInteger;
         QryCheck.Close;
+
+        //nivel
         QryCheck.SQL.Text :=
-          'INSERT INTO nivel_poder (nivel) VALUES (:nivel); ' +
-          'SELECT SCOPE_IDENTITY() AS id';
+          'SELECT id FROM nivel_poder WHERE LOWER(nivel) = LOWER(:nivel)';
         QryCheck.ParamByName('nivel').AsString := Campos[3];
         QryCheck.Open;
-      end;
 
-      NivelID := QryCheck.FieldByName('id').AsInteger;
-      QryCheck.Close;
+        if QryCheck.IsEmpty then
+        begin
+          QryCheck.Close;
+          QryCheck.SQL.Text :=
+            'INSERT INTO nivel_poder (nivel) VALUES (:nivel); ' +
+            'SELECT SCOPE_IDENTITY() AS id';
+          QryCheck.ParamByName('nivel').AsString := Campos[3];
+          QryCheck.Open;
+        end;
 
-      //verifica duplicado
-      QryCheck.SQL.Text :=
-        'SELECT COUNT(*) AS total FROM poderes WHERE LOWER(nome) = LOWER(:nome)';
-      QryCheck.ParamByName('nome').AsString := Campos[0];
-      QryCheck.Open;
-
-      //se existir continua
-      if QryCheck.FieldByName('total').AsInteger > 0 then
-      begin
+        NivelID := QryCheck.FieldByName('id').AsInteger;
         QryCheck.Close;
-        Inc(Ignorados);
-        Continue;
+
+        //verifica duplicado
+        QryCheck.SQL.Text :=
+          'SELECT COUNT(*) AS total FROM poderes WHERE LOWER(nome) = LOWER(:nome)';
+        QryCheck.ParamByName('nome').AsString := Campos[0];
+        QryCheck.Open;
+
+        //se existir continua
+        if QryCheck.FieldByName('total').AsInteger > 0 then
+        begin
+          QryCheck.Close;
+          Inc(Ignorados);
+          Continue;
+        end;
+
+        QryCheck.Close;
+
+        //insert no poderes
+        QryInsert.Close;
+        QryInsert.SQL.Text :=
+          'INSERT INTO poderes (nome, descricao, categoria_id, nivel_poder_id) ' +
+          'VALUES (:nome, :desc, :cat_id, :nivel_id)';
+
+        QryInsert.ParamByName('nome').AsString      := Campos[0];
+        QryInsert.ParamByName('desc').AsString      := Campos[1];
+        QryInsert.ParamByName('cat_id').AsInteger   := CategoriaID;
+        QryInsert.ParamByName('nivel_id').AsInteger := NivelID;
+
+        try
+          QryInsert.ExecSQL; //executa o insert
+          Inc(Importados);
+        except
+        //se der erro, conta mas continua
+          Inc(Erros);
+          Continue;
+        end;
       end;
-
-      QryCheck.Close;
-
-      //insert no poderes
-      QryInsert.Close;
-      QryInsert.SQL.Text :=
-        'INSERT INTO poderes (nome, descricao, categoria_id, nivel_poder_id) ' +
-        'VALUES (:nome, :desc, :cat_id, :nivel_id)';
-
-      QryInsert.ParamByName('nome').AsString      := Campos[0];
-      QryInsert.ParamByName('desc').AsString      := Campos[1];
-      QryInsert.ParamByName('cat_id').AsInteger   := CategoriaID;
-      QryInsert.ParamByName('nivel_id').AsInteger := NivelID;
-
-      try
-        QryInsert.ExecSQL; //executa o insert
-        Inc(Importados);
-      except
-      //se der erro, conta mas continua
-        Inc(Erros);
-        Continue;
-      end;
-    end;
 
     //salva data e hora da importação
     with TFDQuery.Create(nil) do
@@ -474,10 +473,10 @@ begin
     try
       Lista.SaveToFile(Caminho, TEncoding.UTF8);
     except on E: Exception do
-    begin
-      ShowMessage('Erro ao salvar o arquivo:' + sLineBreak + E.Message);
-      Exit;
-    end;
+      begin
+        ShowMessage('Erro ao salvar o arquivo:' + sLineBreak + E.Message);
+        Exit;
+      end;
     end;
 
     //registra a exportação no banco
@@ -499,8 +498,7 @@ begin
     ShowMessage(
       'Exportação concluída!' + sLineBreak + sLineBreak +
       ' Registros exportados: ' + IntToStr(TotalExportados) + sLineBreak +
-      ' Arquivo: ' + Caminho
-    );
+      ' Arquivo: ' + Caminho);
 
   finally
     Qry.Free;
@@ -640,6 +638,7 @@ begin
     ExportarCSV(dlgSave1.FileName);
 end;
 
+
 procedure TdtmPrincipal.Image3Click(Sender: TObject);
 begin
   if dlgOpen1.Execute then
@@ -706,6 +705,7 @@ begin
   end;
 end;
 
+
 procedure TdtmPrincipal.lblImpTitClick(Sender: TObject);
 begin
  if dlgOpen1.Execute then
@@ -721,7 +721,10 @@ procedure TdtmPrincipal.PanelMouseEnter(Sender: TObject);
 var
   Painel: TPanel;
 begin
-  Painel := Sender as TPanel;
+  if Sender is TPanel then
+    Painel := TPanel(Sender)
+  else
+    Painel := (Sender as TControl).Parent as TPanel;
 
   if Painel.Tag = 1 then
     Exit;
@@ -766,6 +769,5 @@ begin
 
   Painel.Color:= clWhite;
 end;
-
 {$ENDREGION}
 end.

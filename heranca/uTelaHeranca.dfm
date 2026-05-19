@@ -45,22 +45,23 @@ object frmTelaHeranca: TfrmTelaHeranca
         end
         object btnPesquisar: TButton
           Left = 143
-          Top = 20
+          Top = 24
           Width = 68
           Height = 21
           Caption = '&Pesquisar'
-          TabOrder = 0
+          TabOrder = 1
           OnClick = btnPesquisarClick
         end
         object mskPesquisar: TMaskEdit
           Left = 16
-          Top = 20
+          Top = 24
           Width = 121
           Height = 21
           Cursor = crIBeam
-          TabOrder = 1
+          TabOrder = 0
           Text = ''
           TextHint = 'Digite sua Pesquisa'
+          OnChange = mskPesquisarChange
           OnKeyDown = mskPesquisarKeyDown
         end
       end
@@ -72,6 +73,7 @@ object frmTelaHeranca: TfrmTelaHeranca
         Height = 304
         Align = alClient
         Color = 15986933
+        DataSource = dtsListagem
         DrawingStyle = gdsClassic
         FixedColor = 1574960
         Font.Charset = ANSI_CHARSET
@@ -81,6 +83,7 @@ object frmTelaHeranca: TfrmTelaHeranca
         Font.Style = [fsBold]
         Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
         ParentFont = False
+        ReadOnly = True
         TabOrder = 1
         TitleFont.Charset = ANSI_CHARSET
         TitleFont.Color = clWhite
@@ -90,6 +93,7 @@ object frmTelaHeranca: TfrmTelaHeranca
         OnDrawColumnCell = grdListagemDrawColumnCell
         OnDblClick = grdListagemDblClick
         OnKeyDown = grdListagemKeyDown
+        OnTitleClick = grdListagemTitleClick
         Columns = <
           item
             Expanded = False

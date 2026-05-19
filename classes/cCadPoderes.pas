@@ -59,7 +59,7 @@ end;
 
 destructor TPoder.Destroy;
 begin
-  inherited
+  inherited;
 end;
 {$ENDREGION}
 
@@ -74,7 +74,8 @@ begin
   if MessageDlg(
     'Apagar o registro:'#13#13 +
     'Código: ' + IntToStr(F_poderId) + #13 +
-    'Nome: ' + F_nomePoder, mtConfirmation,[mbYes, mbNo],0) = mrNo then
+    'Nome: ' + F_nomePoder, mtConfirmation,[mbYes, mbNo],0) = mrNo
+  then
   Exit;
 
   Qry := TFDQuery.Create(nil);

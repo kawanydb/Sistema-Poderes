@@ -85,10 +85,13 @@ var Qry:TFDQuery;
 begin
   if MessageDlg('Apagar o Registro: ' + #13+#13 +
                 'Código: ' + IntToStr(F_categoriaId) + #13 +
-                'Descrição: ' + F_nome, mtConfirmation, [mbYes, mbNo], 0) = mrNo then begin
+                'Descrição: ' + F_nome, mtConfirmation, [mbYes, mbNo], 0) = mrNo
+  then
+  begin
     Result := False;
     Abort;
   end;
+
   try
     Result := True;
     Qry := TFDQuery.Create(nil);
@@ -102,7 +105,8 @@ begin
       Qry.ExecSQL;
       conexaoDB.Commit;
     except
-      on E: Exception do begin
+      on E: Exception do
+      begin
         conexaoDB.Rollback;
         Result := False;
       end;
@@ -131,7 +135,7 @@ begin
         conexaoDB.StartTransaction;
         Qry.ExecSQL;
         conexaoDB.Commit;
-      except
+     except
         conexaoDB.Rollback;
         Result:=False;
      end;
@@ -156,38 +160,38 @@ begin
         conexaoDB.StartTransaction;
         Qry.ExecSQL;
         conexaoDB.Commit;
-      except
+     except
         conexaoDB.Rollback;
         Result:=False;
      end;
    finally
     if Assigned(Qry) then
-    FreeAndNil(Qry);
+      FreeAndNil(Qry);
    end;
 end;
 
 function TCategoria.Selecionar(id: Integer): Boolean;
 var Qry:TFDQuery;
 begin
-   try
-     Result:=True;
-     Qry := TFDQuery.Create(nil);
-     Qry.Connection := conexaoDB;
-     Qry.SQL.Clear;
-     Qry.SQL.Add('SELECT id, nome ' +
+  try
+    Result:=True;
+    Qry := TFDQuery.Create(nil);
+    Qry.Connection := conexaoDB;
+    Qry.SQL.Clear;
+    Qry.SQL.Add('SELECT id, nome ' +
             'FROM categorias ' +
             'WHERE id = :id');
-     Qry.ParamByName('id').Value:=id;
-     try
+       Qry.ParamByName('id').Value:=id;
+    try
       Qry.Open;
       Self.F_categoriaId := Qry.FieldByName('id').AsInteger;
       Self.F_nome        := Qry.FieldByName('nome').AsString;
-     except
+    except
       Result := False;
-      end;
+    end;
   finally
     if Assigned(Qry) then
-    FreeAndNil(Qry);
+      FreeAndNil(Qry);
   end;
 end;
 {$ENDREGION}

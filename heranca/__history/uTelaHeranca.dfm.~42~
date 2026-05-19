@@ -1,0 +1,204 @@
+object frmTelaHeranca: TfrmTelaHeranca
+  Left = 0
+  Top = 0
+  BorderStyle = bsDialog
+  Caption = 'INFORME AQUI O T'#205'TULO'
+  ClientHeight = 439
+  ClientWidth = 681
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  OnClose = FormClose
+  OnCreate = FormCreate
+  OnShow = FormShow
+  PixelsPerInch = 96
+  TextHeight = 13
+  object pgcListagem: TPageControl
+    Left = 0
+    Top = 0
+    Width = 681
+    Height = 398
+    ActivePage = ts1
+    Align = alClient
+    TabOrder = 0
+    object ts1: TTabSheet
+      Caption = 'Listagem'
+      object pnlListagemTopo: TPanel
+        Left = 0
+        Top = 0
+        Width = 673
+        Height = 60
+        Align = alTop
+        Color = 15986933
+        ParentBackground = False
+        TabOrder = 0
+        object lbl1: TLabel
+          Left = 19
+          Top = 5
+          Width = 93
+          Height = 13
+          Caption = 'Campo de Pesquisa'
+        end
+        object btnPesquisar: TButton
+          Left = 143
+          Top = 20
+          Width = 68
+          Height = 21
+          Caption = '&Pesquisar'
+          TabOrder = 0
+          OnClick = btnPesquisarClick
+        end
+        object mskPesquisar: TMaskEdit
+          Left = 16
+          Top = 20
+          Width = 121
+          Height = 21
+          Cursor = crIBeam
+          TabOrder = 1
+          Text = ''
+          TextHint = 'Digite sua Pesquisa'
+          OnKeyDown = mskPesquisarKeyDown
+        end
+      end
+      object grdListagem: TDBGrid
+        AlignWithMargins = True
+        Left = 3
+        Top = 63
+        Width = 667
+        Height = 304
+        Align = alClient
+        Color = 15986933
+        DrawingStyle = gdsClassic
+        FixedColor = 1574960
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clBlack
+        Font.Height = -11
+        Font.Name = 'Segoe UI'
+        Font.Style = [fsBold]
+        Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
+        ParentFont = False
+        TabOrder = 1
+        TitleFont.Charset = ANSI_CHARSET
+        TitleFont.Color = clWhite
+        TitleFont.Height = -11
+        TitleFont.Name = 'Segoe UI'
+        TitleFont.Style = [fsBold]
+        OnDrawColumnCell = grdListagemDrawColumnCell
+        OnDblClick = grdListagemDblClick
+        OnKeyDown = grdListagemKeyDown
+        Columns = <
+          item
+            Expanded = False
+            Title.Alignment = taCenter
+            Visible = True
+          end>
+      end
+    end
+    object tsManutencao: TTabSheet
+      Caption = 'Manuten'#231#227'o'
+      ImageIndex = 1
+      object pnlCampos: TPanel
+        Left = 0
+        Top = 0
+        Width = 673
+        Height = 370
+        Align = alClient
+        Color = 15986933
+        ParentBackground = False
+        TabOrder = 0
+      end
+    end
+  end
+  object pnlRodape: TPanel
+    Left = 0
+    Top = 398
+    Width = 681
+    Height = 41
+    Align = alBottom
+    Color = 15986933
+    ParentBackground = False
+    TabOrder = 1
+    DesignSize = (
+      681
+      41)
+    object btnAlterar: TBitBtn
+      Left = 92
+      Top = 11
+      Width = 72
+      Height = 22
+      Caption = 'ALTERAR'
+      TabOrder = 1
+      OnClick = btnAlterarClick
+    end
+    object btnCancelar: TBitBtn
+      Left = 170
+      Top = 11
+      Width = 72
+      Height = 22
+      Caption = 'CANCELAR'
+      TabOrder = 2
+      OnClick = btnCancelarClick
+    end
+    object btnGravar: TBitBtn
+      Left = 251
+      Top = 11
+      Width = 72
+      Height = 22
+      Caption = 'GRAVAR'
+      TabOrder = 3
+      OnClick = btnGravarClick
+    end
+    object btnApagar: TBitBtn
+      Left = 333
+      Top = 11
+      Width = 72
+      Height = 22
+      Caption = 'APAGAR'
+      TabOrder = 4
+      OnClick = btnApagarClick
+    end
+    object btnFechar: TBitBtn
+      Left = 592
+      Top = 11
+      Width = 72
+      Height = 22
+      Caption = 'FECHAR'
+      TabOrder = 5
+      OnClick = btnFecharClick
+    end
+    object btnNovo: TBitBtn
+      Left = 14
+      Top = 11
+      Width = 72
+      Height = 22
+      Caption = 'NOVO'
+      TabOrder = 0
+      OnClick = btnNovoClick
+    end
+    object btnNavigator: TDBNavigator
+      Left = 436
+      Top = 11
+      Width = 112
+      Height = 22
+      Cursor = crHandPoint
+      DataSource = dtsListagem
+      VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast]
+      Anchors = [akLeft, akRight]
+      TabOrder = 6
+    end
+  end
+  object QryListagem: TFDQuery
+    Connection = dtmConexao.conexaoDB
+    Left = 388
+    Top = 88
+  end
+  object dtsListagem: TDataSource
+    DataSet = QryListagem
+    Left = 484
+    Top = 88
+  end
+end

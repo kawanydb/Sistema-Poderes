@@ -50,7 +50,7 @@ end;
 
 destructor TNivel.Destroy;
 begin
-  inherited
+  inherited;
 end;
 {$ENDREGION}
 
@@ -84,7 +84,9 @@ var Qry:TFDQuery;
 begin
   if MessageDlg('Apagar o Registro: ' + #13+#13 +
                 'Código: ' + IntToStr(F_NivelId) + #13 +
-                'Descrição: ' + F_Nivel, mtConfirmation, [mbYes, mbNo], 0) = mrNo then begin
+                'Descrição: ' + F_Nivel, mtConfirmation, [mbYes, mbNo], 0) = mrNo
+  then
+  begin
     Result := False;
     Abort;
   end;
@@ -101,7 +103,8 @@ begin
       Qry.ExecSQL;
       conexaoDB.Commit;
     except
-      on E: Exception do begin
+      on E: Exception do
+      begin
         conexaoDB.Rollback;
         Result := False;
       end;
@@ -127,16 +130,16 @@ begin
      Qry.ParamByName('nivel').AsString:=Self.F_Nivel;
 
      try
-        conexaoDB.StartTransaction;
-        Qry.ExecSQL;
-        conexaoDB.Commit;
-      except
-        conexaoDB.Rollback;
-        Result:=False;
+      conexaoDB.StartTransaction;
+      Qry.ExecSQL;
+      conexaoDB.Commit;
+     except
+      conexaoDB.Rollback;
+      Result:=False;
      end;
    finally
     if Assigned(Qry) then
-    FreeAndNil(Qry);
+      FreeAndNil(Qry);
 
    end;
 end;
@@ -145,30 +148,30 @@ function TNivel.Inserir: Boolean;
 var Qry:TFDQuery;
 begin
    try
-   result:=True;
+     Result:=True;
      Qry:=TFDQuery.Create(nil);
      Qry.Connection:=conexaoDB;
      Qry.SQL.Clear;
      Qry.SQL.Add('insert into nivel_poder (nivel) values (:nivel)');
      Qry.ParamByName('nivel').AsString:=Self.F_Nivel;
      try
-        conexaoDB.StartTransaction;
-        Qry.ExecSQL;
-        conexaoDB.Commit;
-      except
-        conexaoDB.Rollback;
-        Result:=False;
+      conexaoDB.StartTransaction;
+      Qry.ExecSQL;
+      conexaoDB.Commit;
+     except
+      conexaoDB.Rollback;
+      Result:=False;
      end;
    finally
     if Assigned(Qry) then
-    FreeAndNil(Qry);
+      FreeAndNil(Qry);
    end;
 end;
 
 function TNivel.Selecionar(id: Integer): Boolean;
 var Qry:TFDQuery;
 begin
-   try
+  try
      Result:=True;
      Qry := TFDQuery.Create(nil);
      Qry.Connection := conexaoDB;
@@ -186,7 +189,7 @@ begin
       end;
   finally
     if Assigned(Qry) then
-    FreeAndNil(Qry);
+      FreeAndNil(Qry);
   end;
 end;
 {$ENDREGION}

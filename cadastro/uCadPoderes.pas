@@ -57,7 +57,8 @@ implementation
 function TfrmCadastroPoderes.Apagar: Boolean;
 begin
   //verifica se existe no selecionar e se existir apaga
-  if oPoder.Selecionar(QryListagem.FieldByName('id').AsInteger) then begin
+  if oPoder.Selecionar(QryListagem.FieldByName('id').AsInteger) then
+  begin
     Result:=oPoder.Apagar;
   end;
 end;
@@ -84,14 +85,16 @@ end;
 {$REGION 'BOTÕES'}
 procedure TfrmCadastroPoderes.btnAlterarClick(Sender: TObject);
 begin
-   if oPoder.Selecionar(QryListagem.FieldByName('id').AsInteger) then begin
+  if oPoder.Selecionar(QryListagem.FieldByName('id').AsInteger) then
+  begin
     edtPoderId.Text          :=IntToStr(oPoder.codigo);
     edtNomePoder.Text        :=oPoder.nome;
     edtDescricao.Text        :=oPoder.descricao;
     dblkCategoria.KeyValue   :=oPoder.categoriaId;
     dblkNivelPoder.KeyValue  :=oPoder.nivelPoderId;
   end
-  else begin
+  else
+  begin
     btnCancelar.Click;
     Abort
   end;
@@ -117,7 +120,6 @@ end;
 procedure TfrmCadastroPoderes.FormCreate(Sender: TObject);
 begin
   inherited;
-
   oPoder := TPoder.Create(dtmConexao.conexaoDB);
   IndiceAtual := 'nome';
 

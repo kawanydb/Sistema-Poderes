@@ -10,7 +10,6 @@ inherited frmCadastroPoderes: TfrmCadastroPoderes
   inherited pgcListagem: TPageControl
     Width = 671
     Height = 413
-    ActivePage = tsManutencao
     ExplicitWidth = 671
     ExplicitHeight = 413
     inherited ts1: TTabSheet

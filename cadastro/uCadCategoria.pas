@@ -37,22 +37,23 @@ implementation
 function TfrmCadCategoria.Apagar: Boolean;
 var Qry:TFDQuery;
 begin
-  if oCategoria.Selecionar(QryListagem.FieldByName('id').AsInteger) then begin
-     Result:=oCategoria.Apagar;
+  if oCategoria.Selecionar(QryListagem.FieldByName('id').AsInteger) then
+  begin
+    Result:=oCategoria.Apagar;
   end;
 end;
 
 function TfrmCadCategoria.Gravar(EstadoDoCadastro: TEstadoDoCadastro): Boolean;
 begin
   if edtCategoriaId.Text<>EmptyStr then
-  oCategoria.codigo:=StrToInt(edtCategoriaId.Text)
+    oCategoria.codigo:=StrToInt(edtCategoriaId.Text)
   else
   oCategoria.codigo:=0;
 
   oCategoria.descricao:=edtDescricao.Text;
 
   if(EstadoDoCadastro)=ecInserir then
-  Result:=oCategoria.Inserir
+    Result:=oCategoria.Inserir
   else if (EstadoDoCadastro=ecAlterar) then
   Result:=oCategoria.Atualizar;
 end;
@@ -61,11 +62,13 @@ end;
 {$REGION 'BOTÕES'}
 procedure TfrmCadCategoria.btnAlterarClick(Sender: TObject);
 begin
-  if oCategoria.Selecionar(QryListagem.FieldByName('id').AsInteger) then begin
+  if oCategoria.Selecionar(QryListagem.FieldByName('id').AsInteger) then
+  begin
     edtCategoriaId.Text:=IntToStr(oCategoria.codigo);
     edtDescricao.Text :=oCategoria.descricao;
   end
-  else begin
+  else
+  begin
     btnCancelarClick(nil);
     Abort
   end;

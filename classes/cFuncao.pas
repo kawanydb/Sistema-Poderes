@@ -62,7 +62,7 @@ begin
   Result := StringReplace(Result, #10, ' ', [rfReplaceAll]);
 end;
 
- //remoive enter e troca ; por ,
+//remove enter e troca ; por ,
 class function TFuncao.CSV(const S: string): string;
 begin
   Result := StringReplace(SemEnter(S), ';', ',', [rfReplaceAll]);
