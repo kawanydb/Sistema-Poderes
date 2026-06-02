@@ -20,6 +20,7 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure btnAlterarClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure btnApagarClick(Sender: TObject);
   private
     oNivel:TNivel;
   public
@@ -75,6 +76,23 @@ begin
   end;
   inherited;
 end;
+procedure TfrmCadNivelPoder.btnApagarClick(Sender: TObject);
+begin
+  if not oNivel.Selecionar(QryListagem.FieldByName('id').AsInteger) then
+    Exit;
+
+  if MessageDlg(
+     'Apagar o registro:'#13#13 +
+     'Código: ' + QryListagem.FieldByName('id').AsString + #13 +
+     'Nome: ' + QryListagem.FieldByName('nivel').AsString,
+     mtConfirmation,
+     [mbYes, mbNo],
+     0) <> mrYes
+  then
+  Exit;
+  inherited;
+end;
+
 {$ENDREGION}
 
 {$REGION 'EVENTOS DO FORM'}

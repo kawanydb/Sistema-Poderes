@@ -6,7 +6,6 @@ inherited frmCadNivelPoder: TfrmCadNivelPoder
   inherited pgcListagem: TPageControl
     inherited ts1: TTabSheet
       inherited grdListagem: TDBGrid
-        DataSource = dtsListagem
         Columns = <
           item
             Expanded = False
@@ -23,10 +22,6 @@ inherited frmCadNivelPoder: TfrmCadNivelPoder
       end
     end
     inherited tsManutencao: TTabSheet
-      ExplicitLeft = 4
-      ExplicitTop = 24
-      ExplicitWidth = 673
-      ExplicitHeight = 370
       inherited pnlCampos: TPanel
         object lbl15: TLabel
           Left = 13

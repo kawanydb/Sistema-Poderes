@@ -30,6 +30,7 @@
     Color = 1574960
     ParentBackground = False
     TabOrder = 0
+    ExplicitLeft = -2
     object lblNavCad: TLabel
       Left = 16
       Top = 104
@@ -9131,18 +9132,17 @@
       object lbl3: TLabel
         Left = 1
         Top = 1
-        Width = 841
+        Width = 150
         Height = 26
         Align = alTop
         Alignment = taCenter
-        Caption = 'Desenvolvido por Kawany '#13#10#169' 2026 Domtec Sistemas.'
+        Caption = 'Desenvolvido por Kawany em'#13#10#169' 2026 Domtec Sistemas.'
         Font.Charset = ANSI_CHARSET
         Font.Color = clWhite
         Font.Height = -11
         Font.Name = 'Segoe UI'
         Font.Style = []
         ParentFont = False
-        ExplicitWidth = 135
       end
     end
   end

@@ -410,8 +410,7 @@ begin
       'Registros podem ser ignorados por:' + sLineBreak +
       '- Dados incompletos' + sLineBreak +
       '- Categoria ou nível não cadastrados' + sLineBreak +
-      '- Poder já existente (duplicado)'
-    )
+      '- Poder já existente (duplicado)')
 
   finally
     QryInsert.Free;
@@ -638,7 +637,6 @@ begin
     ExportarCSV(dlgSave1.FileName);
 end;
 
-
 procedure TdtmPrincipal.Image3Click(Sender: TObject);
 begin
   if dlgOpen1.Execute then
@@ -704,7 +702,6 @@ begin
     AtualizarTotais;
   end;
 end;
-
 
 procedure TdtmPrincipal.lblImpTitClick(Sender: TObject);
 begin

@@ -1,0 +1,773 @@
+unit uPrincipal;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
+  Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Buttons, uEnum, cFuncao,
+  uCadPoderes, cCadPoderes, uCadCategoria, cCadCategoria,
+  uDTMConexao, uCadNivelPoder, FireDAC.Comp.Client, PngBitBtn, uEnter, Vcl.Imaging.pngimage;
+
+type
+  TdtmPrincipal = class(TForm)
+    dlgOpen1: TOpenDialog;
+    dlgSave1: TSaveDialog;
+    pnlSidebar: TPanel;
+    pnlLogo: TPanel;
+    lblSistema: TLabel;
+    lblSubtitulo: TLabel;
+    lblNavCad: TLabel;
+    lblNavArq: TLabel;
+    btnCadPoderes: TSpeedButton;
+    btnCadCategorias: TSpeedButton;
+    btnNivelPoder: TSpeedButton;
+    btnImportarCSV: TSpeedButton;
+    btnExportarCSV: TSpeedButton;
+    pnlMain: TPanel;
+    pnlTopo: TPanel;
+    lblTitulo: TLabel;
+    lblSub: TLabel;
+    pnlCardPoderes: TPanel;
+    lblTotalPoderesVal: TLabel;
+    lblTotalPoderesNome: TLabel;
+    pnlCardCategorias: TPanel;
+    lblTotalCatVal: TLabel;
+    lblTotalCatNome: TLabel;
+    pnlCardNiveis: TPanel;
+    lblTotalNivelVal: TLabel;
+    lblTotalNivelNome: TLabel;
+    lblSecCad: TLabel;
+    pnlAcaoPoderes: TPanel;
+    lblAcaoPoderesTit: TLabel;
+    lblAcaoPoderesDesc: TLabel;
+    pnlAcaoCategorias: TPanel;
+    lblAcaoCatTit: TLabel;
+    lblAcaoCatDesc: TLabel;
+    pnlAcaoNiveis: TPanel;
+    lblAcaoNivelTit: TLabel;
+    lblAcaoNivelDesc: TLabel;
+    lblSecArq: TLabel;
+    pnlImportar: TPanel;
+    lblImpTit: TLabel;
+    lblImpDesc: TLabel;
+    pnlExportar: TPanel;
+    lblExpTit: TLabel;
+    lblExpDesc: TLabel;
+    Image3: TImage;
+    pnlCardImportacoes: TPanel;
+    lblTotalImportacoes: TLabel;
+    lblTotalNivelImportações: TLabel;
+    pnlRodape: TPanel;
+    lbl1: TLabel;
+    lbl2: TLabel;
+    lbl3: TLabel;
+    btnMenu: TPngBitBtn;
+    Image2: TImage;
+    Image4: TImage;
+    pnl1: TPanel;
+    pnl2: TPanel;
+    pnl3: TPanel;
+    pnl4: TPanel;
+    pnl5: TPanel;
+    pnl6: TPanel;
+    pnl7: TPanel;
+    pnl8: TPanel;
+    pnl9: TPanel;
+    lblSecCad1: TLabel;
+    Image1: TImage;
+    btnFechar: TSpeedButton;
+    lblNavArq1: TLabel;
+    lbl4: TLabel;
+    procedure btnCadPoderesClick(Sender: TObject);
+    procedure btnCadCategoriasClick(Sender: TObject);
+    procedure btnNivelPoderClick(Sender: TObject);
+    procedure btnImportarCSVClick(Sender: TObject);
+    procedure btnExportarCSVClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure pnlCardPoderesResize(Sender: TObject);
+    procedure pnlCardCategoriasResize(Sender: TObject);
+    procedure pnlCardNiveisResize(Sender: TObject);
+    procedure pnlCardImportacoesResize(Sender: TObject);
+    procedure pnlAcaoPoderesResize(Sender: TObject);
+    procedure pnlAcaoCategoriasResize(Sender: TObject);
+    procedure pnlAcaoNiveisResize(Sender: TObject);
+    procedure pnlImportarResize(Sender: TObject);
+    procedure pnlExportarResize(Sender: TObject);
+    procedure btnFecharClick(Sender: TObject);
+    procedure btnMenuClick(Sender: TObject);
+    procedure pnl1Resize(Sender: TObject);
+    procedure pnl2Resize(Sender: TObject);
+    procedure pnl3Resize(Sender: TObject);
+    procedure pnl4Resize(Sender: TObject);
+    procedure pnl5Resize(Sender: TObject);
+    procedure pnl6Resize(Sender: TObject);
+    procedure pnl7Resize(Sender: TObject);
+    procedure pnl8Resize(Sender: TObject);
+    procedure pnl9Resize(Sender: TObject);
+    procedure Image1Click(Sender: TObject);
+    procedure lblExpTitClick(Sender: TObject);
+    procedure lblExpDescClick(Sender: TObject);
+    procedure Image3Click(Sender: TObject);
+    procedure lblImpTitClick(Sender: TObject);
+    procedure lblImpDescClick(Sender: TObject);
+    procedure lblAcaoPoderesTitClick(Sender: TObject);
+    procedure lblAcaoPoderesDescClick(Sender: TObject);
+    procedure lblAcaoCatTitClick(Sender: TObject);
+    procedure lblAcaoCatDescClick(Sender: TObject);
+    procedure lblAcaoNivelTitClick(Sender: TObject);
+    procedure lblAcaoNivelDescClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+  private
+    TeclaEnter: TMREnter;
+    procedure AtualizarTotais;
+    procedure ImportarCSV(Caminho: string);
+    procedure ExportarCSV(Caminho: string);
+    procedure PanelMouseEnter(Sender: TObject);
+    procedure PanelMouseLeave(Sender: TObject);
+  public
+  end;
+
+var
+  dtmPrincipal: TdtmPrincipal;
+
+implementation
+
+{$R *.dfm}
+
+{$REGION 'EVENTOS DO FORM'}
+procedure TdtmPrincipal.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  FreeAndNil(TeclaEnter);
+  FreeAndNil(dtmPrincipal);
+end;
+
+procedure TdtmPrincipal.FormCreate(Sender: TObject);
+var
+  i: Integer;
+begin
+  pnlSidebar.Width := 0;
+
+  TeclaEnter:= TMREnter.Create(Self);
+  TeclaEnter.FocusEnabled:=True;
+  TeclaEnter.FocusColor:= $00FCF5FF;
+
+  pnlCardPoderes.OnMouseEnter := PanelMouseEnter;
+  pnlCardPoderes.OnMouseLeave := PanelMouseLeave;
+
+  pnlCardImportacoes.OnMouseEnter := PanelMouseEnter;
+  pnlCardImportacoes.OnMouseLeave := PanelMouseLeave;
+
+  pnlCardCategorias.OnMouseEnter := PanelMouseEnter;
+  pnlCardCategorias.OnMouseLeave := PanelMouseLeave;
+
+  pnlCardNiveis.OnMouseEnter := PanelMouseEnter;
+  pnlCardNiveis.OnMouseLeave := PanelMouseLeave;
+
+  pnlImportar.OnMouseEnter := PanelMouseEnter;
+  pnlImportar.OnMouseLeave := PanelMouseLeave;
+
+  pnlExportar.OnMouseEnter := PanelMouseEnter;
+  pnlExportar.OnMouseLeave := PanelMouseLeave;
+
+  pnlAcaoPoderes.OnMouseEnter := PanelMouseEnter;
+  pnlAcaoPoderes.OnMouseLeave := PanelMouseLeave;
+
+  pnlAcaoCategorias.OnMouseEnter := PanelMouseEnter;
+  pnlAcaoCategorias.OnMouseLeave := PanelMouseLeave;
+
+  pnlAcaoNiveis.OnMouseEnter := PanelMouseEnter;
+  pnlAcaoNiveis.OnMouseLeave := PanelMouseLeave;
+end;
+
+procedure TdtmPrincipal.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  case Key of
+    VK_F5: btnCadPoderes.Click;
+    VK_F6: btnCadCategorias.Click;
+    VK_F7: btnNivelPoder.Click;
+  end;
+
+  //fechar Ctrl+Q
+  if (Key = Ord('Q')) and (ssCtrl in Shift) then
+  begin
+    btnFechar.Click;
+    Key := 0;
+  end;
+end;
+
+procedure TdtmPrincipal.FormShow(Sender: TObject);
+begin
+  AtualizarTotais;
+end;
+{$ENDREGION}
+
+{$REGION 'BOTÕES'}
+procedure TdtmPrincipal.btnCadCategoriasClick(Sender: TObject);
+begin
+  TFuncao.CriarForm(TfrmCadCategoria, dtmConexao.conexaoDB);
+  AtualizarTotais;
+end;
+
+procedure TdtmPrincipal.btnCadPoderesClick(Sender: TObject);
+begin
+  TFuncao.CriarForm(TfrmCadastroPoderes, dtmConexao.conexaoDB);
+  AtualizarTotais;
+end;
+
+procedure TdtmPrincipal.btnNivelPoderClick(Sender: TObject);
+begin
+  TFuncao.CriarForm(TfrmCadNivelPoder, dtmConexao.conexaoDB);
+  AtualizarTotais;
+end;
+
+procedure TdtmPrincipal.btnImportarCSVClick(Sender: TObject);
+begin
+  if dlgOpen1.Execute then
+  begin
+    ImportarCSV(dlgOpen1.FileName);
+    AtualizarTotais;
+  end;
+end;
+
+procedure TdtmPrincipal.btnMenuClick(Sender: TObject);
+begin
+  if pnlSidebar.Width = 0 then
+    pnlSidebar.Width := 220
+  else
+    pnlSidebar.Width := 0;
+end;
+
+procedure TdtmPrincipal.btnExportarCSVClick(Sender: TObject);
+begin
+  if dlgSave1.Execute then
+    ExportarCSV(dlgSave1.FileName);
+end;
+
+procedure TdtmPrincipal.btnFecharClick(Sender: TObject);
+begin
+  Application.Terminate;
+end;
+{$ENDREGION}
+
+{$REGION 'IMPORTAR E EXPORTAR'}
+procedure TdtmPrincipal.ImportarCSV(Caminho: string);
+var
+  Lista: TStringList;
+  Linha: string;
+  Campos: TArray<string>;
+  i, j: Integer;
+  QryInsert, QryCheck: TFDQuery;
+  CategoriaID, NivelID: Integer; //guarda os IDs encontrados/criados no banco.
+  Importados, Ignorados, Erros: Integer;
+begin
+  Lista := TStringList.Create;
+  QryInsert := TFDQuery.Create(nil);
+  QryCheck := TFDQuery.Create(nil);
+
+  //inicializa contadores
+  Importados := 0;
+  Ignorados := 0;
+  Erros := 0;
+
+  try
+    Lista.LoadFromFile(Caminho, TEncoding.UTF8);
+
+    if Lista.Count <= 1 then
+      raise Exception.Create('Arquivo vazio ou sem dados.');
+
+    QryInsert.Connection := dtmConexao.conexaoDB;
+    QryCheck.Connection  := dtmConexao.conexaoDB;
+
+    for i := 1 to Lista.Count - 1 do
+      begin
+      //ignora linha vazia
+        Linha := Trim(Lista[i]);
+        if Linha = '' then
+        begin
+          Inc(Ignorados);
+          Continue;
+        end;
+
+        //divide em colunas
+        Campos := Linha.Split([';']); //se n encontrou
+        if Length(Campos) < 4 then
+          Campos := Linha.Split([',']); //tenta
+
+        if Length(Campos) < 4 then
+        begin
+          Inc(Ignorados);
+          Continue;
+        end;
+
+        //limpa campos
+        for j := 0 to High(Campos) do
+          Campos[j] := Trim(TFuncao.SemEnter(Campos[j]));
+
+        // valida obrigatórios
+        if (Campos[0] = '') or (Campos[2] = '') or (Campos[3] = '') then
+        begin
+          Inc(Ignorados);
+          Continue;
+        end;
+
+        //procura por categoria no banco
+        QryCheck.Close;
+        QryCheck.SQL.Text :=
+          'SELECT id FROM categorias WHERE LOWER(nome) = LOWER(:cat)';
+        QryCheck.ParamByName('cat').AsString := Campos[2];
+        QryCheck.Open;
+
+        //se n existir faz o insert
+        if QryCheck.IsEmpty then
+        begin
+          QryCheck.Close;
+          QryCheck.SQL.Text :=
+            'INSERT INTO categorias (nome) VALUES (:nome); ' +
+            'SELECT SCOPE_IDENTITY() AS id';
+          QryCheck.ParamByName('nome').AsString := Campos[2];
+          QryCheck.Open;
+        end;
+
+        CategoriaID := QryCheck.FieldByName('id').AsInteger;
+        QryCheck.Close;
+
+        //nivel
+        QryCheck.SQL.Text :=
+          'SELECT id FROM nivel_poder WHERE LOWER(nivel) = LOWER(:nivel)';
+        QryCheck.ParamByName('nivel').AsString := Campos[3];
+        QryCheck.Open;
+
+        if QryCheck.IsEmpty then
+        begin
+          QryCheck.Close;
+          QryCheck.SQL.Text :=
+            'INSERT INTO nivel_poder (nivel) VALUES (:nivel); ' +
+            'SELECT SCOPE_IDENTITY() AS id';
+          QryCheck.ParamByName('nivel').AsString := Campos[3];
+          QryCheck.Open;
+        end;
+
+        NivelID := QryCheck.FieldByName('id').AsInteger;
+        QryCheck.Close;
+
+        //verifica duplicado
+        QryCheck.SQL.Text :=
+          'SELECT COUNT(*) AS total FROM poderes WHERE LOWER(nome) = LOWER(:nome)';
+        QryCheck.ParamByName('nome').AsString := Campos[0];
+        QryCheck.Open;
+
+        //se existir continua
+        if QryCheck.FieldByName('total').AsInteger > 0 then
+        begin
+          QryCheck.Close;
+          Inc(Ignorados);
+          Continue;
+        end;
+
+        QryCheck.Close;
+
+        //insert no poderes
+        QryInsert.Close;
+        QryInsert.SQL.Text :=
+          'INSERT INTO poderes (nome, descricao, categoria_id, nivel_poder_id) ' +
+          'VALUES (:nome, :desc, :cat_id, :nivel_id)';
+
+        QryInsert.ParamByName('nome').AsString      := Campos[0];
+        QryInsert.ParamByName('desc').AsString      := Campos[1];
+        QryInsert.ParamByName('cat_id').AsInteger   := CategoriaID;
+        QryInsert.ParamByName('nivel_id').AsInteger := NivelID;
+
+        try
+          QryInsert.ExecSQL; //executa o insert
+          Inc(Importados);
+        except
+        //se der erro, conta mas continua
+          Inc(Erros);
+          Continue;
+        end;
+      end;
+
+    //salva data e hora da importação
+    with TFDQuery.Create(nil) do
+    try
+      Connection := dtmConexao.conexaoDB;
+      SQL.Text := 'INSERT INTO importacoes (data_importacao) VALUES (:data)';
+      ParamByName('data').AsDateTime := Now;
+      ExecSQL;
+    finally
+      Free;
+    end;
+
+    //mostra pro usuario oq aconteceu
+    ShowMessage(
+      'Importação finalizada!' + sLineBreak + sLineBreak +
+      ' Importados: ' + IntToStr(Importados) + sLineBreak +
+      ' Ignorados: ' + IntToStr(Ignorados) + sLineBreak +
+      ' Erros: ' + IntToStr(Erros) + sLineBreak + sLineBreak +
+      'Registros podem ser ignorados por:' + sLineBreak +
+      '- Dados incompletos' + sLineBreak +
+      '- Categoria ou nível não cadastrados' + sLineBreak +
+      '- Poder já existente (duplicado)'
+    )
+
+  finally
+    QryInsert.Free;
+    QryCheck.Free;
+    Lista.Free;
+  end;
+end;
+
+procedure TdtmPrincipal.ExportarCSV(Caminho: string);
+var
+  Lista: TStringList;
+  Qry: TFDQuery;
+  TotalExportados: Integer;
+begin
+//cria objetos na memória e inicia o contador
+  Lista := TStringList.Create;
+  Qry   := TFDQuery.Create(nil);
+  TotalExportados := 0;
+
+  try
+    Qry.Connection := dtmConexao.conexaoDB;
+    Qry.SQL.Text :=
+      'SELECT p.nome, p.descricao, c.nome AS categoria, n.nivel ' +
+      'FROM poderes p ' +
+      'JOIN categorias c ON c.id = p.categoria_id ' +
+      'JOIN nivel_poder n ON n.id = p.nivel_poder_id ' +
+      'ORDER BY p.nome';
+    Qry.Open;
+
+    //avisa se não houver dados
+    if Qry.IsEmpty then
+    begin
+      ShowMessage('Nenhum dado encontrado para exportar.');
+      Exit;
+    end;
+
+    //primeira linha do arquivo
+    Lista.Add('nome;descricao;categoria;nivel');
+
+    //percorre todas as linhas do registro e monta o csv linha por linha
+    while not Qry.Eof do
+    begin
+      Lista.Add(
+        String.Join(';',
+          [
+          //TFuncao = trata caracteres especiais
+            TFuncao.CSV(Qry.FieldByName('nome').AsString),
+            TFuncao.CSV(Qry.FieldByName('descricao').AsString),
+            TFuncao.CSV(Qry.FieldByName('categoria').AsString),
+            TFuncao.CSV(Qry.FieldByName('nivel').AsString)
+          ]
+        )
+      );
+      Inc(TotalExportados); //soma no contador
+      Qry.Next;
+    end;
+
+    //trata erro ao salvar o arquivo
+    try
+      Lista.SaveToFile(Caminho, TEncoding.UTF8);
+    except on E: Exception do
+      begin
+        ShowMessage('Erro ao salvar o arquivo:' + sLineBreak + E.Message);
+        Exit;
+      end;
+    end;
+
+    //registra a exportação no banco
+    with TFDQuery.Create(nil) do
+    try
+      Connection := dtmConexao.conexaoDB;
+      SQL.Text :=
+        'INSERT INTO exportacoes (data_exportacao, total_registros, caminho_arquivo) ' +
+        'VALUES (:data, :total, :caminho)';
+      ParamByName('data').AsDateTime  := Now;
+      ParamByName('total').AsInteger  := TotalExportados;
+      ParamByName('caminho').AsString := Caminho;
+      ExecSQL;
+    finally
+      Free;
+    end;
+
+    //mensagem pro usuário
+    ShowMessage(
+      'Exportação concluída!' + sLineBreak + sLineBreak +
+      ' Registros exportados: ' + IntToStr(TotalExportados) + sLineBreak +
+      ' Arquivo: ' + Caminho);
+
+  finally
+    Qry.Free;
+    Lista.Free;
+  end;
+end;
+{$ENDREGION}
+
+{$REGION 'PANELS'}
+procedure TdtmPrincipal.pnl1Resize(Sender: TObject);
+begin
+  TFuncao.ArredondarPainel(pnl1, 20);
+end;
+
+procedure TdtmPrincipal.pnl2Resize(Sender: TObject);
+begin
+  TFuncao.ArredondarPainel(pnl2, 20);
+end;
+
+procedure TdtmPrincipal.pnl3Resize(Sender: TObject);
+begin
+  TFuncao.ArredondarPainel(pnl3, 20);
+end;
+
+procedure TdtmPrincipal.pnl4Resize(Sender: TObject);
+begin
+  TFuncao.ArredondarPainel(pnl4, 20);
+end;
+
+procedure TdtmPrincipal.pnl5Resize(Sender: TObject);
+begin
+  TFuncao.ArredondarPainel(pnl5, 20);
+end;
+
+procedure TdtmPrincipal.pnl6Resize(Sender: TObject);
+begin
+  TFuncao.ArredondarPainel(pnl6, 20);
+end;
+
+procedure TdtmPrincipal.pnl7Resize(Sender: TObject);
+begin
+  TFuncao.ArredondarPainel(pnl7, 20);
+end;
+
+procedure TdtmPrincipal.pnl8Resize(Sender: TObject);
+begin
+  TFuncao.ArredondarPainel(pnl8, 20);
+end;
+
+procedure TdtmPrincipal.pnl9Resize(Sender: TObject);
+begin
+  TFuncao.ArredondarPainel(pnl9, 20);
+end;
+
+procedure TdtmPrincipal.pnlAcaoCategoriasResize(Sender: TObject);
+begin
+  TFuncao.ArredondarPainel(pnlAcaoCategorias, 20);
+end;
+
+procedure TdtmPrincipal.pnlAcaoNiveisResize(Sender: TObject);
+begin
+  TFuncao.ArredondarPainel(pnlAcaoNiveis, 20);
+end;
+
+procedure TdtmPrincipal.pnlAcaoPoderesResize(Sender: TObject);
+begin
+  TFuncao.ArredondarPainel(pnlAcaoPoderes, 20);
+end;
+
+procedure TdtmPrincipal.pnlCardCategoriasResize(Sender: TObject);
+begin
+  TFuncao.ArredondarPainel(pnlCardCategorias, 20);
+end;
+
+procedure TdtmPrincipal.pnlCardImportacoesResize(Sender: TObject);
+begin
+  TFuncao.ArredondarPainel(pnlCardImportacoes, 20);
+end;
+
+procedure TdtmPrincipal.pnlCardNiveisResize(Sender: TObject);
+begin
+  TFuncao.ArredondarPainel(pnlCardNiveis, 20);
+end;
+
+procedure TdtmPrincipal.pnlCardPoderesResize(Sender: TObject);
+begin
+  TFuncao.ArredondarPainel(pnlCardPoderes, 20);
+end;
+
+procedure TdtmPrincipal.pnlExportarResize(Sender: TObject);
+begin
+  TFuncao.ArredondarPainel(pnlExportar, 20);
+end;
+
+procedure TdtmPrincipal.pnlImportarResize(Sender: TObject);
+begin
+  TFuncao.ArredondarPainel(pnlImportar, 20);
+end;
+
+procedure TdtmPrincipal.AtualizarTotais;
+var
+  Qry: TFDQuery;
+begin
+  Qry := TFDQuery.Create(nil);
+  try
+    Qry.Connection := dtmConexao.conexaoDB;
+
+    Qry.SQL.Text := 'SELECT COUNT(*) FROM poderes';
+    Qry.Open;
+    lblTotalPoderesVal.Caption := Qry.Fields[0].AsString;
+    Qry.Close;
+
+    Qry.SQL.Text := 'SELECT COUNT(*) FROM categorias';
+    Qry.Open;
+    lblTotalCatVal.Caption := Qry.Fields[0].AsString;
+    Qry.Close;
+
+    Qry.SQL.Text := 'SELECT COUNT(*) FROM nivel_poder';
+    Qry.Open;
+    lblTotalNivelVal.Caption := Qry.Fields[0].AsString;
+    Qry.Close;
+
+    Qry.SQL.Text := 'SELECT COUNT(*) FROM importacoes';
+    Qry.Open;
+    lblTotalImportacoes.Caption := Qry.Fields[0].AsString;
+    Qry.Close;
+  finally
+    Qry.Free;
+  end;
+end;
+{$ENDREGION}
+
+{$REGION 'ORGANIZAÇÃO DOS CLIQUES'}
+procedure TdtmPrincipal.Image1Click(Sender: TObject);
+begin
+  if dlgSave1.Execute then
+    ExportarCSV(dlgSave1.FileName);
+end;
+
+
+procedure TdtmPrincipal.Image3Click(Sender: TObject);
+begin
+  if dlgOpen1.Execute then
+  begin
+    ImportarCSV(dlgOpen1.FileName);
+    AtualizarTotais;
+  end;
+end;
+
+procedure TdtmPrincipal.lblAcaoCatDescClick(Sender: TObject);
+begin
+  TFuncao.CriarForm(TfrmCadCategoria, dtmConexao.conexaoDB);
+  AtualizarTotais;
+end;
+
+procedure TdtmPrincipal.lblAcaoCatTitClick(Sender: TObject);
+begin
+  TFuncao.CriarForm(TfrmCadCategoria, dtmConexao.conexaoDB);
+  AtualizarTotais;
+end;
+
+procedure TdtmPrincipal.lblAcaoNivelDescClick(Sender: TObject);
+begin
+  TFuncao.CriarForm(TfrmCadNivelPoder, dtmConexao.conexaoDB);
+  AtualizarTotais;
+end;
+
+procedure TdtmPrincipal.lblAcaoNivelTitClick(Sender: TObject);
+begin
+  TFuncao.CriarForm(TfrmCadNivelPoder, dtmConexao.conexaoDB);
+  AtualizarTotais;
+end;
+
+procedure TdtmPrincipal.lblAcaoPoderesDescClick(Sender: TObject);
+begin
+  TFuncao.CriarForm(TfrmCadastroPoderes, dtmConexao.conexaoDB);
+  AtualizarTotais;
+end;
+
+procedure TdtmPrincipal.lblAcaoPoderesTitClick(Sender: TObject);
+begin
+  TFuncao.CriarForm(TfrmCadastroPoderes, dtmConexao.conexaoDB);
+  AtualizarTotais;
+end;
+
+procedure TdtmPrincipal.lblExpDescClick(Sender: TObject);
+begin
+  if dlgSave1.Execute then
+    ExportarCSV(dlgSave1.FileName);
+end;
+
+procedure TdtmPrincipal.lblExpTitClick(Sender: TObject);
+begin
+  if dlgSave1.Execute then
+    ExportarCSV(dlgSave1.FileName);
+end;
+
+procedure TdtmPrincipal.lblImpDescClick(Sender: TObject);
+begin
+  if dlgOpen1.Execute then
+  begin
+    ImportarCSV(dlgOpen1.FileName);
+    AtualizarTotais;
+  end;
+end;
+
+
+procedure TdtmPrincipal.lblImpTitClick(Sender: TObject);
+begin
+ if dlgOpen1.Execute then
+  begin
+    ImportarCSV(dlgOpen1.FileName);
+    AtualizarTotais;
+  end;
+end;
+{$ENDREGION}
+
+{$REGION 'ANIMAÇÃO TPANEL'}
+procedure TdtmPrincipal.PanelMouseEnter(Sender: TObject);
+var
+  Painel: TPanel;
+begin
+  if Sender is TPanel then
+    Painel := TPanel(Sender)
+  else
+    Painel := (Sender as TControl).Parent as TPanel;
+
+  if Painel.Tag = 1 then
+    Exit;
+
+  Painel.Tag := 1;
+
+  Painel.SetBounds(
+    Painel.Left - 2,
+    Painel.Top - 2,
+    Painel.Width + 4,
+    Painel.Height + 4
+  );
+
+  Painel.Color := $00EAD7DF;
+end;
+
+procedure TdtmPrincipal.PanelMouseLeave(Sender: TObject);
+var
+  Painel: TPanel;
+  MousePosicao: TPoint;
+begin
+  Painel := Sender as TPanel;
+
+  // pega posição do mouse relativa ao painel
+  MousePosicao := Painel.ScreenToClient(Mouse.CursorPos);
+
+  // se ainda estiver dentro do painel, não faz nada
+  if PtInRect(Painel.ClientRect, MousePosicao) then
+    Exit;
+
+  if Painel.Tag = 0 then
+    Exit;
+
+  Painel.Tag := 0;
+
+  Painel.SetBounds(
+    Painel.Left + 2,
+    Painel.Top + 2,
+    Painel.Width - 4,
+    Painel.Height - 4
+  );
+
+  Painel.Color:= clWhite;
+end;
+{$ENDREGION}
+end.

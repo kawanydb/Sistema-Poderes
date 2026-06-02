@@ -39,6 +39,7 @@ type
     procedure btnNovoClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
+    procedure btnApagarClick(Sender: TObject);
   private
     oPoder:TPoder;
   public
@@ -98,6 +99,24 @@ begin
     btnCancelar.Click;
     Abort
   end;
+  inherited;
+end;
+
+procedure TfrmCadastroPoderes.btnApagarClick(Sender: TObject);
+begin
+  if not oPoder.Selecionar(QryListagem.FieldByName('id').AsInteger) then
+    Exit;
+
+  if MessageDlg(
+     'Apagar o registro:'#13#13 +
+     'Código: ' + QryListagem.FieldByName('id').AsString + #13 +
+     'Nome: ' + QryListagem.FieldByName('nome').AsString,
+     mtConfirmation,
+     [mbYes, mbNo],
+     0) <> mrYes
+  then
+  Exit;
+
   inherited;
 end;
 

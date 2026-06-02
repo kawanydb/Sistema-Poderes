@@ -13,8 +13,6 @@ inherited frmCadastroPoderes: TfrmCadastroPoderes
     ExplicitWidth = 671
     ExplicitHeight = 413
     inherited ts1: TTabSheet
-      ExplicitLeft = 4
-      ExplicitTop = 24
       ExplicitWidth = 663
       ExplicitHeight = 385
       inherited pnlListagemTopo: TPanel
@@ -24,7 +22,6 @@ inherited frmCadastroPoderes: TfrmCadastroPoderes
       inherited grdListagem: TDBGrid
         Width = 657
         Height = 319
-        DataSource = dtsListagem
         Columns = <
           item
             Expanded = False
@@ -59,8 +56,6 @@ inherited frmCadastroPoderes: TfrmCadastroPoderes
       end
     end
     inherited tsManutencao: TTabSheet
-      ExplicitLeft = 4
-      ExplicitTop = 24
       ExplicitWidth = 663
       ExplicitHeight = 385
       inherited pnlCampos: TPanel

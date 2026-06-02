@@ -83,18 +83,10 @@ end;
 function TCategoria.Apagar: Boolean;
 var Qry:TFDQuery;
 begin
-  if MessageDlg('Apagar o Registro: ' + #13+#13 +
-                'Código: ' + IntToStr(F_categoriaId) + #13 +
-                'Descrição: ' + F_nome, mtConfirmation, [mbYes, mbNo], 0) = mrNo
-  then
-  begin
-    Result := False;
-    Abort;
-  end;
+  Qry := TFDQuery.Create(nil);
 
   try
     Result := True;
-    Qry := TFDQuery.Create(nil);
     Qry.Connection := conexaoDB;
     conexaoDB.StartTransaction;
     Qry.SQL.Clear;
@@ -108,6 +100,7 @@ begin
       on E: Exception do
       begin
         conexaoDB.Rollback;
+        ShowMessage(E.Message);
         Result := False;
       end;
     end;
@@ -120,9 +113,10 @@ end;
 function TCategoria.Atualizar: Boolean;
 var Qry:TFDQuery;
 begin
+  Qry:=TFDQuery.Create(nil);
+
    try
      Result:=True;
-     Qry:=TFDQuery.Create(nil);
      Qry.Connection:=conexaoDB;
      Qry.SQL.Clear;
      Qry.SQL.Add('UPDATE categorias ' +
@@ -149,9 +143,10 @@ end;
 function TCategoria.Inserir: Boolean;
 var Qry:TFDQuery;
 begin
+  Qry:=TFDQuery.Create(nil);
+
    try
-   result:=True;
-     Qry:=TFDQuery.Create(nil);
+     Result:=True;
      Qry.Connection:=conexaoDB;
      Qry.SQL.Clear;
      Qry.SQL.Add('insert into categorias (nome) values (:nome)');
@@ -173,9 +168,10 @@ end;
 function TCategoria.Selecionar(id: Integer): Boolean;
 var Qry:TFDQuery;
 begin
+  Qry := TFDQuery.Create(nil);
+
   try
     Result:=True;
-    Qry := TFDQuery.Create(nil);
     Qry.Connection := conexaoDB;
     Qry.SQL.Clear;
     Qry.SQL.Add('SELECT id, nome ' +

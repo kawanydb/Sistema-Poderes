@@ -82,17 +82,10 @@ end;
 function TNivel.Apagar: Boolean;
 var Qry:TFDQuery;
 begin
-  if MessageDlg('Apagar o Registro: ' + #13+#13 +
-                'Código: ' + IntToStr(F_NivelId) + #13 +
-                'Descrição: ' + F_Nivel, mtConfirmation, [mbYes, mbNo], 0) = mrNo
-  then
-  begin
-    Result := False;
-    Abort;
-  end;
+  Qry := TFDQuery.Create(nil);
+
   try
     Result := True;
-    Qry := TFDQuery.Create(nil);
     Qry.Connection := conexaoDB;
     conexaoDB.StartTransaction;
     Qry.SQL.Clear;
@@ -118,9 +111,10 @@ end;
 function TNivel.Atualizar: Boolean;
 var Qry:TFDQuery;
 begin
+   Qry:=TFDQuery.Create(nil);
+
    try
      Result:=True;
-     Qry:=TFDQuery.Create(nil);
      Qry.Connection:=conexaoDB;
      Qry.SQL.Clear;
      Qry.SQL.Add('UPDATE categorias ' +
@@ -147,9 +141,10 @@ end;
 function TNivel.Inserir: Boolean;
 var Qry:TFDQuery;
 begin
+   Qry:=TFDQuery.Create(nil);
+
    try
      Result:=True;
-     Qry:=TFDQuery.Create(nil);
      Qry.Connection:=conexaoDB;
      Qry.SQL.Clear;
      Qry.SQL.Add('insert into nivel_poder (nivel) values (:nivel)');
@@ -171,9 +166,10 @@ end;
 function TNivel.Selecionar(id: Integer): Boolean;
 var Qry:TFDQuery;
 begin
+  Qry := TFDQuery.Create(nil);
+
   try
      Result:=True;
-     Qry := TFDQuery.Create(nil);
      Qry.Connection := conexaoDB;
      Qry.SQL.Clear;
      Qry.SQL.Add('SELECT id, nivel ' +

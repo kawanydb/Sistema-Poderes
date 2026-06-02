@@ -370,15 +370,14 @@ end;
 procedure TfrmTelaHeranca.ControlarBotoes(btnNovo, btnAlterar, btnCancelar,
       btnGravar, btnApagar:TBitBtn; Navegador: TDBNavigator;
       Flag:Boolean);
-//configurando botões e desabilitando uns  quando outros forem clicados
  begin
-    btnNovo.Enabled :=Flag;
-    btnApagar.Enabled :=Flag;
-    btnAlterar.Enabled :=Flag;
-    Navegador.Enabled   :=Flag;
+    btnNovo.Enabled                 :=Flag;
+    btnApagar.Enabled               :=Flag;
+    btnAlterar.Enabled              :=Flag;
+    Navegador.Enabled               :=Flag;
     pgcListagem.Pages[0].TabVisible :=Flag;
-    btnCancelar.Enabled :=not(Flag);
-    btnGravar.Enabled :=not(Flag);
+    btnCancelar.Enabled             :=not(Flag);
+    btnGravar.Enabled               :=not(Flag);
  end;
 
  procedure TfrmTelaHeranca.ControlarIndiceTab(pgcListagem: TPageControl; Indice: Integer);

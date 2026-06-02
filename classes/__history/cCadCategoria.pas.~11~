@@ -1,0 +1,194 @@
+unit cCadCategoria;
+
+interface
+
+uses System.Classes,
+     Vcl.Controls,
+     Vcl.ExtCtrls,
+     Vcl.Dialogs,
+     FireDAC.Comp.Client,
+     FireDAC.Stan.Error,
+     FireDAC.DatS,
+     FireDAC.Phys.Intf,
+     FireDAC.DApt.Intf,
+     FireDAC.Stan.Async,
+     FireDAC.DApt,
+     FireDAC.Comp.DataSet,
+     System.SysUtils,
+     FireDAC.Stan.Param;
+
+type
+  TCategoria = class
+  private
+  F_categoriaId: Integer;
+  F_nome: String;
+  conexaoDB: TFDConnection;
+  function getCodigo: Integer;
+  function getDescricao: string;
+  procedure setCodigo(const Value: Integer);
+  procedure setDescricao(const Value: string);
+
+  public
+    constructor Create(aConexao:TFDConnection);
+    destructor Destroy; override;
+    function Inserir:Boolean;
+    function Atualizar:Boolean;
+    function Apagar:Boolean;
+    function Selecionar(id:Integer):Boolean;
+  published
+    property codigo:Integer read getCodigo write setCodigo;
+    property descricao:string read getDescricao write setDescricao;
+  end;
+
+
+implementation
+
+{$REGION 'Constructor and Destructor'}
+constructor TCategoria.Create(aConexao: TFDConnection);
+begin
+  Self.conexaoDB := aConexao;  // salva a conexão
+end;
+
+destructor TCategoria.Destroy;
+begin
+  inherited
+end;
+{$ENDREGION}
+
+{$REGION 'GETS'}
+function TCategoria.getCodigo: Integer;
+begin
+  Result:= Self.F_categoriaId;
+end;
+
+function TCategoria.getDescricao: string;
+begin
+  Result:= Self.F_nome;
+end;
+{$ENDREGION}
+
+{$REGION 'SETS'}
+ procedure TCategoria.setCodigo(const Value: Integer);
+begin
+  Self.F_categoriaId := Value;
+end;
+
+procedure TCategoria.setDescricao(const Value: string);
+begin
+  Self.F_nome := Value;
+end;
+{$ENDREGION}
+
+{$REGION 'CRUD'}
+function TCategoria.Apagar: Boolean;
+var Qry:TFDQuery;
+begin
+  Qry := TFDQuery.Create(nil);
+
+  try
+    Result := True;
+    Qry.Connection := conexaoDB;
+    conexaoDB.StartTransaction;
+    Qry.SQL.Clear;
+    Qry.SQL.Add('DELETE FROM categorias ' +
+                'WHERE id =:id');
+    Qry.ParamByName('id').AsInteger := F_categoriaId;
+    try
+      Qry.ExecSQL;
+      conexaoDB.Commit;
+    except
+      on E: Exception do
+      begin
+        conexaoDB.Rollback;
+        Result := False;
+      end;
+    end;
+  finally
+    if Assigned(Qry) then
+      FreeAndNil(Qry);
+  end;
+end;
+
+function TCategoria.Atualizar: Boolean;
+var Qry:TFDQuery;
+begin
+  Qry:=TFDQuery.Create(nil);
+
+   try
+     Result:=True;
+     Qry.Connection:=conexaoDB;
+     Qry.SQL.Clear;
+     Qry.SQL.Add('UPDATE categorias ' +
+                 ' SET nome=:nome ' +
+                 'WHERE id=:id');
+     Qry.ParamByName('id').AsInteger:=Self.F_categoriaId;
+     Qry.ParamByName('nome').AsString:=Self.F_nome;
+
+     try
+        conexaoDB.StartTransaction;
+        Qry.ExecSQL;
+        conexaoDB.Commit;
+     except
+        conexaoDB.Rollback;
+        Result:=False;
+     end;
+   finally
+    if Assigned(Qry) then
+    FreeAndNil(Qry);
+
+   end;
+end;
+
+function TCategoria.Inserir: Boolean;
+var Qry:TFDQuery;
+begin
+  Qry:=TFDQuery.Create(nil);
+
+   try
+     Result:=True;
+     Qry.Connection:=conexaoDB;
+     Qry.SQL.Clear;
+     Qry.SQL.Add('insert into categorias (nome) values (:nome)');
+     Qry.ParamByName('nome').AsString:=Self.F_nome;
+     try
+        conexaoDB.StartTransaction;
+        Qry.ExecSQL;
+        conexaoDB.Commit;
+     except
+        conexaoDB.Rollback;
+        Result:=False;
+     end;
+   finally
+    if Assigned(Qry) then
+      FreeAndNil(Qry);
+   end;
+end;
+
+function TCategoria.Selecionar(id: Integer): Boolean;
+var Qry:TFDQuery;
+begin
+  Qry := TFDQuery.Create(nil);
+
+  try
+    Result:=True;
+    Qry.Connection := conexaoDB;
+    Qry.SQL.Clear;
+    Qry.SQL.Add('SELECT id, nome ' +
+            'FROM categorias ' +
+            'WHERE id = :id');
+       Qry.ParamByName('id').Value:=id;
+    try
+      Qry.Open;
+      Self.F_categoriaId := Qry.FieldByName('id').AsInteger;
+      Self.F_nome        := Qry.FieldByName('nome').AsString;
+    except
+      Result := False;
+    end;
+  finally
+    if Assigned(Qry) then
+      FreeAndNil(Qry);
+  end;
+end;
+{$ENDREGION}
+
+end.

@@ -70,15 +70,8 @@ var
 begin
   Result := False;
 
-  // confirmação
-  if MessageDlg(
-    'Apagar o registro:'#13#13 +
-    'Código: ' + IntToStr(F_poderId) + #13 +
-    'Nome: ' + F_nomePoder, mtConfirmation,[mbYes, mbNo],0) = mrNo
-  then
-  Exit;
-
   Qry := TFDQuery.Create(nil);
+
   try
     Qry.Connection := ConexaoDB;
 
@@ -103,9 +96,10 @@ end;
 function TPoder.Atualizar:Boolean;
 var Qry:TFDQuery;
 begin
+  Qry:=TFDQuery.Create(nil);
+
   try
     Result:=True;
-    Qry:=TFDQuery.Create(nil);
     Qry.Connection:=conexaoDB;
     //limpa a qry
     Qry.SQL.Clear;
@@ -141,9 +135,10 @@ end;
 function TPoder.Inserir:Boolean;
 var Qry:TFDQuery;
 begin
+  Qry:=TFDQuery.Create(nil);
+
   try
     Result:=True;
-    Qry:=TFDQuery.Create(nil);
     Qry.Connection:=conexaoDB;
     Qry.SQL.Clear;
     Qry.SQL.Add('INSERT INTO poderes  (nome, '+
@@ -179,9 +174,10 @@ end;
 function TPoder.Selecionar(id:Integer):Boolean;
 var Qry:TFDQuery;
 begin
+  Qry:=TFDQuery.Create(nil);
+
   try
     Result:=True;
-    Qry:=TFDQuery.Create(nil);
     Qry.Connection:=conexaoDB;
     Qry.SQL.Clear;
     Qry.SQL.Add('SELECT id, '+

@@ -27,6 +27,10 @@ object frmTelaHeranca: TfrmTelaHeranca
     TabOrder = 0
     object ts1: TTabSheet
       Caption = 'Listagem'
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object pnlListagemTopo: TPanel
         Left = 0
         Top = 0
@@ -105,6 +109,10 @@ object frmTelaHeranca: TfrmTelaHeranca
     object tsManutencao: TTabSheet
       Caption = 'Manuten'#231#227'o'
       ImageIndex = 1
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object pnlCampos: TPanel
         Left = 0
         Top = 0

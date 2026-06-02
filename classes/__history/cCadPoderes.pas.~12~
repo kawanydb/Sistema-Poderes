@@ -1,0 +1,225 @@
+unit cCadPoderes;
+
+interface
+
+uses System.Classes,
+     Vcl.Controls,
+     Vcl.ExtCtrls,
+     Vcl.Dialogs,
+     FireDAC.Comp.Client,
+     FireDAC.Stan.Error,
+     FireDAC.DatS,
+     FireDAC.Phys.Intf,
+     FireDAC.DApt.Intf,
+     FireDAC.Stan.Async,
+     FireDAC.DApt,
+     FireDAC.Comp.DataSet,
+     System.SysUtils,
+     FireDAC.Stan.Param,
+     System.StrUtils,
+     Vcl.Imaging.jpeg,
+     Vcl.Graphics,
+     System.Variants,
+     Data.DB;
+
+type
+TPoder = class
+  private
+      conexaoDB:TFDConnection;
+      F_poderId:Integer;
+      F_nomePoder:string;
+      F_descricao:string;
+      F_categoriaId: Integer;
+      F_NivelPoderId: Integer;
+
+    public
+      constructor Create(aConexao:TFDConnection);
+      destructor Destroy; override;
+      function Inserir:Boolean;
+      function Atualizar:Boolean;
+      function Apagar:Boolean;
+      function Selecionar(id:Integer):Boolean;
+    published
+      property codigo        :Integer    read F_poderId        write F_poderId;
+      property nome          :string     read F_nomePoder      write F_nomePoder;
+      property descricao     :string     read F_descricao      write F_descricao;
+      property categoriaId   :Integer    read F_categoriaId    write F_categoriaId;
+      property nivelPoderId  :Integer    read F_NivelPoderId   write F_NivelPoderId;
+
+end;
+
+implementation
+
+
+{$REGION 'Constructor and Destructor'}
+constructor TPoder.Create(aConexao: TFDConnection);
+begin
+  Self.conexaoDB := aConexao;  // salva a conexão
+end;
+
+destructor TPoder.Destroy;
+begin
+  inherited;
+end;
+{$ENDREGION}
+
+{$REGION 'CRUD'}
+function TPoder.Apagar: Boolean;
+var
+  Qry: TFDQuery;
+begin
+  Result := False;
+
+  // confirmação
+  if MessageDlg(
+    'Apagar o registro:'#13#13 +
+    'Código: ' + IntToStr(F_poderId) + #13 +
+    'Nome: ' + F_nomePoder, mtConfirmation,[mbYes, mbNo],0) = mrNo
+  then
+  Exit;
+
+  Qry := TFDQuery.Create(nil);
+
+  try
+    Qry.Connection := ConexaoDB;
+
+    Qry.SQL.Text := 'DELETE FROM poderes WHERE id = :id';
+    Qry.ParamByName('id').AsInteger := F_poderId;
+
+    ConexaoDB.StartTransaction;
+    try
+      Qry.ExecSQL;
+      ConexaoDB.Commit;
+      Result := True;
+    except
+      ConexaoDB.Rollback;
+      raise;
+    end;
+
+  finally
+    Qry.Free;
+  end;
+end;
+
+function TPoder.Atualizar:Boolean;
+var Qry:TFDQuery;
+begin
+  Qry:=TFDQuery.Create(nil);
+
+  try
+    Result:=True;
+    Qry.Connection:=conexaoDB;
+    //limpa a qry
+    Qry.SQL.Clear;
+    //monta um update e dá a eles seus parametros (oq a ele pertence)
+    Qry.SQL.Add('UPDATE poderes '+
+                '   SET nome             =:nome '+
+                '       ,descricao       =:descricao '+
+                '       ,categoria_id    =:categoria_id '+
+                '       ,nivel_poder_id  =:nivel_poder_id '+
+                ' WHERE id=:id ');
+
+    Qry.ParamByName('id').AsInteger                :=Self.F_poderId;
+    Qry.ParamByName('nome').AsString               :=Self.F_nomePoder;
+    Qry.ParamByName('descricao').AsString          :=Self.F_descricao;
+    Qry.ParamByName('categoria_id').AsInteger      :=Self.F_categoriaId;
+    Qry.ParamByName('nivel_poder_id').AsInteger    :=Self.F_NivelPoderId;
+
+    try
+      conexaoDB.StartTransaction;
+      Qry.ExecSQL;
+      conexaoDB.Commit;
+    except
+      conexaoDB.Rollback;
+      Result:=False;
+    end;
+
+  finally
+    if Assigned(Qry) then
+      FreeAndNil(Qry);
+  end;
+end;
+
+function TPoder.Inserir:Boolean;
+var Qry:TFDQuery;
+begin
+  Qry:=TFDQuery.Create(nil);
+
+  try
+    Result:=True;
+    Qry.Connection:=conexaoDB;
+    Qry.SQL.Clear;
+    Qry.SQL.Add('INSERT INTO poderes  (nome, '+
+                '                      descricao, '+
+                '                      categoria_id, ' +
+                '                      nivel_poder_id ' +
+                '                      ) '+
+                'VALUES               (:nome, '+
+                '                      :descricao, '+
+                '                      :categoria_id, ' +
+                '                      :nivel_poder_id ' +
+                '                      ) ');
+    Qry.ParamByName('nome').AsString              :=Self.F_nomePoder;
+    Qry.ParamByName('descricao').AsString         :=Self.F_descricao;
+    Qry.ParamByName('categoria_id').AsInteger     :=Self.F_categoriaId;
+    Qry.ParamByName('nivel_poder_id').AsInteger   :=Self.F_NivelPoderId;
+
+    try
+      conexaoDB.StartTransaction;
+      Qry.ExecSQL;
+      conexaoDB.Commit;
+    except
+      conexaoDB.Rollback;
+      Result:=False;
+    end;
+
+  finally
+    if Assigned(Qry) then
+      FreeAndNil(Qry);
+  end;
+end;
+
+function TPoder.Selecionar(id:Integer):Boolean;
+var Qry:TFDQuery;
+begin
+  Qry:=TFDQuery.Create(nil);
+
+  try
+    Result:=True;
+    Qry.Connection:=conexaoDB;
+    Qry.SQL.Clear;
+    Qry.SQL.Add('SELECT id, '+
+                '       nome, '+
+                '       descricao, '+
+                '       categoria_id, '+
+                '       nivel_poder_id '+
+                '  FROM poderes '+
+                ' WHERE id=:id');
+    Qry.ParamByName('id').AsInteger:=id;
+    try
+      Qry.Open;
+
+      if not Qry.IsEmpty then
+      begin
+        Self.F_poderId      := Qry.FieldByName('id').AsInteger;
+        Self.F_nomePoder    := Qry.FieldByName('nome').AsString;
+        Self.F_descricao    := Qry.FieldByName('descricao').AsString;
+        Self.F_categoriaId  := Qry.FieldByName('categoria_id').AsInteger;
+        Self.F_NivelPoderId := Qry.FieldByName('nivel_poder_id').AsInteger;
+
+        Result := True;
+      end;
+    except
+      on E: Exception do
+      begin
+        Result := False;
+      end;
+    end;
+
+  finally
+    if Assigned(Qry) then
+      FreeAndNil(Qry);
+  end;
+end;
+{$ENDREGION}
+end.
